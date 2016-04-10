@@ -262,6 +262,7 @@ function login(username, password, cb) {
 			withCredentials: true
 		},
 		success: function(data) {
+			connectWebsockets();
 			loginSuccess();
 			console.log('authenticated');
 			if(socket.connected == false) {
