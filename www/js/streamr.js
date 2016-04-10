@@ -2,7 +2,7 @@
 
 $(document).ready(function(){
   testConnection();
-  connectWebsockets();
+  // connectWebsockets();
 	// connectWebsocket();
 	initializePlayer();
   if(isNodeWebkit()) {
@@ -38,7 +38,7 @@ function autocompleteSelected(uiItem) {
 
 function loginSuccess() {
 	showPlayer();
-  getNews();
+  // getNews();
 }
 
 function storeLoginCredentials(username, password) {
