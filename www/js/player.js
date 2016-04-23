@@ -157,6 +157,7 @@ function initializePlayer() {
 		pause();
 	});
 
+	$('#btnNext').unbind('click');
 	$('#btnNext').bind('click', function() {
 	    // nextMpd();
 	    console.log('next clicked');
@@ -164,9 +165,10 @@ function initializePlayer() {
 	});
 
 
-	  $('#btnPrevious').bind('click', function() {
-	  	prev();
-	  });
+	$('#btnPrevious').unbind('click');
+	$('#btnPrevious').bind('click', function() {
+		prev();
+	});
 
 	$('#btnVolume').click(function() {
 		if(isVolumeMuted()) {

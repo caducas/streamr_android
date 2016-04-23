@@ -270,6 +270,7 @@ $(document).ready(function(){
 	document.addEventListener("deviceready", onDeviceReady, false);
 
 
+
 	$("#playlist").sortable({
 	axis: "y",
 	handle: ".sort-handler",
@@ -283,10 +284,19 @@ $(document).ready(function(){
 	}
 	});
 
+
 	$('#loginSubmit').click(function() {
-		var username = $('#loginUsername').val();
-		var password = CryptoJS.SHA512($('#loginPassword').val()).toString(CryptoJS.enc.Hex);
-		login(username, password);
+		var inputUsername = $('#loginUsername').val();
+		var inputPassword = CryptoJS.SHA512($('#loginPassword').val()).toString(CryptoJS.enc.Hex);
+		login(inputUsername, inputPassword);
+	});
+
+	$('#loginSubmitAuto').click(function() {
+		var inputUsername = $('#loginUsername').val();
+		var inputPassword = CryptoJS.SHA512($('#loginPassword').val()).toString(CryptoJS.enc.Hex);
+		localStorage.setItem("username", inputUsername);
+		localStorage.setItem("pw", inputPassword);
+		login(inputUsername, inputPassword);
 	});
 
 
@@ -309,6 +319,14 @@ $(document).ready(function(){
 
 	initializePlayer();
 	// showPlayer();
+
+
+	var storedUsername = localStorage.getItem("username");
+	var storedPassword = localStorage.getItem("pw");
+
+	if(storedUsername && storedPassword) {
+		login(storedUsername, storedPassword);
+	}
 
 	$('#btnPlay').click(function() {
 		// audioControlPlay();
