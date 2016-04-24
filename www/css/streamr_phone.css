@@ -50,7 +50,7 @@ div.player {
   width: 80vw;
   left: 10%;
   position: absolute;
-  top: 15%;
+  top: 10%;
   height: 80vw;
 }
 
@@ -129,10 +129,15 @@ div.player-bottom-menu-entry-center > span {
   text-align: center;
 }
 
+div.player-top-menu-entry-center > span.active,
+div.player-bottom-menu-entry-center > span.active {
+  color: #00F;
+}
+
 div.player-top-menu {
   width: 100%;
   height: 10%;
-  padding-top: 7%;
+  padding-top: 2%;
 }
 
 div.player-bottom-menu {

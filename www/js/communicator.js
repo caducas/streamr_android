@@ -48,6 +48,11 @@ function connectWebsocket() {
 		// }
 	});
 
+	socket.on('disconnect', function() {
+		alert('disconnected');
+		socket.connect();
+	});
+
 	socket.on('error', function (e) {
 		console.log('System', e ? e : 'A unknown error occurred');
 	});
