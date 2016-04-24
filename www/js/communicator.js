@@ -49,7 +49,6 @@ function connectWebsocket() {
 	});
 
 	socket.on('disconnect', function() {
-		alert('disconnected');
 		socket.connect();
 	});
 
