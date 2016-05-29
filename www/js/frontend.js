@@ -267,12 +267,12 @@ function showArtists(data) {
 		artistName.appendChild(document.createTextNode(data[i].name));
 		artistEntry.appendChild(artistName);
 
-		
-		(function(artist){
+
+		(function(id){
 		artistEntry.addEventListener("click", function() {
-		  getArtist(artist);
+		  getArtistWithId(id);
 		}, false);
-		})(data[i].name);
+		})(data[i].id);
 
 		$('#page-artists-overview').append(artistEntry);
 
