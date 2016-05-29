@@ -226,6 +226,88 @@ function showSearch() {
 	$('#page-search').show();
 }
 
+function showArtistsPage() {
+	console.log('should get artists page');
+	getArtists();
+}
+
+function showArtists(data) {
+	hideAll();
+	showPlayerBar();
+	$('#page-artists-overview').show();
+
+	$('#page-artists-overview').empty();
+
+	var prevArtistLetter = "";
+
+	console.log('data:');
+	console.log(data);
+	for(var i in data) {
+		var artistLetter = data[i].name.charAt(0).toUpperCase();
+		if(artistLetter != prevArtistLetter) {
+			prevArtistLetter = artistLetter;
+			var letterHeadline = document.createElement('div');
+			letterHeadline.className = 'listHeadline';
+			letterHeadline.appendChild(document.createTextNode(prevArtistLetter));
+			$('#page-artists-overview').append(letterHeadline);
+		}
+
+		var artistEntry = document.createElement('div');
+		artistEntry.className = 'artist';
+
+		var imageElement = document.createElement('img');
+		imageElement.src = encodeURI('http://'+getUrl()+'/media/' + data[i].name + '/artistSmall.jpg');
+		imageElement.onerror = function() {
+		  this.onerror=null;
+		  this.src='';
+		}
+		artistEntry.appendChild(imageElement);
+
+		var artistName = document.createElement('div');
+		artistName.appendChild(document.createTextNode(data[i].name));
+		artistEntry.appendChild(artistName);
+
+		
+		(function(artist){
+		artistEntry.addEventListener("click", function() {
+		  getArtist(artist);
+		}, false);
+		})(data[i].name);
+
+		$('#page-artists-overview').append(artistEntry);
+
+		// var imageElementDiv = document.createElement('div');
+		// imageElementDiv.className = 'artistsImage';
+		// var imageElement = document.createElement('img');
+		// imageElement.src = encodeURI('http://'+getUrl()+'/media/' + data[i].name + '/artist.jpg');
+		// imageElement.onerror = function() {
+		//   this.onerror=null;
+		//   this.src='';
+		// }
+		// imageElementDiv.appendChild(imageElement);
+
+		// var artistText = document.createElement('span');
+		// if(data[i].name.length > 10) {
+		//   artistText.appendChild(document.createTextNode(data[i].name.substring(0,10)+'...'));
+		// } else {
+		//   artistText.appendChild(document.createTextNode(data[i].name));      
+		// }
+		// imageElementDiv.appendChild(artistText);
+
+		// (function(artist){
+		// imageElementDiv.addEventListener("click", function() {
+		//   getArtist(artist);
+		// }, false);
+		// })(data[i].name);
+
+		// $('#artists').append(imageElementDiv);
+	}
+
+
+	$('#artistsView').show();
+	$('#btnArtists').addClass('selected');
+}
+
 function showArtistPage() {
 	hideAll();
 	$('#page-artist').show();
@@ -253,6 +335,7 @@ function hideAll() {
 	$('#page-artist').hide();
 	$('#page-search').hide();
 	$('#page-album').hide();
+	$('#page-artists-overview').hide();
 	hidePlayerBar();
 }
 
@@ -315,7 +398,11 @@ $(document).ready(function(){
 	$('#btnPlaylist').click(function() {
 		showPlaylist();
 		console.log($("#jquery_jplayer_1").data("jPlayer").status);
-	})
+	});
+
+	$('#btnExplore').click(function() {
+		showArtistsPage();
+	});
 
 	initializePlayer();
 	// showPlayer();

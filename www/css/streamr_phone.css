@@ -394,3 +394,35 @@ div.page-album-playlist > div > div.page-album-song-add > span {
   display: table-cell;
   vertical-align: middle;
 }
+
+
+/******************************************Artist Overview***************************************/
+
+
+div.artistsOverview > div.listHeadline {
+  color: #aaa;
+  font-size: 12vw;
+  background: #222;
+  padding-left: 2vw;
+  line-height: 13vw;
+}
+
+div.artistsOverview > div.artist {
+  color: #666;
+  height: 10%;
+  border-bottom: 1px solid #222;
+}
+
+div.artistsOverview > div.artist > img {
+  height: 100%;
+  display: inline-block;
+  vertical-align: top;
+}
+
+div.artistsOverview > div.artist > div {
+  width: 83%;
+  display: inline-block;
+  padding-left: 3%;
+  font-size: 6vw;
+  margin-top: 3vw;
+}
