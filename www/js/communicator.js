@@ -152,6 +152,11 @@ function connectWebsocket() {
 	socket.on('errorMessage', function(errormessage) {
 		errorAlert(errormessage);
 	});
+
+	socket.on('mpdActive', function(playlist) {
+		activateMpdSwitch();
+		addSongsToPlaylist(playlist, true);
+	});
 	// if(connectionLocal) {
 	// 	localSocket=socket;
 	// 	console.log('its local socket, save');
@@ -209,8 +214,8 @@ function sendMpdPlay(index) {
 	socket.emit('mpdPlay', index);
 }
 
-function sendMpdAdd(path) {
-  socket.emit("mpdAddSong", path);
+function sendMpdAdd(song) {
+  socket.emit("mpdAddSong", song);
 }
 
 function sendMpdCurrentSong(currentSong) {

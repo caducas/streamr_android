@@ -227,7 +227,7 @@ function audioControlUnmute() {
 }
 
 
-function addToPlaylist(id, title, album, artist, path, flac, hash) {
+function addToPlaylist(id, title, album, artist, path, flac, hash, init) {
 
   // var hash = generateHash();
   console.log('adding song to playlist with id:'+id+' title:'+title+' album:'+album+' artist:'+artist+' path:'+path);
@@ -236,6 +236,7 @@ function addToPlaylist(id, title, album, artist, path, flac, hash) {
     id:id,
     title:title,
     artist:artist,
+    album:album,
     // mp3:"/music/" + title + ".mp3",
     // mp3:"",
     // mp3:"http://10.0.0.188:3000/media/01.mp3",
@@ -259,14 +260,16 @@ function addToPlaylist(id, title, album, artist, path, flac, hash) {
   console.log(song);
   console.log(playlist);
 
-  doMpdAction(function() {
-    addSongToPlaylistMpd(song);
-  });
-
-  if(playlist.playlist.length===0) {
-  	playStream();
-  	pauseStream();
+  if(init!=true) {
+	doMpdAction(function() {
+		addSongToPlaylistMpd(song);
+	});  	
+	if(playlist.playlist.length===0) {
+		playStream();
+		pauseStream();
+	}
   }
+
 
   // addAjaxLoadingBar(path);
   // prepareSongFileForStream(path);
@@ -376,18 +379,18 @@ function modifyPlaylistDesign() {
 	// });	
 }
 
-function activateMpd() {
-	selectOutputDevice(1);
+function activateMpd(init) {
+	selectOutputDevice(1, init);
 }
 
 function deactivateMpd() {
 	selectOutputDevice(0);
 }
 
-function selectOutputDevice(id) {
+function selectOutputDevice(id, init) {
 	selectedMpd = id;
 	sendServerSelectedOutputDevice(id);
-	if(id > 0) {
+	if(id > 0 && init != true) {
 		//get status and transfer information to mpd
 		var currentTime = $('#current-time').text();
 		setPlaylistMpd();
@@ -469,7 +472,7 @@ function previousMpd() {
 
 function addSongToPlaylistMpd(song) {
   parseMp3PathInPlaylist();
-  sendMpdAdd(song.mp3);
+  sendMpdAdd(song);
 }
 
 function playerStatusUpdate(data) {
@@ -541,11 +544,12 @@ function pause() {
 }
 
 
-function addSongsToPlaylist(songs) {
+function addSongsToPlaylist(songs, init) {
 	console.log(songs);
   for(var songcount in songs) {
-     addToPlaylist(songs[songcount].id, songs[songcount].title,songs[songcount].album,songs[songcount].artist,songs[songcount].storagePath,songs[songcount].flac);          
+     addToPlaylist(songs[songcount].id, songs[songcount].title,songs[songcount].album,songs[songcount].artist,songs[songcount].storagePath,songs[songcount].flac,null,init);          
   }
+  console.log(playlist);
   modifyPlaylistDesign();
 }
 

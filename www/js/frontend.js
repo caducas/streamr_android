@@ -348,6 +348,11 @@ function onBackKeyDown(){
     return false;
 }
 
+function activateMpdSwitch() {
+	$('#btnMpd').addClass('active');
+	activateMpd(true);
+}
+
 $(document).ready(function(){
 
 	document.addEventListener("deviceready", onDeviceReady, false);
