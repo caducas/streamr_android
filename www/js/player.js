@@ -579,7 +579,7 @@ function calcPercentage(number, base) {
 function initMpd(mpdPlaylist) {
 	console.log(playlist.playlist.length);
 	if(playlist.playlist.length>0) {
-		alert('PLAYLIST NOT EMPTY!!!');
+		// alert('PLAYLIST NOT EMPTY!!!');
 	} else {
 		console.log('should add playlist now');
 		console.log(mpdPlaylist);

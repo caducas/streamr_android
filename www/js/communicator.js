@@ -18,8 +18,8 @@ function connectWebsockets() {
 
 function reconnectWebsocket() {
 	if(!socket.connected) {
-		console.log('disconnected - should login now');
-		loginIfCredentialsAreStored();
+		alert('disconnected - should login now');
+		location.reload();
 	}
 }
 
@@ -276,7 +276,7 @@ function unlistenToMpd() {
 }
 
 function login(username, password, cb) {
-	alert('should login now');
+	// alert('should login now');
 
 	if($('#autoLogin').is(':checked')) {
 		storeLoginCredentials(username, password);
