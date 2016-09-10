@@ -343,6 +343,11 @@ function hideAll() {
 
 function onDeviceReady(){
     document.addEventListener("backbutton", onBackKeyDown, false);
+	document.addEventListener("resume", onResume, false);
+}
+
+function onResume() {
+	alert('should reconnect!');
 }
 
 function onBackKeyDown(){
@@ -354,6 +359,7 @@ function activateMpdSwitch() {
 	$('#btnMpd').addClass('active');
 	activateMpd(true);
 }
+
 
 $(document).ready(function(){
 
