@@ -179,6 +179,8 @@ function showAlbum(data) {
 	        play(playPosition);
 	      }, false);
 	    })(data.songs, data.albumName, data.artistName, i);
+	    console.log('should add song to playlist view with index:'+i+' song:');
+	    console.log(data.songs[i]);
 
 		divSongRow.appendChild(divSongTitle);
 
@@ -423,50 +425,27 @@ $(document).ready(function(){
 	$('#btnPlay').click(function() {
 		// audioControlPlay();
  //    createNewPlaylist();
-	// addToPlaylist(1568,'Hello','25','Adele',null);
-	// addToPlaylist(1656,'Narben','Triebwerke','Alligatoah',null);
-	// addToPlaylist(1599,'Volume','Volume','Skindred',null);
-	// addToPlaylist(1568,'Hello','25','Adele',null);
-	// addToPlaylist(1656,'Narben','Triebwerke','Alligatoah',null);
-	// addToPlaylist(1599,'Volume','Volume','Skindred',null);
-	// addToPlaylist(1568,'Hello','25','Adele',null);
-	// addToPlaylist(1656,'Narben','Triebwerke','Alligatoah',null);
-	// addToPlaylist(1599,'Volume','Volume','Skindred',null);
-	// addToPlaylist(1568,'Hello','25','Adele',null);
-	// addToPlaylist(1656,'Narben','Triebwerke','Alligatoah',null);
-	// addToPlaylist(1599,'Volume','Volume','Skindred',null);
-	// addToPlaylist(1568,'Hello','25','Adele',null);
-	// addToPlaylist(1656,'Narben','Triebwerke','Alligatoah',null);
-	// addToPlaylist(1599,'Volume','Volume','Skindred',null);
-	// addToPlaylist(1568,'Hello','25','Adele',null);
-	// addToPlaylist(1656,'Narben','Triebwerke','Alligatoah',null);
-	// addToPlaylist(1599,'Volume','Volume','Skindred',null);
-	// addToPlaylist(1568,'Hello','25','Adele',null);
-	// addToPlaylist(1656,'Narben','Triebwerke','Alligatoah',null);
-	// addToPlaylist(1599,'Volume','Volume','Skindred',null);
-	// addToPlaylist(1568,'Hello','25','Adele',null);
-	// addToPlaylist(1656,'Narben','Triebwerke','Alligatoah',null);
-	// addToPlaylist(1599,'Volume','Volume','Skindred',null);
 		play();
 		// showPlaylist();
 		// modifyPlaylistDesign();
 	});
 
 	$('#jp_poster_0').bind('DOMAttrModified', function(ev) {
-		console.log('dom changed');
-		console.log(ev);
-		console.log(ev.originalEvent.attrName);
+		// console.log('dom changed');
+		// console.log(ev);
+		// console.log(ev.originalEvent.attrName);
 		if(ev.originalEvent.attrName == "src") {
-			console.log('should change img to');
-			console.log(ev.originalEvent);
-			console.log(ev.originalEvent.newValue);
+			// console.log('should change img to');
+			// console.log(ev.originalEvent);
+			// console.log(ev.originalEvent.newValue);
 			$('#player-bar-image').attr('src',ev.originalEvent.newValue);
-			console.log(playlist);
+			// console.log(playlist);
 		}
 		// getAutocompleteSearch($('#search').val());
 	});
 
 	$('#btnMpd').click(function() {
+		console.log('### MPD BUTTON clicked!');
 		if($('#btnMpd').hasClass('active')) {
 			console.log('active');
 			$('#btnMpd').removeClass('active');

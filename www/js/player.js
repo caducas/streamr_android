@@ -227,10 +227,10 @@ function audioControlUnmute() {
 }
 
 
-function addToPlaylist(id, title, album, artist, path, flac, hash, init) {
+function addToPlaylist(id, title, album, artist, path, flac, init) {
 
   // var hash = generateHash();
-  console.log('adding song to playlist with id:'+id+' title:'+title+' album:'+album+' artist:'+artist+' path:'+path);
+  console.log('adding song to playlist with id:'+id+' title:'+title+' album:'+album+' artist:'+artist+' path:'+path+' flac:'+flac);
 
   var song = {
     id:id,
@@ -256,19 +256,21 @@ function addToPlaylist(id, title, album, artist, path, flac, hash, init) {
   // prepareSongFileForStream(path, hash);
 
   playlist.add(song);
-  console.log('should add song:');
-  console.log(song);
-  console.log(playlist);
+  // console.log('should add song:');
+  // console.log(song);
+  // console.log(playlist);
 
-  if(init!=true) {
+  if(init) {
+  	return;
+  }
+	console.log('will add song to mpd playlist');
 	doMpdAction(function() {
 		addSongToPlaylistMpd(song);
 	});  	
 	if(playlist.playlist.length===0) {
 		playStream();
 		pauseStream();
-	}
-  }
+}
 
 
   // addAjaxLoadingBar(path);
@@ -381,16 +383,23 @@ function modifyPlaylistDesign() {
 
 function activateMpd(init) {
 	selectOutputDevice(1, init);
+	listenToMpd(1);
 }
 
 function deactivateMpd() {
 	selectOutputDevice(0);
+	unlistenToMpd();
 }
 
 function selectOutputDevice(id, init) {
 	selectedMpd = id;
 	sendServerSelectedOutputDevice(id);
-	if(id > 0 && init != true) {
+	console.log('OUTPUT DEVICE CHANGED TO '+id);
+	if(init) {
+		return;
+	}
+	// console.log('INIT:'+init);
+	if(id > 0) {
 		//get status and transfer information to mpd
 		var currentTime = $('#current-time').text();
 		setPlaylistMpd();
@@ -417,13 +426,15 @@ function selectOutputDevice(id, init) {
 
 function setPlaylistMpd() {
   parseMp3PathInPlaylist();
+  console.log(playlist.playlist);
   setMpdPlaylist(playlist.playlist);
 }
 
 function parseMp3PathInPlaylist() {
   var current = playlist.current;
-  console.log('playlist');
-  console.log(playlist.playlist);
+  console.log('Parse Playlist');
+  // console.log('playlist');
+  // console.log(playlist.playlist);
   for(var i in playlist.playlist) {
     playlist.select(i);
   }
@@ -431,7 +442,7 @@ function parseMp3PathInPlaylist() {
 }
 
 function doActionForSelectedOutputDevice(streamAction, mpdAction) {
-	console.log(selectedMpd);
+	// console.log(selectedMpd);
   if(selectedMpd>0) {
     mpdAction();
     return;
@@ -472,11 +483,12 @@ function previousMpd() {
 
 function addSongToPlaylistMpd(song) {
   parseMp3PathInPlaylist();
+  console.log('should add song');
   sendMpdAdd(song);
 }
 
 function playerStatusUpdate(data) {
-	console.log(data);
+	// console.log(data);
 	// console.log("data.song:" + data.song + " playlist.current+1:" +(playlist.current));
 	if(data.song != (playlist.current)) {
 		playlist.select(parseInt(data.song));
@@ -494,7 +506,10 @@ function playerStatusUpdate(data) {
 	$("#jquery_jplayer_1").data("jPlayer").status.currentTime = data.elapsed;
 
 	doMpdAction(function() {
-		$(".jp-play-bar").width(calcPercentage($("#jquery_jplayer_1").data("jPlayer").status.currentTime,$("#jquery_jplayer_1").data("jPlayer").status.duration)+"%");
+		// console.log(data.duration+"%");
+		$(".jp-seek-bar").width("100%");
+		$(".jp-play-bar").width(data.duration+"%");
+		// $(".jp-play-bar").width(calcPercentage($("#jquery_jplayer_1").data("jPlayer").status.currentTime,$("#jquery_jplayer_1").data("jPlayer").status.duration)+"%");
 	});
 }
 
@@ -544,16 +559,35 @@ function pause() {
 }
 
 
-function addSongsToPlaylist(songs, init) {
-	console.log(songs);
+function addSongsToPlaylist(songs) {
+console.log(songs);
   for(var songcount in songs) {
-     addToPlaylist(songs[songcount].id, songs[songcount].title,songs[songcount].album,songs[songcount].artist,songs[songcount].storagePath,songs[songcount].flac,null,init);          
+     addToPlaylist(songs[songcount].id, songs[songcount].title,songs[songcount].album,songs[songcount].artist,songs[songcount].storagePath,songs[songcount].flac);          
   }
   console.log(playlist);
   modifyPlaylistDesign();
 }
 
+function calcPercentage(number, base) {
+	console.log(number);
+	console.log(base);
+	var percentage = (number/base*100);
+	console.log(percentage);
+	return (number/base*100);
+}
 
+function initMpd(mpdPlaylist) {
+	console.log(playlist.playlist.length);
+	if(playlist.playlist.length>0) {
+		alert('PLAYLIST NOT EMPTY!!!');
+	} else {
+		console.log('should add playlist now');
+		console.log(mpdPlaylist);
+		for(var songcount in mpdPlaylist) {
+			addToPlaylist(mpdPlaylist[songcount].id, mpdPlaylist[songcount].title,mpdPlaylist[songcount].album,mpdPlaylist[songcount].artist,mpdPlaylist[songcount].storagePath,mpdPlaylist[songcount].flac, true);
+		}
+	}
+}
 
 // function shuffle(array) {
 // 	// var tempPlaylistSongsArray = [];
@@ -627,3 +661,5 @@ function addSongsToPlaylist(songs, init) {
 
 // 	return array;
 // }
+
+

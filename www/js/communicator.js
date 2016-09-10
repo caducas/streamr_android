@@ -3,7 +3,7 @@ var webSocket;
 var socket;
 
 function useAvailableSocket() {
-	console.log(useLocalSocket());
+	// console.log(useLocalSocket());
 	if(useLocalSocket()) {
 		return localSocket;
 	}
@@ -11,7 +11,7 @@ function useAvailableSocket() {
 }
 
 function connectWebsockets() {
-	// console.log('connect to websockets');
+	console.log('connect to websockets');
 	connectWebsocket();
 	// connectWebsocket(webSocket);
 }
@@ -53,17 +53,17 @@ function connectWebsocket() {
 	});
 
 	socket.on('error', function (e) {
-		console.log('System', e ? e : 'A unknown error occurred');
+		// console.log('System', e ? e : 'A unknown error occurred');
 	});
 
 
 	socket.on('getNewsResultArtists', function(data) {
-		console.log('received artist news');
+		// console.log('received artist news');
 		getNewsResultArtists(data);
 	});
 
 	socket.on('getNewsResultAlbums', function(data) {
-		console.log('received artist news');
+		// console.log('received artist news');
 	  
 	  getNewsResultAlbums(data);
 	});
@@ -153,9 +153,15 @@ function connectWebsocket() {
 		errorAlert(errormessage);
 	});
 
-	socket.on('mpdActive', function(playlist) {
+	socket.on('mpdActive', function() {
+		console.log('########### MPD ACTIVE!!!');
+		// addSongsToPlaylist(playlist);
 		activateMpdSwitch();
-		addSongsToPlaylist(playlist, true);
+	});
+
+	socket.on('initMpd', function(playlist) {
+		console.log('should init');
+		initMpd(playlist);
 	});
 	// if(connectionLocal) {
 	// 	localSocket=socket;
@@ -249,7 +255,17 @@ function sendMpdEmptyPlaylist() {
 }
 
 function sendServerSelectedOutputDevice(id) {
+	console.log('send selected output device:'+id);
 	socket.emit("outputDeviceSelected", id);
+}
+
+
+function listenToMpd(id) {
+	socket.emit('listenToMpd', id);
+}
+
+function unlistenToMpd() {
+	socket.emit('unlistenToMpd');
 }
 
 function login(username, password, cb) {
@@ -273,9 +289,10 @@ function login(username, password, cb) {
 		success: function(data) {
 			connectWebsockets();
 			loginSuccess();
-			console.log('authenticated');
+			// console.log('authenticated');
 			if(socket.connected == false) {
-				connectWebsockets();
+				console.log('socket.connected false');
+				// connectWebsockets();
 			} else {
 				console.log('get news (login success)');
 				getNews();
@@ -284,9 +301,9 @@ function login(username, password, cb) {
 
 		},
 		error: function(a,b,c){
-			console.log(b);
-			console.log(a);
-			console.log(c);
+			// console.log(b);
+			// console.log(a);
+			// console.log(c);
 		}
 	});
 }
