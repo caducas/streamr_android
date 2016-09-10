@@ -342,12 +342,12 @@ function hideAll() {
 }
 
 function onDeviceReady(){
-	console.log('on device ready');
     document.addEventListener("backbutton", onBackKeyDown, false);
 	document.addEventListener("resume", onResume, false);
 }
 
 function onResume() {
+	
 	alert('should reconnect!');
 }
 

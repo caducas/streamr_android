@@ -16,6 +16,13 @@ function connectWebsockets() {
 	// connectWebsocket(webSocket);
 }
 
+function reconnectWebsocket() {
+	if(!socket.connected) {
+		console.log('disconnected - should login now');
+		loginIfCredentialsAreStored();
+	}
+}
+
 function connectWebsocket() {
 	var url = getUrl();
 	// if(connectionLocal) {
