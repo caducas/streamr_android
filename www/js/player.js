@@ -2,6 +2,7 @@ var playlist = [];
 var selectedMpd = 0;
 var intervalForSongPlayingOnMpd;
 var volumeBeforeMute;
+var currentVolume = 50;
 
 function initializePlayer() {
 
@@ -501,8 +502,9 @@ function playerStatusUpdate(data) {
 		frontendPause();
 	}
 
-	var volume = parseInt(data.volume)/100;
-	$("#jquery_jplayer_1").jPlayer('volume', volume);
+	currentVolume = parseInt(data.volume)/100;
+	$("#jquery_jplayer_1").jPlayer('volume', currentVolume);
+
 	$("#jquery_jplayer_1").data("jPlayer").status.currentTime = data.elapsed;
 
 	doMpdAction(function() {
@@ -587,6 +589,21 @@ function initMpd(mpdPlaylist) {
 			addToPlaylist(mpdPlaylist[songcount].id, mpdPlaylist[songcount].title,mpdPlaylist[songcount].album,mpdPlaylist[songcount].artist,mpdPlaylist[songcount].storagePath,mpdPlaylist[songcount].flac, true);
 		}
 	}
+}
+
+function setVolume(value) {
+	if(value>100) {
+		value = 100;
+	}
+	if(value<0) {
+		value = 0;
+	}
+	currentVolume = value;
+	sendMpdVolume(currentVolume);
+}
+
+function getVolume() {
+	return currentVolume;
 }
 
 // function shuffle(array) {

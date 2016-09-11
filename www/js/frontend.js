@@ -344,6 +344,8 @@ function hideAll() {
 function onDeviceReady(){
     document.addEventListener("backbutton", onBackKeyDown, false);
 	document.addEventListener("resume", onResume, false);
+	document.addEventListener("volumedownbutton", onVolumeDown, false);
+	document.addEventListener("volumeupbutton", onVolumeUp, false);
 }
 
 function onResume() {
@@ -352,9 +354,17 @@ function onResume() {
 	reconnectWebsocket();
 }
 
-function onBackKeyDown(){
+function onBackKeyDown() {
     alert('back');
     return false;
+}
+
+function onVolumeDown() {
+	setVolume(getVolume()-10);
+}
+
+function onVolumeDown() {
+	setVolume(getVolume()+10);
 }
 
 function activateMpdSwitch() {
