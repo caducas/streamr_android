@@ -592,6 +592,7 @@ function initMpd(mpdPlaylist) {
 }
 
 function setVolume(value) {
+	alert('should set volume to '+value);
 	if(value>100) {
 		value = 100;
 	}
