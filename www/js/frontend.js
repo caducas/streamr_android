@@ -349,8 +349,6 @@ function onDeviceReady(){
 }
 
 function onResume() {
-
-	alert('should reconnect!');
 	reconnectWebsocket();
 }
 
