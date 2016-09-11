@@ -601,6 +601,7 @@ function setVolume(value) {
 	}
 	currentVolume = value;
 	sendMpdVolume(currentVolume);
+	$("#currentVolume").text(currentVolume);
 }
 
 function getVolume() {

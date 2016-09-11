@@ -8,6 +8,7 @@
     <script type="text/javascript" src="js/jquery.ui.touch-punch.min.js"></script>
     <script type="text/javascript" charset="utf-8" src="cordova.js"></script>
     <!--<script src="phonegap.js"></script>-->
+    <script type="text/javascript" src="js/HistoryManager.js"></script>
     <script type="text/javascript" src="js/clientModeHelper.js"></script>
     <script type="text/javascript" src="js/socket.io.js"></script>
     <script type="text/javascript" src="js/jquery.jplayer.js"></script>
@@ -20,7 +21,6 @@
     <script type="text/javascript" src="js/settings.js"></script>
     <script type="text/javascript" src="js/urlHelper.js"></script>
     <script type="text/javascript" src="js/sha512.js"></script>
-    <script type="text/javascript" src="js/HistoryManager.js"></script>
     <script type="text/javascript" src="js/dropzone.js"></script>
     <script type="text/javascript">
     if(isNodeWebkit()) {
@@ -72,6 +72,11 @@
                     <span class="glyphicon glyphicon-music btnExplore" id="btnExplore"></span>
                 </div>
             </div>
+            <div id="currentVolume" style="    font-size: 10px;
+    color: rgb(255, 255, 255);
+    position: absolute;
+    left: 0px;
+    top: 0px;">50</div>
             <div id="player" class="player">
                 <div id="jquery_jplayer_1" class="jp-jplayer"></div>
                 <div id="jp_container_1" class="jp-audio" role="application" aria-label="media player">
