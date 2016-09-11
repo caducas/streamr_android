@@ -354,16 +354,16 @@ function onResume() {
 }
 
 function onBackKeyDown() {
-    alert('back');
+    navigateBack();
     return false;
 }
 
 function onVolumeDown() {
-	setVolume(getVolume()-0.1);
+	setVolume(getVolume()-0.05);
 }
 
 function onVolumeUp() {
-	setVolume(getVolume()+0.1);
+	setVolume(getVolume()+0.05);
 }
 
 function activateMpdSwitch() {
@@ -440,6 +440,7 @@ $(document).ready(function(){
 		login(storedUsername, storedPassword);
 	} else {
 		$('#loadingPage').hide();
+		alert('username and password not stored - please add');
 	}
 
 	$('#btnPlay').click(function() {
