@@ -1,6 +1,7 @@
 function showPlayer() {
 	$('#loginArea').hide();
 	$('#streamr').show();
+	$('#loadingPage').hide();
 }
 
 function setAutocompleteResult(resultList) {
@@ -372,6 +373,7 @@ function activateMpdSwitch() {
 
 
 $(document).ready(function(){
+	// $('#loadingPage').show();
 
 	document.addEventListener("deviceready", onDeviceReady, false);
 
@@ -436,6 +438,8 @@ $(document).ready(function(){
 
 	if(storedUsername && storedPassword) {
 		login(storedUsername, storedPassword);
+	} else {
+		$('#loadingPage').hide();
 	}
 
 	$('#btnPlay').click(function() {
@@ -473,9 +477,13 @@ $(document).ready(function(){
 		};
 	});
 
+
 	// divimg.addEventListener("DOMAttrModified", function(event) {
 	//     if (event.attrName == "src") {
 	//        // The `src` attribute changed!
 	//     }
 	// });
+
+
 });
+

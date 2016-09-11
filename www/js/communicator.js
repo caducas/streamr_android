@@ -18,7 +18,6 @@ function connectWebsockets() {
 
 function reconnectWebsocket() {
 	if(!socket.connected) {
-		alert('disconnected - should login now');
 		location.reload();
 	}
 }
@@ -45,6 +44,7 @@ function connectWebsocket() {
 	});
 
 	socket.on('connect', function() {
+		$('#loadingPage').hide();
 		// socket.connectedToStreamrServer = true;
 		// if(connectionLocal) {
 		// 	localSocket=socket;
@@ -277,6 +277,9 @@ function unlistenToMpd() {
 
 function login(username, password, cb) {
 	// alert('should login now');
+
+
+	$('#loadingPage').show();
 
 	if($('#autoLogin').is(':checked')) {
 		storeLoginCredentials(username, password);

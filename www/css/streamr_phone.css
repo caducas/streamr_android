@@ -426,3 +426,19 @@ div.artistsOverview > div.artist > div {
   font-size: 6vw;
   margin-top: 3vw;
 }
+
+
+
+
+/******************************************Loading Page***************************************/
+
+div.loadingPage {
+  background: url(../img/reload.gif) no-repeat center center;
+  background-size: 20vw 20vw;
+  background-color: #222;
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  left: 0;
+  top: 0;
+}
