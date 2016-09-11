@@ -254,7 +254,7 @@ function sendMpdRemoveSong(index) {
 }
 
 function sendMpdVolume(volume) {
-	socket.emit("mpdVolume", volume);
+	socket.emit("mpdVolume", volume*100);
 }
 
 function sendMpdEmptyPlaylist() {
