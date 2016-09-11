@@ -360,11 +360,11 @@ function onBackKeyDown() {
 }
 
 function onVolumeDown() {
-	setVolume(getVolume()-10);
+	setVolume(getVolume()-0.1);
 }
 
-function onVolumeDown() {
-	setVolume(getVolume()+10);
+function onVolumeUp() {
+	setVolume(getVolume()+0.1);
 }
 
 function activateMpdSwitch() {
