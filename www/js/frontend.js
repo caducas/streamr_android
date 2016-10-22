@@ -359,14 +359,14 @@ function onBackKeyDown() {
 }
 
 function onVolumeDown() {
-	alert("volume- button");
+	// alert("volume- button");
 	// increaseVolume();
 	// setVolume(getVolume()-0.05);
 	sendMpdVolumeDecrease();
 }
 
 function onVolumeUp() {
-	alert("volume+ button");
+	// alert("volume+ button");
 	// reduceVolume();
 	// setVolume(getVolume()+0.05);
 	sendMpdVolumeIncrease();

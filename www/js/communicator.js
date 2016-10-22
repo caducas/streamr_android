@@ -258,12 +258,12 @@ function sendMpdRemoveSong(index) {
 // }
 
 function sendMpdVolumeIncrease() {
-	alert("should send mpd message volume+");
+	// alert("should send mpd message volume+");
 	socket.emit("mpdVolumeIncrease");
 }
 
 function sendMpdVolumeDecrease() {
-	alert("should send mpd message volume-");
+	// alert("should send mpd message volume-");
 	socket.emit("mpdVolumeDecrease");
 }
 
