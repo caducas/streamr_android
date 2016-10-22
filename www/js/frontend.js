@@ -359,15 +359,17 @@ function onBackKeyDown() {
 }
 
 function onVolumeDown() {
-	increaseVolume();
+	alert("volume- button");
+	// increaseVolume();
 	// setVolume(getVolume()-0.05);
-	sendMpdVolumeIncrease();
+	sendMpdVolumeDecrease();
 }
 
 function onVolumeUp() {
-	reduceVolume();
+	alert("volume+ button");
+	// reduceVolume();
 	// setVolume(getVolume()+0.05);
-	sendMpdVolumeDecrease();
+	sendMpdVolumeIncrease();
 }
 
 function activateMpdSwitch() {
