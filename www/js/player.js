@@ -591,18 +591,18 @@ function initMpd(mpdPlaylist) {
 	}
 }
 
-function setVolume(value) {
-	// alert('should set volume to '+value);
-	if(value>1) {
-		value = 1;
-	}
-	if(value<0) {
-		value = 0;
-	}
-	currentVolume = value;
-	sendMpdVolume(currentVolume);
-	$("#currentVolume").text(currentVolume);
-}
+// function setVolume(value) {
+// 	// alert('should set volume to '+value);
+// 	if(value>1) {
+// 		value = 1;
+// 	}
+// 	if(value<0) {
+// 		value = 0;
+// 	}
+// 	currentVolume = value;
+// 	sendMpdVolume(currentVolume);
+// 	$("#currentVolume").text(currentVolume);
+// }
 
 function getVolume() {
 	return currentVolume;
