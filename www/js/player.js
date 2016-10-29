@@ -349,7 +349,7 @@ function play(index) {
 
 
 function modifyPlaylistDesign() {
-	console.log
+	// console.log
 	$('span.jp-artist').each(function() {
 		$(this).html($(this).html().split("by ").join("<br />"));
 		// $(this).html("Test");
@@ -373,6 +373,16 @@ function modifyPlaylistDesign() {
 		$(this).parent().insertAfter($(this).parent().parent());
 		$(this).parent().parent().append('<div class="sort-handler"><span class=\"glyphicon glyphicon-option-vertical\"></span></div>');
 	});
+
+	$('li').wrapInner("<div class='playlist-row'></div>");
+	// $('li > div.remover').each(function() {
+	// 	("<div>").insertBefore($(this));
+	// 	// .insertBefore("<div>");
+	// });
+
+	// $('li > div.sort-handler').each(function() {
+	// 	// $(this).insertAfter("</div>");
+	// });
 	// $('a.jp-playlist-item').each(function() {
 	// 	$(this).parent().html("<div class=\"handler\"><span class=\"glyphicon glyphicon-option-vertical sort-handler\"></span></div><div>"+$(this).parent().html()+"</div>");
 	// 	// $(this).prepend("<div><span class=\"glyphicon glyphicon-option-vertical sort-handler\"></span></div><div>");
@@ -588,6 +598,7 @@ function initMpd(mpdPlaylist) {
 		for(var songcount in mpdPlaylist) {
 			addToPlaylist(mpdPlaylist[songcount].id, mpdPlaylist[songcount].title,mpdPlaylist[songcount].album,mpdPlaylist[songcount].artist,mpdPlaylist[songcount].storagePath,mpdPlaylist[songcount].flac, true);
 		}
+		modifyPlaylistDesign();
 	}
 }
 

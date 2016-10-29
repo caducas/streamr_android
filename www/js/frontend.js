@@ -1,3 +1,5 @@
+var volumeBarShowDate;
+
 function showPlayer() {
 	$('#loginArea').hide();
 	$('#streamr').show();
@@ -92,7 +94,17 @@ function isRepeatActive() {
 function showArtist(data) {
 	console.log('show artist page');
 	$('#albumList').empty();
-	document.getElementById("artist-page-artist-name").html = data.artist;
+
+	$('#artist-page-headline-image').empty();
+	var artistImage = document.createElement('img');
+	artistImage.src = "http://"+getUrl()+"/media/"+data.artist+"/artist.jpg";
+	$('#artist-page-headline-image').append(artistImage);
+
+	$('#artist-page-artist-name').empty();
+	var artistName = document.createTextNode(data.artist);
+	$('#artist-page-artist-name').append(artistName);
+	// document.getElementById("artist-page-artist-name").html = data.artist;
+
 	console.log('title done');
 	console.log(data);
 	for(var i in data.albums) {
@@ -363,6 +375,7 @@ function onVolumeDown() {
 	// increaseVolume();
 	// setVolume(getVolume()-0.05);
 	sendMpdVolumeDecrease();
+	showVolumeBar();
 }
 
 function onVolumeUp() {
@@ -370,6 +383,28 @@ function onVolumeUp() {
 	// reduceVolume();
 	// setVolume(getVolume()+0.05);
 	sendMpdVolumeIncrease();
+	showVolumeBar();
+}
+
+function hideVolumeBar() {
+	var currentDate = new Date();
+	// var diff = currentDate - volumeBarShowDate;
+	if (volumeBarShowDate && (currentDate - volumeBarShowDate) < 1000) {
+		setTimeout(1000, function() {
+			hideVolumeBar();
+		});
+		return;
+	}
+	$('#volumeControl').hide();
+}
+
+function showVolumeBar() {
+	volumeBarShowDate = new Date();
+	// volumeBarShowFlag = true;
+	$('#volumeControl').show();
+	setTimeout(1000, function() {
+		hideVolumeBar();
+	});
 }
 
 function activateMpdSwitch() {
@@ -383,6 +418,7 @@ $(document).ready(function(){
 
 	document.addEventListener("deviceready", onDeviceReady, false);
 
+	hideVolumeBar();
 
 
 	$("#playlist").sortable({
