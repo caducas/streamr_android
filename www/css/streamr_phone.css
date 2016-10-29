@@ -261,7 +261,7 @@ ul.playlist > li > div > div > a > span {
 }
 
 ul.playlist > li > div > div > a.jp-playlist-item {
-  font-size: 0.7em;
+  font-size: 1em;
   text-decoration: none;
 }
 
@@ -454,7 +454,7 @@ div.artist-page-headline > div > img {
 div.artist-page-headline > div.artist-page-artist-name {
   color: rgb(136, 136, 136);
   font-weight: bold;
-  font-size: 1.4em;
+  font-size: 1.6em;
   vertical-align: top;
   width: 70%;
   text-overflow: ellipsis;

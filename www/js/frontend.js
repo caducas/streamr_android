@@ -390,9 +390,9 @@ function hideVolumeBar() {
 	var currentDate = new Date();
 	// var diff = currentDate - volumeBarShowDate;
 	if (volumeBarShowDate && (currentDate - volumeBarShowDate) < 1000) {
-		setTimeout(1000, function() {
+		setTimeout(function() {
 			hideVolumeBar();
-		});
+		},1000);
 		return;
 	}
 	$('#volumeControl').hide();
@@ -402,9 +402,9 @@ function showVolumeBar() {
 	volumeBarShowDate = new Date();
 	// volumeBarShowFlag = true;
 	$('#volumeControl').show();
-	setTimeout(1000, function() {
+	setTimeout(function() {
 		hideVolumeBar();
-	});
+	},1000);
 }
 
 function activateMpdSwitch() {
