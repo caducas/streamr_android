@@ -512,6 +512,9 @@ function playerStatusUpdate(data) {
 		frontendPause();
 	}
 
+	console.log('VOLUME:');
+	console.log(data.volume);
+	$("#volumeControlCurrent").width(data.volume+"%");
 	currentVolume = parseInt(data.volume)/100;
 	$("#jquery_jplayer_1").jPlayer('volume', currentVolume);
 

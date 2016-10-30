@@ -407,6 +407,10 @@ function showVolumeBar() {
 	},1000);
 }
 
+function setVolumeBar(value) {
+	
+}
+
 function activateMpdSwitch() {
 	$('#btnMpd').addClass('active');
 	activateMpd(true);
