@@ -67,7 +67,7 @@ function initializePlayer() {
 	  var self = this;
 	  // Create live handlers for the playlist items
 	  $(this.cssSelector.playlist).off("click", "a." + this.options.playlistOptions.itemClass).on("click", "a." + this.options.playlistOptions.itemClass, function() {
-	    var index = $(this).parent().parent().index();
+	    var index = $(this).parent().parent().parent().index();
 	    console.log(index);
 	    if(self.current !== index) {
 	      play(index);
