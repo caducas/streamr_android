@@ -214,12 +214,7 @@ div.player_bar > div.player-bar-info > div.player-bar-artist {
 
 ul.playlist > li {
   background-color: #1B1B1B;
-  margin-top: 2px;
-  /*margin-bottom: 1%;*/
-  /*padding-left: 3%;*/
-  /*padding-top: 1%;*/
-  /*padding-right: 3%;*/
-  /*padding-bottom: 1%;*/
+  margin-top: 1px;
 }
 
 ul.playlist > li > div {
@@ -274,6 +269,25 @@ ul.playlist > li > div > div > a.jp-playlist-item-remove {
 ul.playlist > li > div > div > a.jp-playlist-item-remove:hover {
   text-decoration: none;
   color: #ddd;
+}
+
+div.playlist-name-bar {
+  height: 10%;
+  color: #888;
+  background-color: #111;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+}
+
+#page-playlist > div.jp-audio {
+  position: absolute;
+  top: 10%;
+  left: 0;
+  overflow: scroll;
+  height: 80%;
+  width: 100%;
 }
 
 /***********************************************Album List***************************************/
