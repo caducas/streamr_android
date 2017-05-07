@@ -48,6 +48,7 @@
                             <div class="form-group">
                                 <input type="button" class="btn btn-primary btn-lg btn-block" value="Login Once" id="loginSubmit">
                                 <input type="button" class="btn btn-primary btn-lg btn-block" value="Store and Auto-Login" id="loginSubmitAuto">
+                                <input type="button" class="btn btn-primary btn-lg btn-block" value="App Settings" id="openAppSettings">
                             </div>
                         </form>
                     </div>
@@ -55,7 +56,42 @@
             </div>
         </div>
     </div>
-    <div id="streamr">
+    <div id="appSettingsArea" style="display: none">
+        <div class="modal show" tabindex="-1" role="dialog" aria-hidden="true" id="appSettingsModal">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h1 class="text-center">App settings</h1>
+                    </div>
+                    <div class="modal-body">
+                        <form class="form center-block">
+                            <div class="form-group">
+                                <label for="serverAddressLocal">Local address</label>
+                                <input type="text" class="form-control input-lg" id="serverAddressLocal" placeholder="192.168.8.80">
+                            </div>
+                            <div class="form-group">
+                                <label for="serverPortLocal">Local port</label>
+                                <input type="text" class="form-control input-lg" id="serverPortLocal" placeholder="3000">
+                            </div>
+                            <div class="form-group">
+                                <label for="serverAddressWeb">Web address</label>
+                                <input type="text" class="form-control input-lg" id="serverAddressWeb" placeholder="streamr.no-ip.org">
+                            </div>
+                            <div class="form-group">
+                                <label for="serverPortWeb">Web port</label>
+                                <input type="text" class="form-control input-lg" id="serverPortWeb" placeholder="3000">
+                            </div>
+                            <div class="form-group">
+                                <input type="button" class="btn btn-primary btn-lg btn-block" value="Save" id="appSettingsSubmit">
+                                <input type="button" class="btn btn-primary btn-lg btn-block" value="Cancel" id="appSettingsCancel">
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="streamr" style="display: none">
         <div id="page-search" class="page" style="display: none">
             <input type="text" name="search" class="input-search" id="search" />
             <div class="search-result-area" id="search-result-area">

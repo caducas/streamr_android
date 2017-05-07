@@ -1,12 +1,16 @@
 var webAddress = {
-	address : 'streamr.no-ip.org',
-	port : '3000',
+	// address : 'streamr.no-ip.org',
+	address : configHelper.getServerAddressWeb(),
+	// port : '3000',
+	port : configHelper.getServerPortWeb(),
 	available : false
 };
 // var webAddressAvailable = true;
 var localAddress = {
-	address : '192.168.8.80',
-	port : '3000',
+	// address : '192.168.8.80',
+	address : configHelper.getServerAddressLocal(),
+	// port : '3000',
+	port : configHelper.getServerPortLocal(),
 	available : true
 };
 // var localAddressAvailable = true;

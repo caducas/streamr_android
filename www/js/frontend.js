@@ -345,6 +345,7 @@ function hidePlayerBar() {
 
 function hideAll() {
 	$('#loginArea').hide();
+	$('#appSettingsArea').hide();
     $('#page-player').hide();
 	$('#page-playlist').hide();
 	$('#page-artist').hide();
@@ -453,6 +454,25 @@ $(document).ready(function(){
 		login(configHelper.getUsername(), configHelper.getPassword());
 	});
 
+	$('#openAppSettings').click(function() {
+    	$('#serverAddressLocal').val(configHelper.getServerAddressLocal(serverAddressLocal));
+    	$('#serverPortLocal').val(configHelper.getServerPortLocal(serverPortLocal));
+    	$('#serverAddressWeb').val(configHelper.getServerAddressWeb(serverAddressWeb));
+    	$('#serverPortWeb').val(configHelper.getServerPortWeb(serverPortWeb));
+    	$('#appSettingsArea').show();
+	});
+
+	$('#appSettingsSubmit').click(function() {
+		var serverAddressLocal = $('#serverAddressLocal').val();
+		var serverPortLocal = $('#serverPortLocal').val();
+		var serverAddressWeb = $('#serverAddressWeb').val();
+		var serverPortWeb = $('#serverPortWeb').val();
+		configHelper.setServerAddressLocal(serverAddressLocal);
+		configHelper.setServerPortLocal(serverPortLocal);
+		configHelper.setServerAddressWeb(serverAddressWeb);
+		configHelper.setServerPortWeb(serverPortWeb);
+		$('#appSettingsArea').hide();
+	});
 
 	$('#search').bind('input', function() {
 		getAutocompleteSearch($('#search').val());
@@ -481,11 +501,14 @@ $(document).ready(function(){
 	var storedUsername = configHelper.getUsername();
 	var storedPassword = configHelper.getPassword();
 
-	if(storedUsername && storedPassword) {
-		login(storedUsername, storedPassword);
-	} else {
+	if(typeof configHelper.getServerAddressLocal() !== "undefined"
+		&& typeof configHelper.getServerPortLocal() !== "undefined") {
 		$('#loadingPage').hide();
-		alert('username and password not stored - please add');
+		$('#appSettingsArea').show();
+	} else {
+		if(storedUsername && storedPassword) {
+			login(storedUsername, storedPassword);
+		}
 	}
 
 	$('#btnPlay').click(function() {
