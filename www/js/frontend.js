@@ -447,10 +447,10 @@ $(document).ready(function(){
 
 	$('#loginSubmitAuto').click(function() {
 		var inputUsername = $('#loginUsername').val();
-		var inputPassword = CryptoJS.SHA512($('#loginPassword').val()).toString(CryptoJS.enc.Hex);
-		localStorage.setItem("username", inputUsername);
-		localStorage.setItem("pw", inputPassword);
-		login(inputUsername, inputPassword);
+		var inputPassword = $('#loginPassword').val();
+		configHelper.setUsername(inputUsername);
+		configHelper.setPassword(inputPassword);
+		login(configHelper.getUsername(), configHelper.getPassword());
 	});
 
 
@@ -478,9 +478,8 @@ $(document).ready(function(){
 	initializePlayer();
 	// showPlayer();
 
-
-	var storedUsername = localStorage.getItem("username");
-	var storedPassword = localStorage.getItem("pw");
+	var storedUsername = configHelper.getUsername();
+	var storedPassword = configHelper.getPassword();
 
 	if(storedUsername && storedPassword) {
 		login(storedUsername, storedPassword);
