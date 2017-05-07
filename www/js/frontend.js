@@ -1,9 +1,10 @@
 var volumeBarShowDate;
 
-function showPlayer() {
-	$('#loginArea').hide();
+function showStreamr() {
+	hideAll();
 	$('#streamr').show();
 	$('#loadingPage').hide();
+	showPlayer();
 }
 
 function setAutocompleteResult(resultList) {

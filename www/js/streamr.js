@@ -37,7 +37,7 @@ function autocompleteSelected(uiItem) {
 }
 
 function loginSuccess() {
-	showPlayer();
+	showStreamr();
   // getNews();
 }
 

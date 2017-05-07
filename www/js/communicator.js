@@ -321,6 +321,7 @@ function login(username, password, cb) {
 
 		},
 		error: function(a,b,c){
+			alert("Login failed!\nServer:"+getUrl());
 			// console.log(b);
 			// console.log(a);
 			// console.log(c);
