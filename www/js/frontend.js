@@ -502,8 +502,8 @@ $(document).ready(function(){
 	var storedUsername = configHelper.getUsername();
 	var storedPassword = configHelper.getPassword();
 
-	if(typeof configHelper.getServerAddressLocal() !== "undefined"
-		&& typeof configHelper.getServerPortLocal() !== "undefined") {
+	if(typeof configHelper.getServerAddressLocal() == "undefined"
+		|| typeof configHelper.getServerPortLocal() == "undefined") {
 		$('#loadingPage').hide();
 		$('#appSettingsArea').show();
 	} else {
