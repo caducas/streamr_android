@@ -1,20 +1,5 @@
-var webAddress = {
-	// address : 'streamr.no-ip.org',
-	address : configHelper.getServerAddressWeb(),
-	// port : '3000',
-	port : configHelper.getServerPortWeb(),
-	available : false
-};
-// var webAddressAvailable = true;
-var localAddress = {
-	// address : '192.168.8.80',
-	address : configHelper.getServerAddressLocal(),
-	// port : '3000',
-	port : configHelper.getServerPortLocal(),
-	available : true
-};
-// var localAddressAvailable = true;
 var useLocalAddress = true;
+
 
 function testConnection() {
 	// console.log('testing connections');
@@ -53,12 +38,12 @@ function getUrl() {
 
 function getLocalUrl() {
 	console.log('retrieving local address');
-	return localAddress.address + ':' + localAddress.port;
+	return configHelper.getServerAddressLocal() + ':' + configHelper.getServerPortLocal();
 }
 
 function getWebUrl() {
 	console.log('retrieving web address');
-	return webAddress.address + ':' + webAddress.port;
+	return configHelper.getServerAddressWeb() + ':' + configHelper.getServerPortWeb();
 }
 
 function useLocalSocket() {
