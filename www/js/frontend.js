@@ -442,12 +442,24 @@ $(document).ready(function(){
 
 
 	$('#loginSubmit').click(function() {
+		if($('#loginUsername').val()==null || $('#loginUsername').val()=="" || $('#loginPassword').val()==null || $('#loginPassword').val()=="") {
+			if(configHelper.getUsername() != null && configHelper.getPassword() != null) {
+				login(configHelper.getUsername(), configHelper.getPassword());
+				return;
+			}
+			alert('Neither Username and/or password given nor stored for autologin!');
+			return;
+		}
 		var inputUsername = $('#loginUsername').val();
 		var inputPassword = CryptoJS.SHA512($('#loginPassword').val()).toString(CryptoJS.enc.Hex);
 		login(inputUsername, inputPassword);
 	});
 
 	$('#loginSubmitAuto').click(function() {
+		if($('#loginUsername').val()==null || $('#loginUsername').val()=="" || $('#loginPassword').val()==null || $('#loginPassword').val()=="") {
+			alert('Username and/or password missing!');
+			return;
+		}
 		var inputUsername = $('#loginUsername').val();
 		var inputPassword = $('#loginPassword').val();
 		configHelper.setUsername(inputUsername);
@@ -546,7 +558,6 @@ $(document).ready(function(){
 			activateMpd();
 		};
 	});
-
 
 	// divimg.addEventListener("DOMAttrModified", function(event) {
 	//     if (event.attrName == "src") {
