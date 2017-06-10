@@ -1,7 +1,8 @@
 
 
 $(document).ready(function(){
-  testConnection();
+  checkAppCompatibility();
+  // testConnection();
   // connectWebsockets();
 	// connectWebsocket();
 	initializePlayer();

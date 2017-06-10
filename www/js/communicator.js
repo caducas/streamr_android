@@ -260,11 +260,13 @@ function sendMpdRemoveSong(index) {
 function sendMpdVolumeIncrease() {
 	// alert("should send mpd message volume+");
 	socket.emit("mpdVolumeIncrease");
+	console.log('should increase');
 }
 
 function sendMpdVolumeDecrease() {
 	// alert("should send mpd message volume-");
 	socket.emit("mpdVolumeDecrease");
+	console.log('should decrease');
 }
 
 function sendMpdEmptyPlaylist() {

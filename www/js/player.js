@@ -512,8 +512,8 @@ function playerStatusUpdate(data) {
 		frontendPause();
 	}
 
-	console.log('VOLUME:');
-	console.log(data.volume);
+	// console.log('VOLUME:');
+	// console.log(data.volume);
 	$("#volumeControlCurrent").width(data.volume+"%");
 	currentVolume = parseInt(data.volume)/100;
 	$("#jquery_jplayer_1").jPlayer('volume', currentVolume);
@@ -542,12 +542,14 @@ function emptyPlaylist() {
 function next() {
     doActionForSelectedOutputDevice(function() {
     	playlist.next();
+    	console.log('next');
     }, function() {
       if(playlist.current===(playlist.playlist.size-1)) {
         stopMpd();
         stopFrontend();
       }
       nextMpd();
+      console.log('nextMpd');
     });
 }
 
