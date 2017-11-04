@@ -233,33 +233,21 @@ function addToPlaylist(id, title, album, artist, path, flac, init) {
   // var hash = generateHash();
   console.log('adding song to playlist with id:'+id+' title:'+title+' album:'+album+' artist:'+artist+' path:'+path+' flac:'+flac);
 
+  var url = "http://"+getUrl();
+  console.log(url);
+
   var song = {
     id:id,
     title:title,
     artist:artist,
     album:album,
-    // mp3:"/music/" + title + ".mp3",
-    // mp3:"",
-    // mp3:"http://10.0.0.188:3000/media/01.mp3",
-    // mp3:"http://127.0.0.1:3000/media/01.mp3",
-    // mp3:"http://192.168.8.80:3000/media/"+path,
-    mp3:"http://192.168.8.80:3000/media/"+artist+"/"+album+"/"+title+".mp3",
-    // mp3:"/media/"+path,
-    // mp3:"/music/" + hash + ".mp3",
+    mp3:url+"/media/"+artist+"/"+album+"/"+title+".mp3",
     path:path,
     isFlac:flac,
-    // poster:"http://127.0.0.1:3000/media/Volbeat/artist.jpg"
-    // poster:"http://10.0.0.188:3000/media/Volbeat/artist.jpg"
-    poster:"http://192.168.8.80:3000/media/"+artist+"/"+album+"/albumMedium.jpg"
-    // poster:"/media/"+artist+"/"+album+"/album.jpg"
+    poster:url+"/media/"+artist+"/"+album+"/albumMedium.jpg"
   }
 
-  // prepareSongFileForStream(path, hash);
-
   playlist.add(song);
-  // console.log('should add song:');
-  // console.log(song);
-  // console.log(playlist);
 
   if(init) {
   	return;
@@ -271,11 +259,7 @@ function addToPlaylist(id, title, album, artist, path, flac, init) {
 	if(playlist.playlist.length===0) {
 		playStream();
 		pauseStream();
-}
-
-
-  // addAjaxLoadingBar(path);
-  // prepareSongFileForStream(path);
+    }
 }
 
 
