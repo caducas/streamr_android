@@ -171,6 +171,7 @@ function initializePlayer() {
 		prev();
 	});
 
+/*
 	$('#btnVolume').click(function() {
 		if(isVolumeMuted()) {
 			audioControlUnmute();
@@ -193,6 +194,7 @@ function initializePlayer() {
 			frontendMute();
 		}
 	});
+*/
 
   // $('#search').bind('input', function() {
   // 	getAutocompleteSearch()
@@ -607,6 +609,22 @@ function initMpd(mpdPlaylist) {
 
 function getVolume() {
 	return currentVolume;
+}
+
+function mute() {
+    doActionForSelectedOutputDevice(function() {
+      $("#jquery_jplayer_1").jPlayer('mute');
+    }, function() {
+      muteMpd();
+    });
+}
+
+function unmute() {
+    doActionForSelectedOutputDevice(function() {
+      $("#jquery_jplayer_1").jPlayer('unmute');
+    }, function() {
+      unmuteMpd();
+    });    
 }
 
 // function shuffle(array) {

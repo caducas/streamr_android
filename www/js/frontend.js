@@ -92,6 +92,10 @@ function isRepeatActive() {
 	// return $('#btnRepeat').hasClass('btnAudioControlOptionsActive'); // TODO
 }
 
+function isVolumeMuted() {
+	return $('#btnMute').hasClass("glyphicon-volume-off");
+}
+
 function showArtist(data) {
 	console.log('show artist page');
 	$('#albumList').empty();
@@ -421,9 +425,66 @@ function setVolumeBar(value) {
 	
 }
 
+function setMpdList(mpdList) {
+	console.log(mpdList);
+	$('#mpdSelectionList').empty();
+	mpdList.unshift({
+		id: 0,
+		name: 'Stream'
+	});
+	
+	for(var i in mpdList) {
+		console.log(mpdList[i]);
+		var listEntry = document.createElement('li');
+		listEntry.appendChild(document.createTextNode(mpdList[i].name));
+		(function(id){
+			listEntry.addEventListener("click", function() {
+				selectOutputDevice(id);
+				hideMpdSelection();
+				refreshMpdSwitchStatus();
+			});
+		})(mpdList[i].id);
+		$('#mpdSelectionList').append(listEntry);
+	}
+
+	refreshMpdSwitchStatus();
+}
+
+function refreshMpdSwitchStatus() {
+	if($('#mpdSelectionList li').length > 1) {
+		$('#btnMpd').show();
+	} else {
+		$('#btnMpd').hide();		
+	}
+
+	console.log(getSelectedMpd());
+
+	if(getSelectedMpd()>0) {
+		$('#btnMpd').addClass('active');	
+	} else {
+		$('#btnMpd').removeClass('active');
+	}
+}
+
+function showMpdSelection() {
+	$('#mpdSelection').show();
+}
+
+function hideMpdSelection() {
+	$('#mpdSelection').hide();
+}
+
 function activateMpdSwitch() {
-	$('#btnMpd').addClass('active');
 	activateMpd(true);
+	refreshMpdSwitchStatus();
+}
+
+function frontendUnmute() {
+	$('#btnMute').removeClass('glyphicon-volume-off').addClass('glyphicon-volume-up');
+}
+
+function frontendMute() {
+	$('#btnMute').removeClass('glyphicon-volume-up').addClass('glyphicon-volume-off');
 }
 
 
@@ -556,6 +617,8 @@ $(document).ready(function(){
 
 	$('#btnMpd').click(function() {
 		console.log('### MPD BUTTON clicked!');
+		showMpdSelection();
+		/*
 		if($('#btnMpd').hasClass('active')) {
 			console.log('active');
 			$('#btnMpd').removeClass('active');
@@ -564,10 +627,26 @@ $(document).ready(function(){
 			console.log('not active');
 			$('#btnMpd').addClass('active');
 			activateMpd();
-		};
+		};*/
+	});
+
+	$('#btnMute').click(function() {
+		if(isVolumeMuted()) {
+			console.log('unmute');
+			unmute();
+			frontendUnmute();
+		} else {
+			console.log('mute');
+			mute();
+			frontendMute();
+		}		
 	});
 
 	$('#btnMpd').hide();
+
+	$('#mpdSelection').click(function() {
+		hideMpdSelection();
+	});
 
 	// divimg.addEventListener("DOMAttrModified", function(event) {
 	//     if (event.attrName == "src") {

@@ -45,6 +45,7 @@ function connectWebsocket() {
 
 	socket.on('connect', function() {
 		$('#loadingPage').hide();
+		socket.emit('getMpdList');
 		// socket.connectedToStreamrServer = true;
 		// if(connectionLocal) {
 		// 	localSocket=socket;
