@@ -359,8 +359,16 @@ function hideAll() {
 function onDeviceReady(){
     document.addEventListener("backbutton", onBackKeyDown, false);
 	document.addEventListener("resume", onResume, false);
+}
+
+function activateMpdVolumeControl() {
 	document.addEventListener("volumedownbutton", onVolumeDown, false);
-	document.addEventListener("volumeupbutton", onVolumeUp, false);
+	document.addEventListener("volumeupbutton", onVolumeUp, false);	
+}
+
+function deactivateMpdVolumeControl() {
+	document.removeEventListener("volumedownbutton", onVolumeDown);
+	document.removeEventListener("volumeupbutton", onVolumeUp);		
 }
 
 function onResume() {
@@ -558,6 +566,8 @@ $(document).ready(function(){
 			activateMpd();
 		};
 	});
+
+	$('#btnMpd').hide();
 
 	// divimg.addEventListener("DOMAttrModified", function(event) {
 	//     if (event.attrName == "src") {

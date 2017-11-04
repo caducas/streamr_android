@@ -234,7 +234,6 @@ function addToPlaylist(id, title, album, artist, path, flac, init) {
   console.log('adding song to playlist with id:'+id+' title:'+title+' album:'+album+' artist:'+artist+' path:'+path+' flac:'+flac);
 
   var url = "http://"+getUrl();
-  console.log(url);
 
   var song = {
     id:id,
@@ -379,11 +378,13 @@ function modifyPlaylistDesign() {
 function activateMpd(init) {
 	selectOutputDevice(1, init);
 	listenToMpd(1);
+    activateMpdVolumeControl();
 }
 
 function deactivateMpd() {
 	selectOutputDevice(0);
 	unlistenToMpd();
+    deactivateMpdVolumeControl();
 }
 
 function selectOutputDevice(id, init) {
