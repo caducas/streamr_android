@@ -357,7 +357,7 @@ function modifyPlaylistDesign() {
 		$(this).parent().parent().append('<div class="sort-handler"><span class=\"glyphicon glyphicon-option-vertical\"></span></div>');
 	});
 
-	$('li').wrapInner("<div class='playlist-row'></div>");
+	$('li').not(':has(div.playlist-row)').wrapInner("<div class='playlist-row'></div>");
 	// $('li > div.remover').each(function() {
 	// 	("<div>").insertBefore($(this));
 	// 	// .insertBefore("<div>");
