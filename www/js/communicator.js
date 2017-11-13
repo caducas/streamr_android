@@ -288,6 +288,10 @@ function unlistenToMpd() {
 	socket.emit('unlistenToMpd');
 }
 
+function connectToMpdClients() {
+	socket.emit('connectToMpdClients');
+}
+
 function login(username, password, cb) {
 	// alert('should login now');
 

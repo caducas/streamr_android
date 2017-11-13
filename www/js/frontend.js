@@ -366,11 +366,13 @@ function onDeviceReady(){
 }
 
 function activateMpdVolumeControl() {
+	console.log('MPD volume control should be activated');
 	document.addEventListener("volumedownbutton", onVolumeDown, false);
 	document.addEventListener("volumeupbutton", onVolumeUp, false);	
 }
 
 function deactivateMpdVolumeControl() {
+	console.log('MPD volume control should be deactivated');
 	document.removeEventListener("volumedownbutton", onVolumeDown);
 	document.removeEventListener("volumeupbutton", onVolumeUp);		
 }
@@ -452,9 +454,14 @@ function setMpdList(mpdList) {
 
 function refreshMpdSwitchStatus() {
 	if($('#mpdSelectionList li').length > 1) {
-		$('#btnMpd').show();
+		$('#btnMpd').removeClass('inactive');
+		if(getSelectedMpd()>0) {
+			$('#btnMpd').addClass('active');
+		} else {
+			$('#btnMpd').removeClass('active');
+		}
 	} else {
-		$('#btnMpd').hide();		
+		$('#btnMpd').addClass('inactive');		
 	}
 
 	console.log(getSelectedMpd());
@@ -616,8 +623,12 @@ $(document).ready(function(){
 	});
 
 	$('#btnMpd').click(function() {
-		console.log('### MPD BUTTON clicked!');
-		showMpdSelection();
+		console.log('should connect MPD clients');
+		connectToMpdClients();
+
+		if(!$('#btnMpd').hasClass('inactive')) {
+			showMpdSelection();
+		}
 		/*
 		if($('#btnMpd').hasClass('active')) {
 			console.log('active');
@@ -641,8 +652,6 @@ $(document).ready(function(){
 			frontendMute();
 		}		
 	});
-
-	$('#btnMpd').hide();
 
 	$('#mpdSelection').click(function() {
 		hideMpdSelection();
