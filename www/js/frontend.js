@@ -68,7 +68,9 @@ function frontendPlay() {
 	$('#btnPlay').hide();
 	$('#btnPause').show();
 	$('#player-current-title').text($("#jquery_jplayer_1").data("jPlayer").status.media.title);
+	$('#player-bar-title').text($("#jquery_jplayer_1").data("jPlayer").status.media.title);
 	$('#player-current-artist').text($("#jquery_jplayer_1").data("jPlayer").status.media.artist);
+	$('#player-bar-artist').text($("#jquery_jplayer_1").data("jPlayer").status.media.artist);
 }
 
 function frontendPause() {
@@ -599,14 +601,6 @@ $(document).ready(function(){
 
 	$('#jp_poster_0').on('load', function () {
 		$('#player-bar-image').attr('src',$('#jp_poster_0').attr('src'));
-	});
-
-	$('#player-current-title').bind("DOMSubtreeModified",function(){
-		$('#player-bar-title').text($('#player-current-title').text());
-	});
-
-	$('#player-current-artist').bind("DOMSubtreeModified",function(){
-		$('#player-bar-artist').text($('#player-current-artist').text());
 	});
 
 	$('#btnMpd').click(function() {
