@@ -600,12 +600,8 @@ $(document).ready(function(){
 		}
 	}
 
-	$('#btnPlay').click(function() {
-		// audioControlPlay();
- //    createNewPlaylist();
-		play();
-		// showPlaylist();
-		// modifyPlaylistDesign();
+	$('#btnPlayPause').click(function() {
+		playPause();
 	});
 
 	$('#jp_poster_0').bind('DOMAttrModified', function(ev) {

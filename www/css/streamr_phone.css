@@ -1,3 +1,9 @@
+:root {
+  --bar-color: #000;
+  --bar-fontsize: 3vh;
+  --bar-height: 7vh;
+}
+
 body {
   background: #333;
   /*font-size: 2em;*/
@@ -64,27 +70,6 @@ span.btnAudioControl {
   color: #fff;
 }
 
-span.btnAudioControlPrevious {
-    font-size: 10vw;
-    position: absolute;
-    left: 15%;
-    top: 113%;
-}
-
-span.btnAudioControlNext {
-    font-size: 10vw;
-    position: absolute;
-    left: 70%;
-    top: 113%;
-}
-
-span.btnAudioControlMain {
-    font-size: 15vw;
-    position: absolute;
-    left: 40%;
-    top: 110%;
-}
-
 div.jp-progress {
   width: 100%;
   background: rgba(0, 0, 0, 0.7) none repeat scroll 0% 0%;
@@ -109,7 +94,7 @@ div.jp-progress > div.jp-seek-bar > div.jp-play-bar {
 div.player-top-menu-entry > span,
 div.player-bottom-menu-entry > span {
   color: #FFF;
-  font-size: 5vw;
+  font-size: var(--bar-fontsize);
   margin: 0px auto;
   display: block;
   height: 100%;
@@ -120,7 +105,7 @@ div.player-bottom-menu-entry > span {
 div.player-top-menu-entry-center > span,
 div.player-bottom-menu-entry-center > span {
   color: #FFF;
-  font-size: 5vw;
+  font-size: var(--bar-fontsize);
   margin: 0px auto;
   display: block;
   width: 100%;
@@ -141,16 +126,9 @@ div.player-bottom-menu-entry-center > span.inactive {
 
 div.player-top-menu {
   width: 100%;
-  height: 8%;
+  height: var(--bar-height);
   padding-top: 2%;
-}
-
-div.player-bottom-menu {
-  position: absolute;
-  top: 90%;
-  width: 100%;
-  height: 10%;
-  padding-top: 5%;
+  background: var(--bar-color);
 }
 
 div.player-top-menu > div.player-top-menu-entry {
@@ -167,10 +145,58 @@ div.player-top-menu > div.player-top-menu-entry-center {
 
 /**********************************************Player Bottom Menu***********************************/
 
+div.player-bottom-menu {
+  position: absolute;
+  top: 93vh;
+  width: 100%;
+  height: var(--bar-height);
+  background: var(--bar-color);
+}
+
 div.player-bottom-menu > div.player-bottom-menu-entry {
   width: 24vw;
-  height: 50%;
   display: inline-block;
+  padding: 2vh;
+}
+
+/************************************************Player Controls************************************/
+div.player-controls {
+  position: absolute;
+  top: 80vh;
+  height: 13vh;
+  width: 60%;
+  left: 20%;
+}
+
+div.player-controls > div.player-controls-entry {
+  height: 100%;
+  display: table-cell;
+  position: relative;
+  vertical-align: middle;
+  width: 20vw;
+}
+
+div.player-controls > div.center {
+  height: 100%;
+  text-align: center;
+}
+
+div.player-controls > div.previous {
+  text-align: right;
+}
+
+div.player-controls > div.next {
+  text-align: left;
+}
+
+div.player-controls > div.player-controls-entry > span {
+  font-size: 16vw;
+  display: inline-block;
+}
+
+div.player-controls > div.previous > span,
+div.player-controls > div.next > span {
+  font-size: 12vw;
 }
 
 /************************************************Player Small***************************************/
