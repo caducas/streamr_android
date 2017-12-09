@@ -380,19 +380,23 @@ function modifyPlaylistDesign() {
 function activateMpd(init) {
 	selectOutputDevice(1, init);
 	listenToMpd(1);
-    activateMpdVolumeControl();
 }
 
 function deactivateMpd() {
 	selectOutputDevice(0);
 	unlistenToMpd();
-    deactivateMpdVolumeControl();
 }
 
 function selectOutputDevice(id, init) {
 	selectedMpd = id;
 	sendServerSelectedOutputDevice(id);
 	console.log('OUTPUT DEVICE CHANGED TO '+id);
+    if(id>0)
+    {
+        activateMpdVolumeControl();        
+    } else {
+        deactivateMpdVolumeControl();        
+    }
 	if(init) {
 		return;
 	}
