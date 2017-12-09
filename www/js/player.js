@@ -154,9 +154,9 @@ function initializePlayer() {
 	// 	play();
 	// });
 
-	$('#btnPause').click(function() {
-		pause();
-	});
+	// $('#btnPause').click(function() {
+	// 	pause();
+	// });
 
 	$('#btnNext').unbind('click');
 	$('#btnNext').bind('click', function() {
@@ -554,7 +554,6 @@ function playPause() {
 	} else {
 		pause();
 	}
-
 }
 
 function pause() {

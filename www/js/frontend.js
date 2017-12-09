@@ -67,13 +67,10 @@ function setAutocompleteResult(resultList) {
 function frontendPlay() {
 	$('#btnPlay').hide();
 	$('#btnPause').show();
-	// console.log('aktualisiere status');
-	// console.log($("#jquery_jplayer_1").data("jPlayer").status.media.title);
-	// console.log($("#jquery_jplayer_1").data("jPlayer").status.media.artist);
+	$('#player-current-title').text($("#jquery_jplayer_1").data("jPlayer").status.media.title);
 	$('#player-bar-title').text($("#jquery_jplayer_1").data("jPlayer").status.media.title);
+	$('#player-current-artist').text($("#jquery_jplayer_1").data("jPlayer").status.media.artist);
 	$('#player-bar-artist').text($("#jquery_jplayer_1").data("jPlayer").status.media.artist);
-	// console.log($("#player-bar-title"));
-	// console.log($("#jquery_jplayer_1").data("jPlayer").status.media);
 }
 
 function frontendPause() {
@@ -110,8 +107,6 @@ function showArtist(data) {
 	$('#artist-page-artist-name').append(artistName);
 	// document.getElementById("artist-page-artist-name").html = data.artist;
 
-	console.log('title done');
-	console.log(data);
 	for(var i in data.albums) {
 		console.log(data.albums[i]);
 
@@ -600,26 +595,12 @@ $(document).ready(function(){
 		}
 	}
 
-	$('#btnPlay').click(function() {
-		// audioControlPlay();
- //    createNewPlaylist();
-		play();
-		// showPlaylist();
-		// modifyPlaylistDesign();
+	$('#btnPlayPause').click(function() {
+		playPause();
 	});
 
-	$('#jp_poster_0').bind('DOMAttrModified', function(ev) {
-		// console.log('dom changed');
-		// console.log(ev);
-		// console.log(ev.originalEvent.attrName);
-		if(ev.originalEvent.attrName == "src") {
-			// console.log('should change img to');
-			// console.log(ev.originalEvent);
-			// console.log(ev.originalEvent.newValue);
-			$('#player-bar-image').attr('src',ev.originalEvent.newValue);
-			// console.log(playlist);
-		}
-		// getAutocompleteSearch($('#search').val());
+	$('#jp_poster_0').on('load', function () {
+		$('#player-bar-image').attr('src',$('#jp_poster_0').attr('src'));
 	});
 
 	$('#btnMpd').click(function() {

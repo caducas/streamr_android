@@ -23,6 +23,7 @@
     <script type="text/javascript" src="js/urlHelper.js"></script>
     <script type="text/javascript" src="js/sha512.js"></script>
     <script type="text/javascript" src="js/dropzone.js"></script>
+    <script type="text/javascript" src="js/jquery.lazyloadxt.simple.js"></script>
     <script type="text/javascript">
     if(isNodeWebkit()) {
         $.getScript("js/shortcut.js");
@@ -121,22 +122,6 @@
                                     </div>
                                 </div>
                                 <div class="jp-controls">
-                                    <span class="glyphicon glyphicon-backward btnAudioControl btnAudioControlPrevious" id="btnPrevious"></span>
-                                    <span class="glyphicon glyphicon-play btnAudioControl btnAudioControlMain" id="btnPlay"></span>
-                                    <span class="glyphicon glyphicon-pause btnAudioControl btnAudioControlMain" id="btnPause" style="display:none"></span>
-                                    <span class="glyphicon glyphicon-forward btnAudioControl btnAudioControlNext" id="btnNext"></span>
-                                </div>
-                                <div class="player-options">
-                                    <span class="glyphicon glyphicon-volume-up btnAudioControlOptions" id="btnVolume"></span>
-
-                                    <!--<button class="jp-mute" role="button" tabindex="0">mute</button>-->
-                                    <!--<button class="jp-volume-max" role="button" tabindex="0">max volume</button>-->
-                                    <div class="jp-volume-bar">
-                                        <div class="jp-volume-bar-value"></div>
-                                    </div>
-                                    <span class="glyphicon glyphicon-random btnAudioControlOptions" id="btnRandom"></span>
-                                    <span class="glyphicon glyphicon-retweet btnAudioControlOptions" id="btnRepeat"></span>
-                                    <span class="glyphicon glyphicon-trash btnAudioControlOptions" id="btnEmptyPlaylist"></span>
                                 </div>
                             </div>
                         </div>
@@ -157,6 +142,22 @@
 
                         </div>
                     </div>
+                </div>
+            </div>
+            <div class="player-current-information">
+                <div id="player-current-title" class="player-current-title"></div>
+                <div id="player-current-artist"></div>
+            </div>
+            <div id="player-controls" class="player-controls">
+                <div  class="player-controls-entry previous" id="btnPrevious">
+                    <span class="glyphicon glyphicon-backward btnAudioControl btnAudioControlPrevious"></span>
+                </div>
+                <div  class="player-controls-entry center" id="btnPlayPause">
+                    <span class="glyphicon glyphicon-play btnAudioControl btnAudioControlMain" id="btnPlay"></span>
+                    <span class="glyphicon glyphicon-pause btnAudioControl btnAudioControlMain" id="btnPause" style="display:none"></span>
+                </div>
+                <div  class="player-controls-entry next" id="btnNext">
+                    <span class="glyphicon glyphicon-forward btnAudioControl btnAudioControlNext"></span>
                 </div>
             </div>
             <div id="player-bottom-menu" class="player-bottom-menu">
