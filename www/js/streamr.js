@@ -103,6 +103,10 @@ function errorOccured(errorMessage) {
   alert(errorMessage);
 }
 
+function restartServer() {
+  sendRestartServer();
+}
+
 function processForm(e) {
     if (e.preventDefault) e.preventDefault();
 

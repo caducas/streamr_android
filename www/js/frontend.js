@@ -343,6 +343,14 @@ function hidePlayerBar() {
 	$('#player-bar').hide();	
 }
 
+function showSettingsMenu() {
+	$('#settingsMenuArea').show();
+}
+
+function hideSettingsMenu() {
+	$('#settingsMenuArea').hide();
+}
+
 function hideAll() {
 	$('#loginArea').hide();
 	$('#appSettingsArea').hide();
@@ -352,6 +360,7 @@ function hideAll() {
 	$('#page-search').hide();
 	$('#page-album').hide();
 	$('#page-artists-overview').hide();
+	hideSettingsMenu();
 	hidePlayerBar();
 }
 
@@ -636,6 +645,23 @@ $(document).ready(function(){
 
 	$('#mpdSelection').click(function() {
 		hideMpdSelection();
+	});
+
+	$('#btnSettings').click(function() {
+		showSettingsMenu();
+	});
+
+	$('#settingsMenuOverlay').click(function() {
+		hideSettingsMenu();
+	});
+
+	$('#restartServer').click(function() {
+		restartServer();
+		location.reload();
+	});
+
+	$('#restartApp').click(function() {
+		location.reload();
 	});
 
 	// divimg.addEventListener("DOMAttrModified", function(event) {

@@ -103,11 +103,17 @@
                 <div id="player-top-menu-search" class="player-top-menu-entry">
                     <span class="glyphicon glyphicon-search btnSearch" id="btnSearch"></span>
                 </div>
-                <div id="player-top-menu-mpd" class="player-top-menu-entry-center">
-                    <span class="btnMpd inactive" id="btnMpd">MPD</span>
-                </div>
                 <div id="player-top-menu-music" class="player-top-menu-entry">
                     <span class="glyphicon glyphicon-music btnExplore" id="btnExplore"></span>
+                </div>
+                <div id="player-top-menu-playlists" class="player-top-menu-entry">
+                    <span id="btnPlaylists" class="glyphicon glyphicon-list"></span>
+                </div>
+                <div id="player-top-menu-mpd" class="player-top-menu-entry">
+                    <span class="btnMpd inactive" id="btnMpd">MPD</span>
+                </div>
+                <div id="player-top-menu-settings" class="player-top-menu-entry">
+                    <span id="btnSettings" class="glyphicon glyphicon-cog"></span>
                 </div>
             </div>
             <div id="player" class="player">
@@ -216,6 +222,18 @@
     </div>
     <div id="loadingPage" class="loadingPage">
         <!--<img src="img/reload.gif">-->
+    </div>
+    <div id="settingsMenuArea" class="settingsMenuArea" style="display: none">
+        <div id="settingsMenuOverlay" class="settingsMenuOverlay">
+        </div>
+        <div id="settingsMenu" class="settingsMenu">
+            <div id="restartServer">
+                Restart Server
+            </div>
+            <div id="restartApp">
+                Restart App
+            </div>
+        </div>
     </div>
     <div id="volumeControl" class="volumeControl">
         <div><div id="volumeControlCurrent"></div></div>
