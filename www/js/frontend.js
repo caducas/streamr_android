@@ -360,6 +360,7 @@ function hideAll() {
 	$('#page-search').hide();
 	$('#page-album').hide();
 	$('#page-artists-overview').hide();
+	hideMpdSelection();
 	hideSettingsMenu();
 	hidePlayerBar();
 }
@@ -433,7 +434,7 @@ function setVolumeBar(value) {
 
 function setMpdList(mpdList) {
 	console.log(mpdList);
-	$('#mpdSelectionList').empty();
+	$('#mpdSelection').empty();
 	mpdList.unshift({
 		id: 0,
 		name: 'Stream'
@@ -441,7 +442,7 @@ function setMpdList(mpdList) {
 	
 	for(var i in mpdList) {
 		console.log(mpdList[i]);
-		var listEntry = document.createElement('li');
+		var listEntry = document.createElement('div');
 		listEntry.appendChild(document.createTextNode(mpdList[i].name));
 		(function(id){
 			listEntry.addEventListener("click", function() {
@@ -450,14 +451,14 @@ function setMpdList(mpdList) {
 				refreshMpdSwitchStatus();
 			});
 		})(mpdList[i].id);
-		$('#mpdSelectionList').append(listEntry);
+		$('#mpdSelection').append(listEntry);
 	}
 
 	refreshMpdSwitchStatus();
 }
 
 function refreshMpdSwitchStatus() {
-	if($('#mpdSelectionList li').length > 1) {
+	if($('#mpdSelection div').length > 1) {
 		$('#btnMpd').removeClass('inactive');
 		if(getSelectedMpd()>0) {
 			$('#btnMpd').addClass('active');
@@ -478,11 +479,11 @@ function refreshMpdSwitchStatus() {
 }
 
 function showMpdSelection() {
-	$('#mpdSelection').show();
+	$('#mpdSelectionArea').show();
 }
 
 function hideMpdSelection() {
-	$('#mpdSelection').hide();
+	$('#mpdSelectionArea').hide();
 }
 
 function activateMpdSwitch() {
@@ -643,7 +644,7 @@ $(document).ready(function(){
 		}		
 	});
 
-	$('#mpdSelection').click(function() {
+	$('#mpdSelectionOverlay').click(function() {
 		hideMpdSelection();
 	});
 
