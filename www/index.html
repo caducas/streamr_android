@@ -182,7 +182,11 @@
             </div>
         </div>
         <div id="page-playlist" class="page" style="display: none;">
-            <div class="playlist-name-bar" id="playlist-name-bar"><input name="playlist-name" class="input-playlist-name" id="playlist-name" type="text"></div>
+            <div id="playlist-top-bar" class="player-top-menu">
+                <div id="playlist-top-menu-save" class="player-top-menu-entry">
+                    <span class="glyphicon glyphicon-floppy-disk" id="btnSaveCurrentPlaylist"></span>
+                </div>
+            </div>
             <div class="jp-audio">
                 <div class="jp-playlist">
                     <ul class="playlist" id="playlist">
@@ -192,6 +196,21 @@
             </div>
         </div>
         <div id="page-artists-overview" class="page artistsOverview">
+        </div>
+        <div id="page-playlists-overview" class="page playlistsOverview">
+            <div id="newPlaylistPlaceholder" class="playlist">
+                <div>--New Playlist--</div>
+            </div>
+            <div id="newPlaylist" class="page-playlists-new-playlist" style="display:none">
+                <div class="newPlaylistInputDiv">
+                    <input id="newPlaylistInput" class="newPlaylistInput" type="text">
+                </div>
+                <div class="button createPlaylistButton" id="btnCreatePlaylist">
+                    <span class="glyphicon glyphicon-floppy-disk"></span>
+                </div>
+            </div>
+            <div id="page-playlists-list">
+            </div>
         </div>
         <div id="page-artist" class="page">
             <div id="artist-page-headline" class="artist-page-headline">

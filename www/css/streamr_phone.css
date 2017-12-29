@@ -3,6 +3,7 @@
   --bar-fontsize: 3vh;
   --bar-height: 7vh;
   --background: #333;
+  --button-color: #222;
 }
 
 body {
@@ -14,14 +15,19 @@ div.content-with-player-bar {
 	height: 85%;
 }
 
-.input-search {
+.input-search,
+.newPlaylistInput {
 	background-color: #ddd;
-	border: 0;
-	border-radius:18px;
+	border: 2px solid;;
 	padding-left: 20px;
 	padding-right: 20px;
 	width: 100%;
+  height: 100%;
   font-size: 2em;
+}
+
+.button {
+  background-color: var(--button-color);
 }
 
 div.page {
@@ -334,10 +340,10 @@ div.playlist-name-bar {
 
 #page-playlist > div.jp-audio {
   position: absolute;
-  top: 10%;
+  top: var(--bar-height);
   left: 0;
   overflow: scroll;
-  height: 80%;
+  height: 83vh;
   width: 100%;
 }
 
@@ -497,7 +503,40 @@ div.artistsOverview > div.artist > div {
 }
 
 
+/******************************************Playlists Overview***************************************/
 
+div.playlistsOverview > div > div.playlist,
+div.playlistsOverview > div.playlist,
+div.page-playlists-new-playlist {
+  color: #666;
+  height: 10vh;
+  border-bottom: 1px solid #222;
+}
+
+div.playlistsOverview > div > div.playlist > div,
+div.playlistsOverview > div.playlist > div {
+  width: 83%;
+  display: inline-block;
+  padding-left: 3%;
+  font-size: 6vw;
+  margin-top: 3vw;
+}
+
+
+
+.createPlaylistButton {
+  width: 15vw;
+  height: 10vh;
+  text-align: center;
+  vertical-align: middle;
+  display: table-cell;
+}
+
+.newPlaylistInputDiv {
+  display: table-cell;
+  width: 85vw;
+  height: 10vh;
+}
 
 /******************************************Artist Page***************************************/
 

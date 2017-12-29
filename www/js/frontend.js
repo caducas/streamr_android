@@ -242,8 +242,11 @@ function showSearch() {
 }
 
 function showArtistsPage() {
-	console.log('should get artists page');
 	getArtists();
+}
+
+function showPlaylistsPage() {
+	getPlaylists();
 }
 
 function showArtists(data) {
@@ -290,37 +293,37 @@ function showArtists(data) {
 		})(data[i].id);
 
 		$('#page-artists-overview').append(artistEntry);
-
-		// var imageElementDiv = document.createElement('div');
-		// imageElementDiv.className = 'artistsImage';
-		// var imageElement = document.createElement('img');
-		// imageElement.src = encodeURI('http://'+getUrl()+'/media/' + data[i].name + '/artist.jpg');
-		// imageElement.onerror = function() {
-		//   this.onerror=null;
-		//   this.src='';
-		// }
-		// imageElementDiv.appendChild(imageElement);
-
-		// var artistText = document.createElement('span');
-		// if(data[i].name.length > 10) {
-		//   artistText.appendChild(document.createTextNode(data[i].name.substring(0,10)+'...'));
-		// } else {
-		//   artistText.appendChild(document.createTextNode(data[i].name));      
-		// }
-		// imageElementDiv.appendChild(artistText);
-
-		// (function(artist){
-		// imageElementDiv.addEventListener("click", function() {
-		//   getArtist(artist);
-		// }, false);
-		// })(data[i].name);
-
-		// $('#artists').append(imageElementDiv);
 	}
+}
 
+function showPlaylists(data) {
 
-	$('#artistsView').show();
-	$('#btnArtists').addClass('selected');
+	console.log('data:');
+	console.log(data);
+	hideAll();
+	showPlayerBar();
+	$('#page-playlists-overview').show();
+
+	$('#page-playlists-list').empty();
+
+	for(var i in data) {
+
+		var playlistEntry = document.createElement('div');
+		playlistEntry.className = 'playlist';
+
+		console.log(data[i].name);
+		var playlistName = document.createElement('div');
+		playlistName.appendChild(document.createTextNode(data[i].name));
+		playlistEntry.appendChild(playlistName);
+
+		(function(id){
+		playlistEntry.addEventListener("click", function() {
+		  getPlaylistWithId(id);
+		}, false);
+		})(data[i].id);
+
+		$('#page-playlists-list').append(playlistEntry);
+	}
 }
 
 function showArtistPage() {
@@ -360,6 +363,7 @@ function hideAll() {
 	$('#page-search').hide();
 	$('#page-album').hide();
 	$('#page-artists-overview').hide();
+	$('#page-playlists-overview').hide();
 	hideMpdSelection();
 	hideSettingsMenu();
 	hidePlayerBar();
@@ -589,6 +593,10 @@ $(document).ready(function(){
 		showArtistsPage();
 	});
 
+	$('#btnPlaylists').click(function() {
+		showPlaylistsPage();
+	});
+
 	initializePlayer();
 	// showPlayer();
 
@@ -663,6 +671,25 @@ $(document).ready(function(){
 
 	$('#restartApp').click(function() {
 		location.reload();
+	});
+
+	$('#newPlaylistPlaceholder').click(function() {
+		$('#newPlaylistPlaceholder').hide();
+		$('#newPlaylist').show();
+		$('#newPlaylistInput').val('');
+		$('#newPlaylistInput').focus();
+	});
+
+	$('#newPlaylistInput').focusout(function() {
+		if($('#btnCreatePlaylist:hover').length) {
+			return;
+		}
+		$('#newPlaylist').hide();
+		$('#newPlaylistPlaceholder').show();
+	});
+
+	$('#btnCreatePlaylist').click(function() {
+		savePlaylist(0,$('#newPlaylistInput').val(),null);
 	});
 
 	// divimg.addEventListener("DOMAttrModified", function(event) {
