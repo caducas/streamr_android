@@ -15,6 +15,10 @@ div.content-with-player-bar {
 	height: 85%;
 }
 
+div.page-search-input-area {
+  height: var(--bar-height);
+}
+
 .input-search,
 .newPlaylistInput {
 	background-color: #ddd;
@@ -23,7 +27,7 @@ div.content-with-player-bar {
 	padding-right: 20px;
 	width: 100%;
   height: 100%;
-  font-size: 2em;
+  font-size: 4vh;
 }
 
 .button {
@@ -112,6 +116,22 @@ div.player-current-information > div {
 
 div.player-current-information > div.player-current-title {
   font-weight: bold;
+}
+
+
+/*************************************************General List**************************************/
+div.list {
+  background: #222;
+}
+
+div.list-element {
+  background: var(--background);
+  border-bottom: 1px solid #222;
+  height: 7vh;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  font-size: 4vh;
 }
 
 
@@ -430,7 +450,6 @@ div.page-album-cover > div.page-album-songcount {
 }
 
 div.page-album-playlist {
-  z-index: 30;
   position: absolute;
   left: 0%;
   width: 100%;
@@ -452,6 +471,9 @@ div.page-album-playlist > div > div.page-album-song-title {
   padding-left: 5%;
   height: 100%;
   width: 85%;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
 }
 
 div.page-album-playlist > div > div.page-album-song-add {
@@ -477,15 +499,12 @@ div.page-album-playlist > div > div.page-album-song-add > span {
 div.artistsOverview > div.listHeadline {
   color: #aaa;
   font-size: 12vw;
-  background: #222;
   padding-left: 2vw;
   line-height: 13vw;
 }
 
 div.artistsOverview > div.artist {
   color: #666;
-  height: 10%;
-  border-bottom: 1px solid #222;
 }
 
 div.artistsOverview > div.artist > img {
@@ -498,8 +517,7 @@ div.artistsOverview > div.artist > div {
   width: 83%;
   display: inline-block;
   padding-left: 3%;
-  font-size: 6vw;
-  margin-top: 3vw;
+  margin-top: 0.5vh;
 }
 
 
@@ -509,8 +527,11 @@ div.playlistsOverview > div > div.playlist,
 div.playlistsOverview > div.playlist,
 div.page-playlists-new-playlist {
   color: #666;
-  height: 10vh;
   border-bottom: 1px solid #222;
+}
+
+div.page-playlists-new-playlist {
+  height: 7vh;
 }
 
 div.playlistsOverview > div > div.playlist > div,
@@ -518,15 +539,13 @@ div.playlistsOverview > div.playlist > div {
   width: 83%;
   display: inline-block;
   padding-left: 3%;
-  font-size: 6vw;
-  margin-top: 3vw;
+  margin-top: 0.5vh;
 }
 
 
 
 .createPlaylistButton {
   width: 15vw;
-  height: 10vh;
   text-align: center;
   vertical-align: middle;
   display: table-cell;
@@ -535,7 +554,6 @@ div.playlistsOverview > div.playlist > div {
 .newPlaylistInputDiv {
   display: table-cell;
   width: 85vw;
-  height: 10vh;
 }
 
 /******************************************Artist Page***************************************/

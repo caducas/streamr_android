@@ -1,5 +1,6 @@
 <html>
 <head>
+    <meta charset="utf-8"/>
     <link rel="stylesheet" href="css/reset.css">
     <link rel="stylesheet" href="css/bootstrap.min.css">
     <link rel="stylesheet" href="css/streamr_phone.css">
@@ -94,7 +95,9 @@
     </div>
     <div id="streamr" style="display: none">
         <div id="page-search" class="page" style="display: none">
-            <input type="text" name="search" class="input-search" id="search" />
+            <div class="page-search-input-area">
+                <input type="text" name="search" class="input-search" id="search" />
+            </div>
             <div class="search-result-area" id="search-result-area">
             </div>
         </div>
@@ -181,7 +184,7 @@
                 </div>
             </div>
         </div>
-        <div id="page-playlist" class="page" style="display: none;">
+        <div id="page-playlist-current" class="page" style="display: none;">
             <div id="playlist-top-bar" class="player-top-menu">
                 <div id="playlist-top-menu-save" class="player-top-menu-entry">
                     <span class="glyphicon glyphicon-floppy-disk" id="btnSaveCurrentPlaylist"></span>
@@ -195,10 +198,10 @@
                 </div>
             </div>
         </div>
-        <div id="page-artists-overview" class="page artistsOverview">
+        <div id="page-artists-overview" class="page list artistsOverview">
         </div>
         <div id="page-playlists-overview" class="page playlistsOverview">
-            <div id="newPlaylistPlaceholder" class="playlist">
+            <div id="newPlaylistPlaceholder" class="list-element playlist">
                 <div>--New Playlist--</div>
             </div>
             <div id="newPlaylist" class="page-playlists-new-playlist" style="display:none">
@@ -209,7 +212,11 @@
                     <span class="glyphicon glyphicon-floppy-disk"></span>
                 </div>
             </div>
-            <div id="page-playlists-list">
+            <div id="page-playlists-list" class="list">
+            </div>
+        </div>
+        <div id="page-playlist">
+            <div id="playlist" class="playlist">
             </div>
         </div>
         <div id="page-artist" class="page">
@@ -258,6 +265,18 @@
         <div id="mpdSelectionOverlay" class="settingsMenuOverlay">
         </div>
         <div id="mpdSelection" class="settingsMenu">
+        </div>
+    </div>
+    <div id="songOptionsArea" class="settingsMenuArea" style="display: none">
+        <div id="songOptionsOverlay" class="settingsMenuOverlay">
+        </div>
+        <div id="songOptions" class="settingsMenu">
+            <div id="playSongNext">
+                Play next
+            </div>
+            <div id="addSongToPlaylist">
+                Play last
+            </div>
         </div>
     </div>
     <div id="volumeControl" class="volumeControl">
