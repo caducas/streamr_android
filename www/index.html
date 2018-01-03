@@ -1,5 +1,6 @@
 <html>
 <head>
+    <meta charset="utf-8"/>
     <link rel="stylesheet" href="css/reset.css">
     <link rel="stylesheet" href="css/bootstrap.min.css">
     <link rel="stylesheet" href="css/streamr_phone.css">
@@ -94,7 +95,9 @@
     </div>
     <div id="streamr" style="display: none">
         <div id="page-search" class="page" style="display: none">
-            <input type="text" name="search" class="input-search" id="search" />
+            <div class="page-search-input-area">
+                <input type="text" name="search" class="input-search" id="search" />
+            </div>
             <div class="search-result-area" id="search-result-area">
             </div>
         </div>
@@ -103,11 +106,17 @@
                 <div id="player-top-menu-search" class="player-top-menu-entry">
                     <span class="glyphicon glyphicon-search btnSearch" id="btnSearch"></span>
                 </div>
-                <div id="player-top-menu-mpd" class="player-top-menu-entry-center">
-                    <span class="btnMpd inactive" id="btnMpd">MPD</span>
-                </div>
                 <div id="player-top-menu-music" class="player-top-menu-entry">
                     <span class="glyphicon glyphicon-music btnExplore" id="btnExplore"></span>
+                </div>
+                <div id="player-top-menu-playlists" class="player-top-menu-entry">
+                    <span id="btnPlaylists" class="glyphicon glyphicon-list"></span>
+                </div>
+                <div id="player-top-menu-mpd" class="player-top-menu-entry">
+                    <span class="btnMpd inactive" id="btnMpd">MPD</span>
+                </div>
+                <div id="player-top-menu-settings" class="player-top-menu-entry">
+                    <span id="btnSettings" class="glyphicon glyphicon-cog"></span>
                 </div>
             </div>
             <div id="player" class="player">
@@ -175,8 +184,12 @@
                 </div>
             </div>
         </div>
-        <div id="page-playlist" class="page" style="display: none;">
-            <div class="playlist-name-bar" id="playlist-name-bar"><input name="playlist-name" class="input-playlist-name" id="playlist-name" type="text"></div>
+        <div id="page-playlist-current" class="page" style="display: none;">
+            <div id="playlist-top-bar" class="player-top-menu">
+                <div id="playlist-top-menu-save" class="player-top-menu-entry">
+                    <span class="glyphicon glyphicon-floppy-disk" id="btnSaveCurrentPlaylist"></span>
+                </div>
+            </div>
             <div class="jp-audio">
                 <div class="jp-playlist">
                     <ul class="playlist" id="playlist">
@@ -185,7 +198,26 @@
                 </div>
             </div>
         </div>
-        <div id="page-artists-overview" class="page artistsOverview">
+        <div id="page-artists-overview" class="page list artistsOverview">
+        </div>
+        <div id="page-playlists-overview" class="page playlistsOverview">
+            <div id="newPlaylistPlaceholder" class="list-element playlist">
+                <div>--New Playlist--</div>
+            </div>
+            <div id="newPlaylist" class="page-playlists-new-playlist" style="display:none">
+                <div class="newPlaylistInputDiv">
+                    <input id="newPlaylistInput" class="newPlaylistInput" type="text">
+                </div>
+                <div class="button createPlaylistButton" id="btnCreatePlaylist">
+                    <span class="glyphicon glyphicon-floppy-disk"></span>
+                </div>
+            </div>
+            <div id="page-playlists-list" class="list">
+            </div>
+        </div>
+        <div id="page-playlist">
+            <div id="playlist" class="playlist">
+            </div>
         </div>
         <div id="page-artist" class="page">
             <div id="artist-page-headline" class="artist-page-headline">
@@ -217,12 +249,38 @@
     <div id="loadingPage" class="loadingPage">
         <!--<img src="img/reload.gif">-->
     </div>
+    <div id="settingsMenuArea" class="settingsMenuArea" style="display: none">
+        <div id="settingsMenuOverlay" class="settingsMenuOverlay">
+        </div>
+        <div id="settingsMenu" class="settingsMenu">
+            <div id="restartServer">
+                Restart Server
+            </div>
+            <div id="restartApp">
+                Restart App
+            </div>
+        </div>
+    </div>
+    <div id="mpdSelectionArea" class="settingsMenuArea">
+        <div id="mpdSelectionOverlay" class="settingsMenuOverlay">
+        </div>
+        <div id="mpdSelection" class="settingsMenu mpdSelectionList">
+        </div>
+    </div>
+    <div id="songOptionsArea" class="settingsMenuArea" style="display: none">
+        <div id="songOptionsOverlay" class="settingsMenuOverlay">
+        </div>
+        <div id="songOptions" class="settingsMenu">
+            <div id="playSongNext">
+                Play next
+            </div>
+            <div id="addSongToPlaylist">
+                Play last
+            </div>
+        </div>
+    </div>
     <div id="volumeControl" class="volumeControl">
         <div><div id="volumeControlCurrent"></div></div>
-    </div>
-    <div id="mpdSelection" class="modal">
-        <ul id="mpdSelectionList" class="modal-content">
-        </ul>
     </div>
 </div>
 

@@ -3,6 +3,7 @@
   --bar-fontsize: 3vh;
   --bar-height: 7vh;
   --background: #333;
+  --button-color: #222;
 }
 
 body {
@@ -14,14 +15,23 @@ div.content-with-player-bar {
 	height: 85%;
 }
 
-.input-search {
+div.page-search-input-area {
+  height: var(--bar-height);
+}
+
+.input-search,
+.newPlaylistInput {
 	background-color: #ddd;
-	border: 0;
-	border-radius:18px;
+	border: 2px solid;;
 	padding-left: 20px;
 	padding-right: 20px;
 	width: 100%;
-  font-size: 2em;
+  height: 100%;
+  font-size: 4vh;
+}
+
+.button {
+  background-color: var(--button-color);
 }
 
 div.page {
@@ -109,6 +119,22 @@ div.player-current-information > div.player-current-title {
 }
 
 
+/*************************************************General List**************************************/
+div.list {
+  background: #222;
+}
+
+div.list-element {
+  background: var(--background);
+  border-bottom: 1px solid #222;
+  height: 7vh;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  font-size: 4vh;
+}
+
+
 /*************************************************Player Top Menu***********************************/
 
 div.player-top-menu-entry > span,
@@ -120,6 +146,7 @@ div.player-bottom-menu-entry > span {
   height: 100%;
   width: 40%;
   text-align: center;
+  font-weight: bold;
 }
 
 div.player-top-menu-entry-center > span,
@@ -134,13 +161,13 @@ div.player-bottom-menu-entry-center > span {
   text-align: center;
 }
 
-div.player-top-menu-entry-center > span.active,
-div.player-bottom-menu-entry-center > span.active {
+div.player-top-menu-entry > span.active,
+div.player-bottom-menu-entry > span.active {
   color: #00F;
 }
 
-div.player-top-menu-entry-center > span.inactive,
-div.player-bottom-menu-entry-center > span.inactive {
+div.player-top-menu-entry > span.inactive,
+div.player-bottom-menu-entry > span.inactive {
   color: #222;
 }
 
@@ -152,7 +179,7 @@ div.player-top-menu {
 }
 
 div.player-top-menu > div.player-top-menu-entry {
-  width: 39vw;
+  width: 19vw;
   height: 50%;
   display: inline-block;
 }
@@ -333,10 +360,10 @@ div.playlist-name-bar {
 
 #page-playlist > div.jp-audio {
   position: absolute;
-  top: 10%;
+  top: var(--bar-height);
   left: 0;
   overflow: scroll;
-  height: 80%;
+  height: 83vh;
   width: 100%;
 }
 
@@ -423,7 +450,6 @@ div.page-album-cover > div.page-album-songcount {
 }
 
 div.page-album-playlist {
-  z-index: 30;
   position: absolute;
   left: 0%;
   width: 100%;
@@ -445,6 +471,9 @@ div.page-album-playlist > div > div.page-album-song-title {
   padding-left: 5%;
   height: 100%;
   width: 85%;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
 }
 
 div.page-album-playlist > div > div.page-album-song-add {
@@ -470,15 +499,12 @@ div.page-album-playlist > div > div.page-album-song-add > span {
 div.artistsOverview > div.listHeadline {
   color: #aaa;
   font-size: 12vw;
-  background: #222;
   padding-left: 2vw;
   line-height: 13vw;
 }
 
 div.artistsOverview > div.artist {
   color: #666;
-  height: 10%;
-  border-bottom: 1px solid #222;
 }
 
 div.artistsOverview > div.artist > img {
@@ -491,12 +517,44 @@ div.artistsOverview > div.artist > div {
   width: 83%;
   display: inline-block;
   padding-left: 3%;
-  font-size: 6vw;
-  margin-top: 3vw;
+  margin-top: 0.5vh;
+}
+
+
+/******************************************Playlists Overview***************************************/
+
+div.playlistsOverview > div > div.playlist,
+div.playlistsOverview > div.playlist,
+div.page-playlists-new-playlist {
+  color: #666;
+  border-bottom: 1px solid #222;
+}
+
+div.page-playlists-new-playlist {
+  height: 7vh;
+}
+
+div.playlistsOverview > div > div.playlist > div,
+div.playlistsOverview > div.playlist > div {
+  width: 83%;
+  display: inline-block;
+  padding-left: 3%;
+  margin-top: 0.5vh;
 }
 
 
 
+.createPlaylistButton {
+  width: 15vw;
+  text-align: center;
+  vertical-align: middle;
+  display: table-cell;
+}
+
+.newPlaylistInputDiv {
+  display: table-cell;
+  width: 85vw;
+}
 
 /******************************************Artist Page***************************************/
 
@@ -588,4 +646,41 @@ div.volumeControl > div > div {
   width: 80%;
   background: rgba(255, 255, 255, 0.4);
   color: #333;
+}
+
+/**************************************Settings Menu************************************/
+
+.settingsMenuOverlay {
+  background-color: rgba(0,0,0,0.8);
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  left: 0;
+  top: 0;
+}
+
+.settingsMenu {
+  background-color: #333;
+  width: 80vw;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 20%;
+}
+
+.settingsMenu > div {
+  color: #888;
+  font-weight: bold;
+  border-bottom: 1px solid #222;
+  padding: 2vh 2vw 2vh 5vw;
+}
+
+/************************************MPD Selection Menu*********************************/
+
+.mpdSelectionList > div {
+  border-left: 5px solid #222;
+}
+
+.mpdSelectionList > div.active {
+  border-left: 5px solid #0f0;
 }

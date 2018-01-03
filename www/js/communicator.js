@@ -423,3 +423,7 @@ function sendDenyMpdForUser(mpdId, id) {
 function savePlaylist(id, name, playlist) {
 	socket.emit('savePlaylist', id, name, playlist);
 }
+
+function sendRestartServer() {
+	socket.emit('restartServer');
+}

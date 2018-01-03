@@ -1,7 +1,7 @@
 
 
 $(document).ready(function(){
-  checkAppCompatibility();
+  // checkAppCompatibility();
   // testConnection();
   // connectWebsockets();
 	// connectWebsocket();
@@ -15,13 +15,6 @@ $(document).ready(function(){
 	// 	// addToPlaylist(01, "Testsong", "Testalbum", "Volbeat", "", "");
 	// },3000);
 
-
-  var form = document.getElementById('manageAlbumsUploadSong');
-  if (form.attachEvent) {
-      form.attachEvent("submit", processForm);
-  } else {
-      form.addEventListener("submit", processForm);
-  }
 });
 
 function autocompleteSelected(uiItem) {
@@ -101,6 +94,10 @@ function doMpdAction(mpdAction) {
 
 function errorOccured(errorMessage) {
   alert(errorMessage);
+}
+
+function restartServer() {
+  sendRestartServer();
 }
 
 function processForm(e) {

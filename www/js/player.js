@@ -229,15 +229,18 @@ function audioControlUnmute() {
 	$('#jquery_jplayer_1').jPlayer("unmute");
 }
 
+function addToPlaylistAsNext(id, title, album, artist, path, flac) {
+    addToPlaylist(id, title, album, artist, path, flac, playlist.current);
+}
 
-function addToPlaylist(id, title, album, artist, path, flac, init) {
+function addToPlaylist(id, title, album, artist, path, flac, position, init) {
 
-  // var hash = generateHash();
-  console.log('adding song to playlist with id:'+id+' title:'+title+' album:'+album+' artist:'+artist+' path:'+path+' flac:'+flac);
+    // var hash = generateHash();
+    console.log('adding song to playlist with id:'+id+' title:'+title+' album:'+album+' artist:'+artist+' path:'+path+' flac:'+flac);
 
-  var url = "http://"+getUrl();
+    var url = "http://"+getUrl();
 
-  var song = {
+    var song = {
     id:id,
     title:title,
     artist:artist,
@@ -246,20 +249,24 @@ function addToPlaylist(id, title, album, artist, path, flac, init) {
     path:path,
     isFlac:flac,
     poster:url+"/media/"+artist+"/"+album+"/albumMedium.jpg"
-  }
+    }
 
-  playlist.add(song);
+    playlist.add(song);
 
-  if(init) {
-  	return;
-  }
+    if(init) {
+    	return;
+    }
 	console.log('will add song to mpd playlist');
 	doMpdAction(function() {
 		addSongToPlaylistMpd(song);
-	});  	
+	});
 	if(playlist.playlist.length===0) {
 		playStream();
 		pauseStream();
+    }
+
+    if(typeof position !== 'undefined') {
+        changePositionInPlaylist(playlist.playlist.length,playlist.current+1);
     }
 }
 
@@ -591,7 +598,7 @@ function initMpd(mpdPlaylist) {
 		console.log('should add playlist now');
 		console.log(mpdPlaylist);
 		for(var songcount in mpdPlaylist) {
-			addToPlaylist(mpdPlaylist[songcount].id, mpdPlaylist[songcount].title,mpdPlaylist[songcount].album,mpdPlaylist[songcount].artist,mpdPlaylist[songcount].storagePath,mpdPlaylist[songcount].flac, true);
+			addToPlaylist(mpdPlaylist[songcount].id, mpdPlaylist[songcount].title,mpdPlaylist[songcount].album,mpdPlaylist[songcount].artist,mpdPlaylist[songcount].storagePath,mpdPlaylist[songcount].flac, null, true);
 		}
 		modifyPlaylistDesign();
 	}

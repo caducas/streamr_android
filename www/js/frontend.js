@@ -1,4 +1,10 @@
 var volumeBarShowDate;
+var songOptionsSongData = {
+	id:undefined,
+	title:undefined,
+	artist:undefined,
+	album:undefined
+};
 
 function showStreamr() {
 	hideAll();
@@ -204,10 +210,12 @@ function showAlbum(data) {
 
 		(function(id, title, album, artist){
 			divAddSongToPlaylist.addEventListener("click", function() {
-				console.log('will open album with id '+id);
-				// addToPlaylist(id,);
-				addToPlaylist(id,title,album,artist,null);
-	        	modifyPlaylistDesign();
+	        	songOptionsSongData.id = id;
+	        	songOptionsSongData.title = title;
+	        	songOptionsSongData.album = album;
+	        	songOptionsSongData.artist = artist;
+	        	showSongOptions();
+
 			});
 		})(data.songs[i].id,data.songs[i].title,data.albumName,data.artistName);
 
@@ -226,7 +234,7 @@ function showAlbum(data) {
 
 function showPlaylist() {
 	hideAll();
-    $('#page-playlist').show();
+    $('#page-playlist-current').show();
     showPlayerBar();
 }
 
@@ -239,11 +247,15 @@ function showSearch() {
 	hideAll();
 	showPlayerBar();
 	$('#page-search').show();
+	$('#search').focus();
 }
 
 function showArtistsPage() {
-	console.log('should get artists page');
 	getArtists();
+}
+
+function showPlaylistsPage() {
+	getPlaylists();
 }
 
 function showArtists(data) {
@@ -268,7 +280,7 @@ function showArtists(data) {
 		}
 
 		var artistEntry = document.createElement('div');
-		artistEntry.className = 'artist';
+		artistEntry.className = 'list-element artist';
 
 		var imageElement = document.createElement('img');
 		imageElement.src = encodeURI('http://'+getUrl()+'/media/' + data[i].name + '/artistSmall.jpg');
@@ -290,38 +302,39 @@ function showArtists(data) {
 		})(data[i].id);
 
 		$('#page-artists-overview').append(artistEntry);
-
-		// var imageElementDiv = document.createElement('div');
-		// imageElementDiv.className = 'artistsImage';
-		// var imageElement = document.createElement('img');
-		// imageElement.src = encodeURI('http://'+getUrl()+'/media/' + data[i].name + '/artist.jpg');
-		// imageElement.onerror = function() {
-		//   this.onerror=null;
-		//   this.src='';
-		// }
-		// imageElementDiv.appendChild(imageElement);
-
-		// var artistText = document.createElement('span');
-		// if(data[i].name.length > 10) {
-		//   artistText.appendChild(document.createTextNode(data[i].name.substring(0,10)+'...'));
-		// } else {
-		//   artistText.appendChild(document.createTextNode(data[i].name));      
-		// }
-		// imageElementDiv.appendChild(artistText);
-
-		// (function(artist){
-		// imageElementDiv.addEventListener("click", function() {
-		//   getArtist(artist);
-		// }, false);
-		// })(data[i].name);
-
-		// $('#artists').append(imageElementDiv);
 	}
-
-
-	$('#artistsView').show();
-	$('#btnArtists').addClass('selected');
 }
+
+function showPlaylists(data) {
+
+	console.log('data:');
+	console.log(data);
+	hideAll();
+	showPlayerBar();
+	$('#page-playlists-overview').show();
+
+	$('#page-playlists-list').empty();
+
+	for(var i in data) {
+
+		var playlistEntry = document.createElement('div');
+		playlistEntry.className = 'list-element playlist';
+
+		console.log(data[i].name);
+		var playlistName = document.createElement('div');
+		playlistName.appendChild(document.createTextNode(data[i].name));
+		playlistEntry.appendChild(playlistName);
+
+		(function(id){
+		playlistEntry.addEventListener("click", function() {
+		  getPlaylistWithId(id);
+		}, false);
+		})(data[i].id);
+
+		$('#page-playlists-list').append(playlistEntry);
+	}
+}
+
 
 function showArtistPage() {
 	hideAll();
@@ -343,15 +356,35 @@ function hidePlayerBar() {
 	$('#player-bar').hide();	
 }
 
+function showSettingsMenu() {
+	$('#settingsMenuArea').show();
+}
+
+function hideSettingsMenu() {
+	$('#settingsMenuArea').hide();
+}
+
+function showSongOptions() {
+	$('#songOptionsArea').show();
+}
+
+function hideSongOptions() {
+	$('#songOptionsArea').hide();
+}
+
 function hideAll() {
 	$('#loginArea').hide();
 	$('#appSettingsArea').hide();
     $('#page-player').hide();
-	$('#page-playlist').hide();
+	$('#page-playlist-current').hide();
 	$('#page-artist').hide();
 	$('#page-search').hide();
 	$('#page-album').hide();
 	$('#page-artists-overview').hide();
+	$('#page-playlists-overview').hide();
+	hideMpdSelection();
+	hideSettingsMenu();
+	hideSongOptions();
 	hidePlayerBar();
 }
 
@@ -424,31 +457,36 @@ function setVolumeBar(value) {
 
 function setMpdList(mpdList) {
 	console.log(mpdList);
-	$('#mpdSelectionList').empty();
+	$('#mpdSelection').empty();
 	mpdList.unshift({
 		id: 0,
 		name: 'Stream'
 	});
+
+	$('#mpdSelection').data('test','foo');
 	
 	for(var i in mpdList) {
-		console.log(mpdList[i]);
-		var listEntry = document.createElement('li');
-		listEntry.appendChild(document.createTextNode(mpdList[i].name));
+		var listEntry = $('<div></div>');
+		listEntry.append(mpdList[i].name);
+		listEntry.data('mpdId',mpdList[i].id);
+
 		(function(id){
-			listEntry.addEventListener("click", function() {
+			listEntry.on("click", function() {
 				selectOutputDevice(id);
 				hideMpdSelection();
 				refreshMpdSwitchStatus();
+				highlightActiveMpdSelection();
 			});
 		})(mpdList[i].id);
-		$('#mpdSelectionList').append(listEntry);
+		$('#mpdSelection').append(listEntry);
 	}
 
 	refreshMpdSwitchStatus();
+	highlightActiveMpdSelection();
 }
 
 function refreshMpdSwitchStatus() {
-	if($('#mpdSelectionList li').length > 1) {
+	if($('#mpdSelection div').length > 1) {
 		$('#btnMpd').removeClass('inactive');
 		if(getSelectedMpd()>0) {
 			$('#btnMpd').addClass('active');
@@ -459,8 +497,6 @@ function refreshMpdSwitchStatus() {
 		$('#btnMpd').addClass('inactive');		
 	}
 
-	console.log(getSelectedMpd());
-
 	if(getSelectedMpd()>0) {
 		$('#btnMpd').addClass('active');	
 	} else {
@@ -468,12 +504,22 @@ function refreshMpdSwitchStatus() {
 	}
 }
 
+function highlightActiveMpdSelection() {
+	$('#mpdSelection').children('div').each(function() {
+		if($(this).data('mpdId') == getSelectedMpd()) {
+			$(this).addClass('active');
+		} else {
+			$(this).removeClass('active');
+		}
+	});
+}
+
 function showMpdSelection() {
-	$('#mpdSelection').show();
+	$('#mpdSelectionArea').show();
 }
 
 function hideMpdSelection() {
-	$('#mpdSelection').hide();
+	$('#mpdSelectionArea').hide();
 }
 
 function activateMpdSwitch() {
@@ -579,6 +625,10 @@ $(document).ready(function(){
 		showArtistsPage();
 	});
 
+	$('#btnPlaylists').click(function() {
+		showPlaylistsPage();
+	});
+
 	initializePlayer();
 	// showPlayer();
 
@@ -634,8 +684,60 @@ $(document).ready(function(){
 		}		
 	});
 
-	$('#mpdSelection').click(function() {
+	$('#mpdSelectionOverlay').click(function() {
 		hideMpdSelection();
+	});
+
+	$('#btnSettings').click(function() {
+		showSettingsMenu();
+	});
+
+	$('#settingsMenuOverlay').click(function() {
+		hideSettingsMenu();
+	});
+
+	$('#songOptionsOverlay').click(function() {
+		hideSongOptions();
+	});
+
+	$('#restartServer').click(function() {
+		restartServer();
+		location.reload();
+	});
+
+	$('#restartApp').click(function() {
+		location.reload();
+	});
+
+	$('#newPlaylistPlaceholder').click(function() {
+		$('#newPlaylistPlaceholder').hide();
+		$('#newPlaylist').show();
+		$('#newPlaylistInput').val('');
+		$('#newPlaylistInput').focus();
+	});
+
+	$('#newPlaylistInput').focusout(function() {
+		if($('#btnCreatePlaylist:hover').length) {
+			return;
+		}
+		$('#newPlaylist').hide();
+		$('#newPlaylistPlaceholder').show();
+	});
+
+	$('#btnCreatePlaylist').click(function() {
+		savePlaylist(0,$('#newPlaylistInput').val(),null);
+	});
+
+	$('#addSongToPlaylist').click(function() {
+		addToPlaylist(songOptionsSongData.id,songOptionsSongData.title,songOptionsSongData.album,songOptionsSongData.artist,null);
+    	modifyPlaylistDesign();
+    	hideSongOptions();
+	});
+
+	$('#playSongNext').click(function() {
+		addToPlaylistAsNext(songOptionsSongData.id,songOptionsSongData.title,songOptionsSongData.album,songOptionsSongData.artist,null);
+    	modifyPlaylistDesign();
+    	hideSongOptions();
 	});
 
 	// divimg.addEventListener("DOMAttrModified", function(event) {
@@ -643,7 +745,5 @@ $(document).ready(function(){
 	//        // The `src` attribute changed!
 	//     }
 	// });
-
-
 });
 
