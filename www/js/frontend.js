@@ -462,22 +462,27 @@ function setMpdList(mpdList) {
 		id: 0,
 		name: 'Stream'
 	});
+
+	$('#mpdSelection').data('test','foo');
 	
 	for(var i in mpdList) {
-		console.log(mpdList[i]);
-		var listEntry = document.createElement('div');
-		listEntry.appendChild(document.createTextNode(mpdList[i].name));
+		var listEntry = $('<div></div>');
+		listEntry.append(mpdList[i].name);
+		listEntry.data('mpdId',mpdList[i].id);
+
 		(function(id){
-			listEntry.addEventListener("click", function() {
+			listEntry.on("click", function() {
 				selectOutputDevice(id);
 				hideMpdSelection();
 				refreshMpdSwitchStatus();
+				highlightActiveMpdSelection();
 			});
 		})(mpdList[i].id);
 		$('#mpdSelection').append(listEntry);
 	}
 
 	refreshMpdSwitchStatus();
+	highlightActiveMpdSelection();
 }
 
 function refreshMpdSwitchStatus() {
@@ -492,13 +497,21 @@ function refreshMpdSwitchStatus() {
 		$('#btnMpd').addClass('inactive');		
 	}
 
-	console.log(getSelectedMpd());
-
 	if(getSelectedMpd()>0) {
 		$('#btnMpd').addClass('active');	
 	} else {
 		$('#btnMpd').removeClass('active');
 	}
+}
+
+function highlightActiveMpdSelection() {
+	$('#mpdSelection').children('div').each(function() {
+		if($(this).data('mpdId') == getSelectedMpd()) {
+			$(this).addClass('active');
+		} else {
+			$(this).removeClass('active');
+		}
+	});
 }
 
 function showMpdSelection() {
@@ -732,7 +745,5 @@ $(document).ready(function(){
 	//        // The `src` attribute changed!
 	//     }
 	// });
-
-
 });
 

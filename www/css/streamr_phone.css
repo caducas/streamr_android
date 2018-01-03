@@ -674,3 +674,13 @@ div.volumeControl > div > div {
   border-bottom: 1px solid #222;
   padding: 2vh 2vw 2vh 5vw;
 }
+
+/************************************MPD Selection Menu*********************************/
+
+.mpdSelectionList > div {
+  border-left: 5px solid #222;
+}
+
+.mpdSelectionList > div.active {
+  border-left: 5px solid #0f0;
+}
