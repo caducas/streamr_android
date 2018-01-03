@@ -16,31 +16,36 @@ function showStreamr() {
 
 function setAutocompleteResult(resultList) {
 	console.log(resultList);
-	// console.log($("search-result-area"));
 	$("#search-result-area").empty();
 
-	var divArtists = document.createElement('div');
-	var divAlbums = document.createElement('div');
-	var divSongs = document.createElement('div');
+	var divArtists = $('<div></div>');
+	var divAlbums = $('<div></div>');
+	var divSongs = $('<div></div>');
 
-	divArtists.appendChild(document.createTextNode("Artists"));
-	divAlbums.appendChild(document.createTextNode("Albums"));
-	divSongs.appendChild(document.createTextNode("Songs"));
+	var divArtistsHeadline = $('<div></div>').append('Artists');
+	var divAlbumsHeadline = $('<div></div>').append('Albums');
+	var divSongsHeadline = $('<div></div>').append('Songs');
+
+	divArtists.append(divArtistsHeadline);
+	divAlbums.append(divAlbumsHeadline);
+	divSongs.append(divSongsHeadline);
 
 	for(var i in resultList) {
-		console.log(resultList[i]);
-		var divEntry = document.createElement('div');
-		var divEntryImage = document.createElement('img');
+
+		var divEntry = $('<div></div>');
+		var divEntryImage = $('<img>');
+
 		var imagePath="http://"+getUrl()+"/media/"+resultList[i].imagepath+"/";
+
 		if(resultList[i].category=="Artists") {
-			divEntryImage.src = imagePath+"artistSmall.jpg"
+			divEntryImage.attr('src', imagePath+"artistSmall.jpg");
 		} else {
-			divEntryImage.src = imagePath+"albumSmall.jpg"			
+			divEntryImage.attr('src', imagePath+"albumSmall.jpg");
 		}
 
-		divEntry.appendChild(divEntryImage);
+		divEntry.append(divEntryImage);
 		(function(category, id){
-			divEntry.addEventListener("click", function() {
+			divEntry.on("click", function() {
 				console.log('will search for '+category+' with id '+id);
 				if(category == "Albums") {
 					getAlbum(id);
@@ -56,19 +61,16 @@ function setAutocompleteResult(resultList) {
 				}
 			});
 		})(resultList[i].category, resultList[i].id);
-		divEntry.appendChild(document.createTextNode(resultList[i].label));
-		if(resultList[i].category=="Artists") divArtists.appendChild(divEntry);
-		if(resultList[i].category=="Albums") divAlbums.appendChild(divEntry);
-		if(resultList[i].category=="Songs") divSongs.appendChild(divEntry);
+		divEntry.append(resultList[i].label);
+		if(resultList[i].category=="Artists") divArtists.append(divEntry);
+		if(resultList[i].category=="Albums") divAlbums.append(divEntry);
+		if(resultList[i].category=="Songs") divSongs.append(divEntry);
 
 	}
 
-	console.log(divArtists);
 	$("#search-result-area").append(divArtists);
 	$("#search-result-area").append(divAlbums);
 	$("#search-result-area").append(divSongs);
-	// console.log($("search-result-area"));
-
 }
 
 function frontendPlay() {

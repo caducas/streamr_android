@@ -4,9 +4,12 @@
   --bar-fontsize: 3vh;
   --bar-height: 7vh;
   --background: #333;
+  --line-color: #222;
   --button-color: #222;
   --font-color: #888;
+  --headline-color: #AAA;
   --font-color-lowlight: #222;
+  --line-height: 7vh;
 }
 
 body {
@@ -46,24 +49,37 @@ div.page-full {
 }
 
 div.search-result-area {
-  font-size: 1.4em;
+  font-size: 4vh;
 }
 
 div.search-result-area > div {
   color: #888;
 }
 
+div.search-result-area > div.listHeadline {
+  color: #aaa;
+  padding-left: 2vw;
+  background: var(--line-color);
+}
+
 div.search-result-area > div > div {
-  border-bottom: 0.1em solid #333;
+  padding-left: 2vw;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  border-bottom: 1px solid var(--line-color);
 }
 
 div.search-result-area > div > div:first-child {
-  border-top: 0.1em solid;
+  background: var(--line-color);
+  color: var(--headline-color);
 }
 
 div.search-result-area > div > div > img {
-  height: 1.5em;
-  width: 1.5em;
+  height: var(--line-height);
+  width: var(--line-height);
+  margin-left: -2vw;
+  margin-right: 2vw;
 }
 
 div.player {
