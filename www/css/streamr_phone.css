@@ -255,6 +255,7 @@ div.player_bar {
   top: 90%;
   /* left: 10px; */
   width: 100%;
+  z-index: 100;
 }
 
 div.player_bar > div.player-bar-image-area {
@@ -522,6 +523,17 @@ div.artistsOverview > div.artist > div {
 
 
 /******************************************Playlists Overview***************************************/
+
+div.playlistsOverview {
+  display: block;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 50;
+  background: var(--background);
+}
 
 div.playlistsOverview > div > div.playlist,
 div.playlistsOverview > div.playlist,

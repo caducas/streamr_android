@@ -5,6 +5,7 @@ var songOptionsSongData = {
 	artist:undefined,
 	album:undefined
 };
+var playlistSelectionFunction;
 
 function showStreamr() {
 	hideAll();
@@ -258,6 +259,10 @@ function showPlaylistsPage() {
 	getPlaylists();
 }
 
+function hidePlaylistsPage() {
+	$('#page-playlists-overview').hide();
+}
+
 function showArtists(data) {
 	hideAll();
 	showPlayerBar();
@@ -309,8 +314,10 @@ function showPlaylists(data) {
 
 	console.log('data:');
 	console.log(data);
-	hideAll();
-	showPlayerBar();
+	if($('#page-player').is(':visible')) {
+		hideAll();
+		showPlayerBar();
+	}
 	$('#page-playlists-overview').show();
 
 	$('#page-playlists-list').empty();
@@ -327,7 +334,8 @@ function showPlaylists(data) {
 
 		(function(id){
 		playlistEntry.addEventListener("click", function() {
-		  getPlaylistWithId(id);
+			playlistSelectionFunction(id);
+		  	// getPlaylistWithId(id);
 		}, false);
 		})(data[i].id);
 
@@ -626,6 +634,7 @@ $(document).ready(function(){
 	});
 
 	$('#btnPlaylists').click(function() {
+		playlistSelectionFunction = getPlaylist;
 		showPlaylistsPage();
 	});
 
@@ -728,7 +737,7 @@ $(document).ready(function(){
 		savePlaylist(0,$('#newPlaylistInput').val(),null);
 	});
 
-	$('#addSongToPlaylist').click(function() {
+	$('#addSongToCurrentPlaylist').click(function() {
 		addToPlaylist(songOptionsSongData.id,songOptionsSongData.title,songOptionsSongData.album,songOptionsSongData.artist,null);
     	modifyPlaylistDesign();
     	hideSongOptions();
@@ -738,6 +747,15 @@ $(document).ready(function(){
 		addToPlaylistAsNext(songOptionsSongData.id,songOptionsSongData.title,songOptionsSongData.album,songOptionsSongData.artist,null);
     	modifyPlaylistDesign();
     	hideSongOptions();
+	});
+
+	$('#addSongToPlaylist').click(function() {
+		playlistSelectionFunction = function(id) {
+			console.log('will add song with id:'+songOptionsSongData.id+'to playlist with id:'+id);
+			sendAddSongToPlaylist(songOptionsSongData.id, id);
+		};
+		hideSongOptions();
+		showPlaylistsPage();
 	});
 
 	// divimg.addEventListener("DOMAttrModified", function(event) {

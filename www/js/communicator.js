@@ -157,6 +157,10 @@ function connectWebsocket() {
 		setMpdNotAllowedUserList(data);
 	});
 
+	socket.on('addSongToPlaylistSuccess', function() {
+		hidePlaylistsPage();
+	});
+
 	socket.on('errorMessage', function(errormessage) {
 		errorAlert(errormessage);
 	});
@@ -364,6 +368,10 @@ function sendResetPassword(id, password) {
 
 function sendDeleteUser(id) {
 	socket.emit('deleteUser', id);
+}
+
+function sendAddSongToPlaylist(songId, playlistId) {
+	socket.emit('addSongToPlaylist', songId, playlistId);
 }
 
 function getListOfArtistsForSongOrder() {
