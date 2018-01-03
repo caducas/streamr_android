@@ -480,9 +480,16 @@ function setMpdList(mpdList) {
 		var listEntry = $('<div></div>');
 		listEntry.append(mpdList[i].name);
 		listEntry.data('mpdId',mpdList[i].id);
+		if(mpdList[i].connected == false) {
+			listEntry.addClass('disabled');
+		}
 
 		(function(id){
-			listEntry.on("click", function() {
+			listEntry.on("click", function(event) {
+				if( $(event.target).hasClass('disabled')) {
+					connectToMpdClient(id);
+					return;			
+				}
 				selectOutputDevice(id);
 				hideMpdSelection();
 				refreshMpdSwitchStatus();
@@ -497,16 +504,6 @@ function setMpdList(mpdList) {
 }
 
 function refreshMpdSwitchStatus() {
-	if($('#mpdSelection div').length > 1) {
-		$('#btnMpd').removeClass('inactive');
-		if(getSelectedMpd()>0) {
-			$('#btnMpd').addClass('active');
-		} else {
-			$('#btnMpd').removeClass('active');
-		}
-	} else {
-		$('#btnMpd').addClass('inactive');		
-	}
 
 	if(getSelectedMpd()>0) {
 		$('#btnMpd').addClass('active');	
@@ -666,22 +663,7 @@ $(document).ready(function(){
 	});
 
 	$('#btnMpd').click(function() {
-		console.log('should connect MPD clients');
-		connectToMpdClients();
-
-		if(!$('#btnMpd').hasClass('inactive')) {
-			showMpdSelection();
-		}
-		/*
-		if($('#btnMpd').hasClass('active')) {
-			console.log('active');
-			$('#btnMpd').removeClass('active');
-			deactivateMpd();
-		} else {
-			console.log('not active');
-			$('#btnMpd').addClass('active');
-			activateMpd();
-		};*/
+		showMpdSelection();
 	});
 
 	$('#btnMute').click(function() {

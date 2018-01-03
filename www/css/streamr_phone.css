@@ -1,9 +1,12 @@
 :root {
   --bar-color: #000;
+  --bar-font-color: #FFF;
   --bar-fontsize: 3vh;
   --bar-height: 7vh;
   --background: #333;
   --button-color: #222;
+  --font-color: #888;
+  --font-color-lowlight: #222;
 }
 
 body {
@@ -161,16 +164,6 @@ div.player-bottom-menu-entry-center > span {
   text-align: center;
 }
 
-div.player-top-menu-entry > span.active,
-div.player-bottom-menu-entry > span.active {
-  color: #00F;
-}
-
-div.player-top-menu-entry > span.inactive,
-div.player-bottom-menu-entry > span.inactive {
-  color: #222;
-}
-
 div.player-top-menu {
   width: 100%;
   height: var(--bar-height);
@@ -188,6 +181,15 @@ div.player-top-menu > div.player-top-menu-entry-center {
   width: 19vw;
   height: 50%;
   display: inline-block;
+}
+
+div.player-top-menu-entry > span.btnMpd {
+  color: var(--font-color-lowlight);  
+}
+
+div.player-top-menu-entry > span.active,
+div.player-top-menu-entry > span.active {
+  color: var(--bar-font-color);
 }
 
 /**********************************************Player Bottom Menu***********************************/
@@ -695,4 +697,8 @@ div.volumeControl > div > div {
 
 .mpdSelectionList > div.active {
   border-left: 5px solid #0f0;
+}
+
+.mpdSelectionList > div.disabled {
+  color: var(--font-color-lowlight);
 }

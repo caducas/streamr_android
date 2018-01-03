@@ -292,8 +292,16 @@ function unlistenToMpd() {
 	socket.emit('unlistenToMpd');
 }
 
+function connectToMpdClient(id) {
+	socket.emit('connectToMpdClient', id);
+}
+
 function connectToMpdClients() {
 	socket.emit('connectToMpdClients');
+}
+
+function getMpdList() {
+	socket.emit('getMpdList');
 }
 
 function login(username, password, cb) {
