@@ -261,6 +261,9 @@ function showPlaylistsPage() {
 
 function hidePlaylistsPage() {
 	$('#page-playlists-overview').hide();
+	if($('#page-player').is(':visible')) {
+		hidePlayerBar();
+	}
 }
 
 function showArtists(data) {
@@ -315,7 +318,7 @@ function showPlaylists(data) {
 	console.log('data:');
 	console.log(data);
 	if($('#page-player').is(':visible')) {
-		hideAll();
+		// hideAll();
 		showPlayerBar();
 	}
 	$('#page-playlists-overview').show();
