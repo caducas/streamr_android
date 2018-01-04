@@ -230,9 +230,13 @@ function showAlbum(data) {
 		// // divAddSongToPlaylist.appendChild(document.createElement('span'))
 		// divAddSongToPlaylist.innerHTML = '<span class="glyphicon glyphicon-play"></span>';
 	}
+
 	console.log('should show album page');
 	console.log(data);
 	showAlbumPage();
+
+	// strangefully the scrolltop set function is only working after value was retrieved (with get function)
+	if($('#page-album-playlist').scrollTop()>0)	$('#page-album-playlist').scrollTop(0);
 }
 
 function showPlaylist() {
