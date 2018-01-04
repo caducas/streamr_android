@@ -35,6 +35,11 @@ function loginSuccess() {
   // getNews();
 }
 
+function loginFailed() {
+  showLoginArea();
+  hideLoading();
+}
+
 function storeLoginCredentials(username, password) {
 	configHelper.setUsername(username);
 	configHelper.setPassword(password);

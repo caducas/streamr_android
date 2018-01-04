@@ -401,6 +401,18 @@ function hideAll() {
 	hidePlayerBar();
 }
 
+function showLoginArea() {
+	$('#loginArea').show();	
+};
+
+function showLoading() {
+	$('#loadingPage').show();
+}
+
+function hideLoading() {
+	$('#loadingPage').hide();
+}
+
 function onDeviceReady(){
     document.addEventListener("backbutton", onBackKeyDown, false);
 	document.addEventListener("resume", onResume, false);

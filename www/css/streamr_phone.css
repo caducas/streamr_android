@@ -4,7 +4,7 @@
   --bar-fontsize: 3vh;
   --bar-height: 7vh;
   --background: #333;
-  --line-color: #222;
+  --line-background: #222;
   --button-color: #222;
   --font-color: #888;
   --headline-color: #AAA;
@@ -14,6 +14,7 @@
 
 body {
   background: #333;
+  color: var(--font-color);
   /*font-size: 2em;*/
 }
 
@@ -59,7 +60,7 @@ div.search-result-area > div {
 div.search-result-area > div.listHeadline {
   color: #aaa;
   padding-left: 2vw;
-  background: var(--line-color);
+  background: var(--line-background);
 }
 
 div.search-result-area > div > div {
@@ -67,11 +68,11 @@ div.search-result-area > div > div {
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
-  border-bottom: 1px solid var(--line-color);
+  border-bottom: 1px solid var(--line-background);
 }
 
 div.search-result-area > div > div:first-child {
-  background: var(--line-color);
+  background: var(--line-background);
   color: var(--headline-color);
 }
 
@@ -389,7 +390,7 @@ div.playlist-name-bar {
 /***********************************************Album List***************************************/
 
 div.album-list > div.row {
-  background: #000;
+  background: var(--background);
   border-bottom: 1px solid #111;
   margin-left: 0;
   margin-right: 0;
@@ -591,7 +592,7 @@ div.playlistsOverview > div.playlist > div {
 
 div.artist-page-headline {
   /*display: table;*/
-  background: rgb(17, 17, 17) none repeat scroll 0% 0%;
+  background: var(--line-background) none repeat scroll 0% 0%;
 }
 
 div.artist-page-headline > div {
@@ -619,7 +620,7 @@ div.artist-page-headline > div.artist-page-artist-name {
 div.loadingPage {
   background: url(../img/reload.gif) no-repeat center center;
   background-size: 20vw 20vw;
-  background-color: #222;
+  background-color: var(--background);
   width: 100%;
   height: 100%;
   position: absolute;
