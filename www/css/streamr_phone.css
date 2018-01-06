@@ -397,7 +397,7 @@ div.album-list > div.row {
 }
 
 div.album-list > div.row > div.albumImage {
-  width: 15%;
+  width: 15vw;
   display: inline-block;
   vertical-align: top;
 }
@@ -408,15 +408,15 @@ div.album-list > div.row > div.albumImage > img {
 }
 
 div.album-list > div.row > div.albumInfo {
-  width: 83%;
+  width: 85vw;
   display: inline-block;
-  padding-left: 3%;
+  padding-left: 2vw;
 }
 
 div.album-list > div.row > div.albumInfo > div.albumTitle {
   display: block;
-  color: #888;
-  font-size: 1.2em;
+  color: var(--font-color);
+  font-size: 3.5vh;;
   font-weight: bold;
   white-space: nowrap;
   text-overflow: ellipsis;
@@ -426,12 +426,12 @@ div.album-list > div.row > div.albumInfo > div.albumTitle {
 div.album-list > div.row > div.albumInfo > div.songCount,
 div.album-list > div.row > div.albumInfo > div.albumYear {
   display: inline-block;
-  width: 49%;
-  font-weight: bold;
+  width: 50%;
 }
 
 div.album-list > div.row > div.albumInfo > div.albumYear {
   text-align: right;
+  padding-right: 2vw;
 }
 
 /******************************************Album View***************************************/
@@ -440,11 +440,11 @@ div.page-album {
   padding: 0;
 }
 
-div.page-album-cover {
-  height: 40%;
+div.page-album-headline {
+  background: var(--line-background);
 }
 
-div.page-album-cover > div.page-album-title {
+div.page-album-headline > div.page-album-title {
   color: #FFF;
   text-shadow: 0px 0px 10px #000;
   font-weight: bold;
@@ -453,7 +453,7 @@ div.page-album-cover > div.page-album-title {
   padding-left: 3%;
 }
 
-div.page-album-cover > div.page-album-artist {
+div.page-album-headline > div.page-album-artist {
   color: #FFF;
   text-shadow: 0px 0px 10px #000;
   top: 0%;
@@ -461,7 +461,7 @@ div.page-album-cover > div.page-album-artist {
   font-size: 1.2em;  
 }
 
-div.page-album-cover > div.page-album-songcount {
+div.page-album-headline > div.page-album-songcount {
   color: #FFF;
   text-shadow: 0px 0px 10px #000;
   padding-left: 3%;
@@ -469,27 +469,13 @@ div.page-album-cover > div.page-album-songcount {
   bottom: 65%;
 }
 
-div.page-album-playlist {
-  position: absolute;
-  left: 0%;
-  width: 100%;
-  background: #333 none repeat scroll 0% 0%;
-  top: 35%;
-  height: 55%;
-  overflow: auto;
-}
-
-div.page-album-playlist > div {
-  width: 100%;
-  background-color: #000;
-  height: 20%;
+div.page-album-song-title {
+  margin-top: 0.5vh;
+  padding-left: 3%;
 }
 
 div.page-album-playlist > div > div.page-album-song-title {
   float: left;
-  font-size: 1.4em;
-  padding-left: 5%;
-  height: 100%;
   width: 85%;
   overflow: hidden;
   white-space: nowrap;
@@ -497,7 +483,6 @@ div.page-album-playlist > div > div.page-album-song-title {
 }
 
 div.page-album-playlist > div > div.page-album-song-add {
-  background: #FFF none repeat scroll 0% 0%;
   height: 100%;
   float: left;
   display: table;
@@ -505,11 +490,9 @@ div.page-album-playlist > div > div.page-album-song-add {
   width: 15%;
 }
 
-div.page-album-playlist > div > div.page-album-song-add > span {
-  width: 80%;
-  height: 80%;
-  display: table-cell;
+div.page-album-song-add > span {
   vertical-align: middle;
+  display: table-cell;
 }
 
 
@@ -587,22 +570,40 @@ div.playlistsOverview > div.playlist > div {
   width: 85vw;
 }
 
-/******************************************Artist Page***************************************/
+/******************************************Artist Page AND Album Page ***********************/
 
 
-div.artist-page-headline {
-  /*display: table;*/
+div.artist-page-headline,
+div.page-album-headline {
   background: var(--line-background) none repeat scroll 0% 0%;
 }
 
-div.artist-page-headline > div {
+div.artist-page-headline > div,
+div.page-album-headline > div {
   display: inline-block;
-  width: 25%;
+  vertical-align: top;
 }
 
-div.artist-page-headline > div > img {
+div.artist-page-headline > div > img,
+div.page-album-headline > div > img {
   height: 25vw;
 }
+
+div.page-album-headline > div.page-album-headline-info {
+  width: 73vw;
+  height: 25vw;
+}
+
+div.page-album-headline > div.page-album-headline-info > div.page-album-title {
+  font-weight: bold;
+  font-size: 4vh;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+/******************************************Artist Page***************************************/
+
 
 div.artist-page-headline > div.artist-page-artist-name {
   color: rgb(136, 136, 136);

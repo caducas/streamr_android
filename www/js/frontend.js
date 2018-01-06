@@ -174,13 +174,19 @@ function showAlbum(data) {
 	document.getElementById("page-album-title").innerHTML = data.albumName;
 	document.getElementById("page-album-artist").innerHTML = data.artistName;
 	document.getElementById("page-album-songcount").innerHTML = data.songs.length + " Songs";
+
+	$('#page-album-headline-image').empty();
+	var artistImage = document.createElement('img');
+	artistImage.src = "http://"+getUrl()+"/media/"+data.artistName+"/"+data.albumName+"/albumMedium.jpg";
+	$('#page-album-headline-image').append(artistImage);
+
 	$('#page-album-playlist').empty();
 
 	for(var i in data.songs) {
 		console.log(data.songs[i]);
 
 		var divSongRow = document.createElement('div');
-		// divSongRow.className =
+		divSongRow.className = "list-element song";
 
 		//TODO Listener
 
@@ -209,7 +215,7 @@ function showAlbum(data) {
 		var divAddSongToPlaylist = document.createElement('div');
 		divAddSongToPlaylist.className = "page-album-song-add";
 		// divAddSongToPlaylist.appendChild(document.createElement('span'))
-		divAddSongToPlaylist.innerHTML = '<span class="glyphicon glyphicon-plus"></span>';
+		divAddSongToPlaylist.innerHTML = '<span class="glyphicon glyphicon-option-vertical"></span>';
 
 		(function(id, title, album, artist){
 			divAddSongToPlaylist.addEventListener("click", function() {
@@ -236,7 +242,7 @@ function showAlbum(data) {
 	showAlbumPage();
 
 	// strangefully the scrolltop set function is only working after value was retrieved (with get function)
-	if($('#page-album-playlist').scrollTop()>0)	$('#page-album-playlist').scrollTop(0);
+	if($('#page-album').scrollTop()>0)	$('#page-album').scrollTop(0);
 }
 
 function showPlaylist() {
@@ -254,6 +260,7 @@ function showSearch() {
 	hideAll();
 	showPlayerBar();
 	$('#page-search').show();
+	$('#search').val('');
 	$('#search').focus();
 }
 
@@ -561,6 +568,10 @@ function frontendMute() {
 	$('#btnMute').removeClass('glyphicon-volume-up').addClass('glyphicon-volume-off');
 }
 
+function activateManualLoginAfterTimeout() {
+
+}
+
 
 $(document).ready(function(){
 	// $('#loadingPage').show();
@@ -669,6 +680,7 @@ $(document).ready(function(){
 	} else {
 		if(storedUsername && storedPassword) {
 			login(storedUsername, storedPassword);
+			activateManualLoginAfterTimeout();
 		}
 	}
 
