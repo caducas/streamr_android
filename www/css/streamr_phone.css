@@ -16,6 +16,7 @@ body {
   background: #333;
   color: var(--font-color);
   /*font-size: 2em;*/
+  height: 100vh;
 }
 
 div.content-with-player-bar {
