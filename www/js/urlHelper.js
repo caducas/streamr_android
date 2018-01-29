@@ -49,3 +49,8 @@ function getWebUrl() {
 function useLocalSocket() {
 	return useLocalAddress;
 }
+
+function parseUrl(url) {
+	url = url.replace("?", "%3F");
+	return url;
+}

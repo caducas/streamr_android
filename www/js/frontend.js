@@ -35,7 +35,7 @@ function setAutocompleteResult(resultList) {
 		var divEntry = $('<div></div>');
 		var divEntryImage = $('<img>');
 
-		var imagePath="http://"+getUrl()+"/media/"+resultList[i].imagepath+"/";
+		var imagePath=parseUrl("http://"+getUrl()+"/media/"+resultList[i].imagepath+"/");
 
 		if(resultList[i].category=="Artists") {
 			divEntryImage.attr('src', imagePath+"artistSmall.jpg");
@@ -137,7 +137,7 @@ function showArtist(data) {
 	    divAlbumImage.className='albumImage';
 
 	    var albumImage = document.createElement('img');
-	    albumImage.src ="http://"+getUrl()+"/media/"+data.artist+"/"+data.albums[i].name+"/albumMedium.jpg";
+	    albumImage.src =parseUrl("http://"+getUrl()+"/media/"+data.artist+"/"+data.albums[i].name+"/albumMedium.jpg");
 	    divAlbumImage.appendChild(albumImage);
 
 	    divAlbumRow.appendChild(divAlbumImage);
@@ -177,7 +177,7 @@ function showAlbum(data) {
 
 	$('#page-album-headline-image').empty();
 	var artistImage = document.createElement('img');
-	artistImage.src = "http://"+getUrl()+"/media/"+data.artistName+"/"+data.albumName+"/albumMedium.jpg";
+	artistImage.src = parseUrl("http://"+getUrl()+"/media/"+data.artistName+"/"+data.albumName+"/albumMedium.jpg");
 	$('#page-album-headline-image').append(artistImage);
 
 	$('#page-album-playlist').empty();
