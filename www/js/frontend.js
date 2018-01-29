@@ -572,6 +572,18 @@ function activateManualLoginAfterTimeout() {
 
 }
 
+function showConnectionSettings() {
+	$('#serverAddressLocal').val(configHelper.getServerAddressLocal());
+	$('#serverPortLocal').val(configHelper.getServerPortLocal());
+	$('#serverAddressWeb').val(configHelper.getServerAddressWeb());
+	$('#serverPortWeb').val(configHelper.getServerPortWeb());
+	$('#appSettingsArea').show();
+	hideLoading();
+}
+
+function hideConnectionSettings() {
+	$('#appSettingsArea').hide();
+}
 
 $(document).ready(function(){
 	// $('#loadingPage').show();
@@ -638,7 +650,8 @@ $(document).ready(function(){
 		configHelper.setServerPortLocal(serverPortLocal);
 		configHelper.setServerAddressWeb(serverAddressWeb);
 		configHelper.setServerPortWeb(serverPortWeb);
-		$('#appSettingsArea').hide();
+		hideConnectionSettings();
+		showLoginArea();
 	});
 
 	$('#search').bind('input', function() {
@@ -674,8 +687,7 @@ $(document).ready(function(){
 	var storedPassword = configHelper.getPassword();
 
 	if(!configHelper.getServerAddressLocal()) {
-		$('#loadingPage').hide();
-		$('#appSettingsArea').show();
+		showConnectionSettings();
 	} else {
 		if(storedUsername && storedPassword) {
 			login(storedUsername, storedPassword);
