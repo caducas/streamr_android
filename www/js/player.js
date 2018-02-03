@@ -248,7 +248,7 @@ function addToPlaylist(id, title, album, artist, path, flac, position, init) {
     mp3:url+"/media/"+artist+"/"+album+"/"+title+".mp3",
     path:path,
     isFlac:flac,
-    poster:url+"/media/"+artist+"/"+album+"/albumMedium.jpg"
+    poster:url+"/media/"+artist+"/"+album+"/albumBig.jpg"
     }
 
     playlist.add(song);
