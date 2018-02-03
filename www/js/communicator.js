@@ -57,7 +57,8 @@ function connectWebsocket() {
 	});
 
 	socket.on('disconnect', function() {
-		socket.connect();
+		// socket.connect();
+		showInfo('Connection closed!');
 	});
 
 	socket.on('error', function (e) {

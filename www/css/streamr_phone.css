@@ -681,6 +681,26 @@ div.volumeControl > div > div {
   color: #333;
 }
 
+/***************************************Info Page***************************************/
+
+div.infoOverlay {
+  z-index: 999;
+  background-color: var(--background);
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  left: 0;
+  top: 0;
+}
+
+div.infoOverlay > span {
+  text-align: center;
+  width: 100%;
+  margin: auto;
+  display: block;
+  line-height: 100vh;
+}
+
 /**************************************Settings Menu************************************/
 
 .settingsMenuOverlay {
