@@ -176,11 +176,10 @@ function connectWebsocket() {
 	});
 
 	socket.on('activeOutputDevice', function(id) {
-		console.log('########### MPD ACTIVE!!!');
+		console.log('Active Output Device:'+id);
+		selectOutputDevice(id, true);
+		// setSelectedMpd(id);
 		// addSongsToPlaylist(playlist);
-		if(id>0) {
-			activateMpdSwitch();
-		}
 	});
 
 	socket.on('initMpd', function(playlist) {

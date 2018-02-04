@@ -556,7 +556,7 @@ function hideMpdSelection() {
 }
 
 function activateMpdSwitch() {
-	activateMpd(true);
+	// activateMpd(true);
 	refreshMpdSwitchStatus();
 }
 
