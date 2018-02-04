@@ -319,7 +319,7 @@ function play(index) {
   	console.log('SHOULD play mpd now');
     if(typeof index != 'undefined') {
       playlist.select(index);
-      playMpd(index+1);
+      playMpd(parseInt(index)+1); 
     } else {
     	playMpd();    	
     }
