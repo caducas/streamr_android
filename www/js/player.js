@@ -406,11 +406,12 @@ function selectOutputDevice(id, init) {
     refreshMpdSwitchStatus();
     highlightActiveMpdSelection();
 
+    sendServerSelectedOutputDevice(id);
+
 	if(init) {
 		return;
 	}
 
-    sendServerSelectedOutputDevice(id);
 	// console.log('INIT:'+init);
 	if(id > 0) {
 		//get status and transfer information to mpd
