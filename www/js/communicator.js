@@ -1,6 +1,7 @@
 var localSocket;
 var webSocket;
 var socket;
+var keepSocketOpen = true;
 
 function useAvailableSocket() {
 	// console.log(useLocalSocket());
@@ -57,8 +58,15 @@ function connectWebsocket() {
 	});
 
 	socket.on('disconnect', function() {
-		// socket.connect();
-		showInfo('Connection closed!');
+		if(keepSocketOpen) {
+			socket.connect();
+		}
+	});
+
+	socket.on('disconnectFromServer', function(message) {
+		keepSocketOpen = false;
+		socket.disconnect();
+		showInfo(message);
 	});
 
 	socket.on('error', function (e) {

@@ -585,6 +585,11 @@ function hideConnectionSettings() {
 	$('#appSettingsArea').hide();
 }
 
+function showInfo(infotext) {
+	$('#infoOverlayText').text(infotext);
+	$('#infoOverlay').show();
+}
+
 $(document).ready(function(){
 	// $('#loadingPage').show();
 
@@ -741,7 +746,7 @@ $(document).ready(function(){
 	});
 
 	$('#restartApp').click(function() {
-		location.reload();
+		window.location.reload(true);
 	});
 
 	$('#newPlaylistPlaceholder').click(function() {
