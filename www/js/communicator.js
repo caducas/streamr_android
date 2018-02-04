@@ -47,6 +47,7 @@ function connectWebsocket() {
 	socket.on('connect', function() {
 		$('#loadingPage').hide();
 		socket.emit('getMpdList');
+		getOutputDevice();
 		// socket.connectedToStreamrServer = true;
 		// if(connectionLocal) {
 		// 	localSocket=socket;
@@ -174,10 +175,12 @@ function connectWebsocket() {
 		errorAlert(errormessage);
 	});
 
-	socket.on('mpdActive', function() {
+	socket.on('activeOutputDevice', function(id) {
 		console.log('########### MPD ACTIVE!!!');
 		// addSongsToPlaylist(playlist);
-		activateMpdSwitch();
+		if(id>0) {
+			activateMpdSwitch();
+		}
 	});
 
 	socket.on('initMpd', function(playlist) {
@@ -230,7 +233,7 @@ function getMpdList() {
 }
 
 function setMpdPlaylist(playlist) {
-	socket.emit('mpdSetPlaylist', playlist);
+	socket.emit('mpdSetPlaylist', getSelectedMpd(), playlist);
 }
 
 function sendMpdCommand(cmd) {
@@ -238,33 +241,45 @@ function sendMpdCommand(cmd) {
 }
 
 function sendMpdPlay(index) {
-	socket.emit('mpdPlay', index);
+	socket.emit('mpdPlay', getSelectedMpd(), index);
+}
+
+function sendMpdPause() {
+	socket.emit('mpdPause', getSelectedMpd());
+}
+
+function sendMpdNext() {
+	socket.emit('mpdNext', getSelectedMpd());
+}
+
+function sendMpdPrevious() {
+	socket.emit('mpdPrevious', getSelectedMpd());
 }
 
 function sendMpdAdd(song) {
-  socket.emit("mpdAddSong", song);
+  socket.emit("mpdAddSong", getSelectedMpd(), song);
 }
 
 function sendMpdCurrentSong(currentSong) {
-    socket.emit('mpdSetCurrentSong', currentSong);	
+    socket.emit('mpdSetCurrentSong', getSelectedMpd(), currentSong);	
 }
 
 function sendMpdChangeSongOrder(from, to) {
-	socket.emit("mpdChangeSongPosition", from, to);
+	socket.emit("mpdChangeSongPosition", getSelectedMpd(), from, to);
 }
 
 function sendMpdSeek(timeInSec) {
-	socket.emit("mpdSeek", timeInSec);
+	socket.emit("mpdSeek", getSelectedMpd(), timeInSec);
 	// socket.emit("mpdPeriodicalStatusTillPlaying");
 	// socket.emit("mpdStatus");
 }
 
 function getMpdStatus() {
-	socket.emit("mpdStatus");	
+	socket.emit("mpdStatus", getSelectedMpd());	
 }
 
 function sendMpdRemoveSong(index) {
-	socket.emit("mpdRemoveSong", index);
+	socket.emit("mpdRemoveSong", getSelectedMpd(), index);
 }
 
 // function sendMpdVolume(volume) {
@@ -273,18 +288,18 @@ function sendMpdRemoveSong(index) {
 
 function sendMpdVolumeIncrease() {
 	// alert("should send mpd message volume+");
-	socket.emit("mpdVolumeIncrease");
+	socket.emit("mpdVolumeIncrease", getSelectedMpd());
 	console.log('should increase');
 }
 
 function sendMpdVolumeDecrease() {
 	// alert("should send mpd message volume-");
-	socket.emit("mpdVolumeDecrease");
+	socket.emit("mpdVolumeDecrease", getSelectedMpd());
 	console.log('should decrease');
 }
 
 function sendMpdEmptyPlaylist() {
-	socket.emit('mpdEmptyPlaylist');
+	socket.emit('mpdEmptyPlaylist', getSelectedMpd());
 }
 
 function sendServerSelectedOutputDevice(id) {
@@ -311,6 +326,10 @@ function connectToMpdClients() {
 
 function getMpdList() {
 	socket.emit('getMpdList');
+}
+
+function getOutputDevice() {
+	socket.emit('getOutputDevice');
 }
 
 function login(username, password, cb) {

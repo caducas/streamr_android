@@ -479,15 +479,18 @@ function pauseStream() {
 
 function pauseMpd() {
   console.log('should pause now on MPD');
-  sendMpdCommand('mpdPause');
+  // sendMpdCommand('mpdPause');
+  sendMpdPause();
 }
 
 function nextMpd() {
-  sendMpdCommand('mpdNext');
+  // sendMpdCommand('mpdNext');
+  sendMpdNext();
 }
 
 function previousMpd() {
-  sendMpdCommand('mpdPrevious');
+  // sendMpdCommand('mpdPrevious');
+  sendMpdPrevious();
 }
 
 function addSongToPlaylistMpd(song) {
