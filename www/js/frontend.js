@@ -556,7 +556,7 @@ function hideMpdSelection() {
 }
 
 function activateMpdSwitch() {
-	activateMpd(true);
+	// activateMpd(true);
 	refreshMpdSwitchStatus();
 }
 
@@ -583,6 +583,11 @@ function showConnectionSettings() {
 
 function hideConnectionSettings() {
 	$('#appSettingsArea').hide();
+}
+
+function showInfo(infotext) {
+	$('#infoOverlayText').text(infotext);
+	$('#infoOverlay').show();
 }
 
 $(document).ready(function(){
@@ -741,7 +746,7 @@ $(document).ready(function(){
 	});
 
 	$('#restartApp').click(function() {
-		location.reload();
+		window.location.reload(true);
 	});
 
 	$('#newPlaylistPlaceholder').click(function() {

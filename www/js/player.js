@@ -1,5 +1,5 @@
 var playlist = [];
-var selectedMpd = 0;
+var outputDevice = 0;
 var intervalForSongPlayingOnMpd;
 var volumeBeforeMute;
 var currentVolume = 50;
@@ -384,9 +384,9 @@ function modifyPlaylistDesign() {
 	// });	
 }
 
-function activateMpd(init) {
-	selectOutputDevice(1, init);
-	listenToMpd(1);
+function activateMpd(id, init) {
+	selectOutputDevice(id, init);
+	listenToMpd(id);
 }
 
 function deactivateMpd() {
@@ -395,8 +395,7 @@ function deactivateMpd() {
 }
 
 function selectOutputDevice(id, init) {
-	selectedMpd = id;
-	sendServerSelectedOutputDevice(id);
+	outputDevice = id;
 	console.log('OUTPUT DEVICE CHANGED TO '+id);
     if(id>0)
     {
@@ -404,9 +403,15 @@ function selectOutputDevice(id, init) {
     } else {
         deactivateMpdVolumeControl();        
     }
+    refreshMpdSwitchStatus();
+    highlightActiveMpdSelection();
+
+    sendServerSelectedOutputDevice(id);
+
 	if(init) {
 		return;
 	}
+
 	// console.log('INIT:'+init);
 	if(id > 0) {
 		//get status and transfer information to mpd
@@ -451,8 +456,8 @@ function parseMp3PathInPlaylist() {
 }
 
 function doActionForSelectedOutputDevice(streamAction, mpdAction) {
-	// console.log(selectedMpd);
-  if(selectedMpd>0) {
+	// console.log(outputDevice);
+  if(outputDevice>0) {
     mpdAction();
     return;
   }
@@ -479,15 +484,18 @@ function pauseStream() {
 
 function pauseMpd() {
   console.log('should pause now on MPD');
-  sendMpdCommand('mpdPause');
+  // sendMpdCommand('mpdPause');
+  sendMpdPause();
 }
 
 function nextMpd() {
-  sendMpdCommand('mpdNext');
+  // sendMpdCommand('mpdNext');
+  sendMpdNext();
 }
 
 function previousMpd() {
-  sendMpdCommand('mpdPrevious');
+  // sendMpdCommand('mpdPrevious');
+  sendMpdPrevious();
 }
 
 function addSongToPlaylistMpd(song) {
@@ -527,7 +535,16 @@ function playerStatusUpdate(data) {
 }
 
 function getSelectedMpd() {
-	return selectedMpd;
+	return outputDevice;
+}
+
+function setSelectedMpd(mpdId) {
+    outputDevice = mpdId;
+    if(id>0) {
+        activateMpdSwitch();
+    } else {
+        deactivateMpdSwitch();
+    }
 }
 
 function emptyPlaylist() {
