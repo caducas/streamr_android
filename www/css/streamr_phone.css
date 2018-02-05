@@ -728,6 +728,13 @@ div.infoOverlay > span {
   padding: 2vh 2vw 2vh 5vw;
 }
 
+.settingsMenu > div.submenu {
+  border-left: none;
+  background-color: #111;
+  font-size: 90%;
+  padding: 1.5vh 2vw 1.5vh 10vw;
+}
+
 /************************************MPD Selection Menu*********************************/
 
 .mpdSelectionList > div {

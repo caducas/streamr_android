@@ -395,6 +395,13 @@ function deactivateMpd() {
 }
 
 function selectOutputDevice(id, init) {
+    // current time is retrieved, will be reset to 0 due to any functionality in this function...
+    var currentTime = $("#jquery_jplayer_1").data("jPlayer").status.currentTime;
+    var oldOutputDevice = outputDevice;
+    if($('#btnPlay').is(":hidden") && id == 0) {
+        sendMpdPause();
+        playStream(undefined, $("#jquery_jplayer_1").data("jPlayer").status.currentTime);
+    }
 	outputDevice = id;
 	console.log('OUTPUT DEVICE CHANGED TO '+id);
     if(id>0)
@@ -406,7 +413,7 @@ function selectOutputDevice(id, init) {
     refreshMpdSwitchStatus();
     highlightActiveMpdSelection();
 
-    sendServerSelectedOutputDevice(id);
+    sendServerSelectedOutputDevice(id, init);
 
 	if(init) {
 		return;
@@ -415,16 +422,12 @@ function selectOutputDevice(id, init) {
 	// console.log('INIT:'+init);
 	if(id > 0) {
 		//get status and transfer information to mpd
-		var currentTime = $('#current-time').text();
 		setPlaylistMpd();
 		sendMpdCurrentSong(playlist.current);
-		console.log('is play button hidden?');
-		console.log($('#play').is(":hidden"));
-    	if($('#play').is(":hidden")) {
+    	if($('#btnPlay').is(":hidden")) {
 	      playMpd();
 	      console.log('set mpd to currenttime');
-	      console.log(currentTime);
-	      seekMpd(currentTime);
+          sendMpdSeek(currentTime);
 	      return;
     	}
     	// socket.emit('mpdSetCurrentSong', playlist.current);
@@ -432,10 +435,6 @@ function selectOutputDevice(id, init) {
 		return;
 	} 
 	console.log('webplayer selected');
-	if($('#play').is(":hidden")) {
-		stopMpd();
-		playStream();
-	}
 }
 
 function setPlaylistMpd() {
@@ -465,12 +464,17 @@ function doActionForSelectedOutputDevice(streamAction, mpdAction) {
 }
 
 
-function playStream(position) {
+function playStream(position, time) {
   if(position !== undefined) {
   	console.log('should select '+position);
     playlist.select(parseInt(position));    
   }
   // console.log('playstream');
+  if(typeof time !== 'undefined') {
+    var t = parseInt(time);
+    $("#jquery_jplayer_1").jPlayer('play', t);
+    return;
+  }
   $("#jquery_jplayer_1").jPlayer('play');
 }
 

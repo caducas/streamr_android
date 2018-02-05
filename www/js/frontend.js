@@ -515,15 +515,55 @@ function setMpdList(mpdList) {
 					connectToMpdClient(id);
 					return;			
 				}
-				selectOutputDevice(id);
-				hideMpdSelection();
-				refreshMpdSwitchStatus();
-				highlightActiveMpdSelection();
+
+				//check MPD Playlist, compare with current playlist
+				//ask user to take a) MPD b) Current c) Cancel
+
+				if(id==0) {
+					selectOutputDevice(id);
+					hideMpdSelection();
+					refreshMpdSwitchStatus();
+					highlightActiveMpdSelection();
+					return;
+				}
+				showMpdPlaylistSourceOptions(id, event.target);
+
 			});
 		})(mpdList[i].id);
 		$('#mpdSelection').append(listEntry);
 	}
 
+	refreshMpdSwitchStatus();
+	highlightActiveMpdSelection();
+}
+
+function showMpdPlaylistSourceOptions(id, eventTarget) {
+	$("div.settingsMenu > div.submenu").remove();
+
+	var playlistSourceMpd = $('<div></div>');
+	playlistSourceMpd.addClass('submenu');
+	playlistSourceMpd.addClass('loading');
+	playlistSourceMpd.append('MPD playlist');
+
+	playlistSourceMpd.on("click", function(event) {
+		changeOutputDevice(id, true);
+	});
+
+	var playlistSourcePlayer = $('<div></div>');
+	playlistSourcePlayer.addClass('submenu');
+	playlistSourcePlayer.append('Player playlist');
+
+	playlistSourcePlayer.on("click", function(event) {
+		changeOutputDevice(id, false);
+	});
+
+	playlistSourceMpd.insertAfter($(eventTarget));
+	playlistSourcePlayer.insertAfter($(eventTarget));
+}
+
+function changeOutputDevice(id, init) {
+	selectOutputDevice(id, init);
+	hideMpdSelection();
 	refreshMpdSwitchStatus();
 	highlightActiveMpdSelection();
 }
@@ -553,6 +593,7 @@ function showMpdSelection() {
 
 function hideMpdSelection() {
 	$('#mpdSelectionArea').hide();
+	$("div.settingsMenu > div.submenu").remove();
 }
 
 function activateMpdSwitch() {
