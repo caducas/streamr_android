@@ -301,9 +301,9 @@ function sendMpdEmptyPlaylist() {
 	socket.emit('mpdEmptyPlaylist', getSelectedMpd());
 }
 
-function sendServerSelectedOutputDevice(id) {
+function sendServerSelectedOutputDevice(id, init) {
 	console.log('send selected output device:'+id);
-	socket.emit("outputDeviceSelected", id);
+	socket.emit("outputDeviceSelected", id, init);
 }
 
 
