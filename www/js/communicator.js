@@ -297,6 +297,14 @@ function sendMpdVolumeDecrease() {
 	console.log('should decrease');
 }
 
+function sendMpdActivateShuffle() {
+	socket.emit("mpdActivateShuffle", getSelectedMpd());
+}
+
+function sendMpdDeactivateShuffle() {
+	socket.emit("mpdDeactivateShuffle", getSelectedMpd());
+}
+
 function sendMpdEmptyPlaylist() {
 	socket.emit('mpdEmptyPlaylist', getSelectedMpd());
 }

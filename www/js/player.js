@@ -79,16 +79,17 @@ function initializePlayer() {
 	    console.log('TEST');
 	  });
 
-	  if(jPlayerPlaylist.prototype._next == undefined) {
+	  if(typeof jPlayerPlaylist.prototype._next == 'undefined') {
 	  	console.log('playlist_next undefined');
 	  	jPlayerPlaylist.prototype._next = jPlayerPlaylist.prototype.next;
 	  }
 
 	  jPlayerPlaylist.prototype.next = function() {
 	  	console.log('next song');
+        var playlist = this;
 	  	console.log(playlist.playlist);
 	  	if(isRandomActive()) {
-	  		if(!isRepeatActive) {
+	  		if(!isRepeatActive()) {
 		  		var seqArrayNotPlayed = [];
 		  		for(var i in playlist.playlist) {
 		  			if(playlist.playlist[i].played == undefined || !playlist.playlist[i].played) {
@@ -96,7 +97,6 @@ function initializePlayer() {
 		  			}
 		  		}
 		  		console.log(seqArrayNotPlayed);
-		  		if(isRepeatActive)
 		  		var rndIndex = parseInt(Math.random()*seqArrayNotPlayed.length);	
 	  			var playIndex = parseInt(seqArrayNotPlayed[rndIndex]);
 	  			playlist.playlist[playIndex].played = true;
@@ -106,12 +106,17 @@ function initializePlayer() {
 	  		playlist.select(playIndex);
 	  		playlist.play(playIndex);
 	  	} else {
-	  		if(isRepeatActive && playlist.current == playlist.playlist.length-1) {
-	  			playlist.select(0);
-	  			playlist.play(0);
-	  		} else {
-				playlist._next();
-	  		}
+            console.log('random inactive');
+            if(playlist.current < playlist.playlist.length-1) {
+                playlist._next();                
+            } else {
+                if(isRepeatActive()) {
+                    playlist.select(0);
+                    playlist.play(0);                    
+                } else {
+                    frontendPause();
+                }
+            }
 	  	}
 	  }
 	  // Create live handlers that disable free media links to force access via right click
@@ -424,6 +429,13 @@ function selectOutputDevice(id, init) {
 		//get status and transfer information to mpd
 		setPlaylistMpd();
 		sendMpdCurrentSong(playlist.current);
+        if(isRandomActive()) {
+            console.log('should send mpd shuffle active');
+            sendMpdActivateShuffle();
+        } else {
+            console.log('should send mpd shuffle deactive');
+            sendMpdDeactivateShuffle();
+        }
     	if($('#btnPlay').is(":hidden")) {
 	      playMpd();
 	      console.log('set mpd to currenttime');
@@ -642,19 +654,37 @@ function getVolume() {
 	return currentVolume;
 }
 
+// this function should be removed, is not needed
+// either turn down the volume or press pause
+// mute/unmute functionality is very complex in combination with mpd
 function mute() {
     doActionForSelectedOutputDevice(function() {
       $("#jquery_jplayer_1").jPlayer('mute');
     }, function() {
-      muteMpd();
     });
 }
 
+// this function should be removed, is not needed
+// either turn down the volume or press pause
+// mute/unmute functionality is very complex in combination with mpd
 function unmute() {
     doActionForSelectedOutputDevice(function() {
       $("#jquery_jplayer_1").jPlayer('unmute');
     }, function() {
-      unmuteMpd();
+    });    
+}
+
+function activateShuffle() {
+    doActionForSelectedOutputDevice(function() {
+    }, function() {
+      sendMpdActivateShuffle();
+    });    
+}
+
+function deactivateShuffle() {
+    doActionForSelectedOutputDevice(function() {
+    }, function() {
+      sendMpdDeactivateShuffle();
     });    
 }
 

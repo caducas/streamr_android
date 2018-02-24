@@ -89,13 +89,11 @@ function frontendPause() {
 
 
 function isRandomActive() {
-	return false;
-	// return $('#btnRandom').hasClass('btnAudioControlOptionsActive'); // TODO
+	return !$('#btnShuffle').hasClass('inactive');
 }
 
 function isRepeatActive() {
-	return false;
-	// return $('#btnRepeat').hasClass('btnAudioControlOptionsActive'); // TODO
+	return !$('#btnRepeat').hasClass('inactive');
 }
 
 function isVolumeMuted() {
@@ -609,6 +607,14 @@ function frontendMute() {
 	$('#btnMute').removeClass('glyphicon-volume-up').addClass('glyphicon-volume-off');
 }
 
+function frontendActivateShuffle() {
+	$('#btnShuffle').removeClass('inactive');
+}
+
+function frontendDeactivateShuffle() {
+	$('#btnShuffle').addClass('inactive');
+}
+
 function activateManualLoginAfterTimeout() {
 
 }
@@ -763,6 +769,18 @@ $(document).ready(function(){
 			mute();
 			frontendMute();
 		}		
+	});
+
+	$('#btnShuffle').click(function() {
+		if(isRandomActive()) {
+			console.log('unshuffle');
+			deactivateShuffle();
+			frontendDeactivateShuffle();
+		} else {
+			console.log('shuffle');
+			activateShuffle();
+			frontendActivateShuffle();
+		}
 	});
 
 	$('#mpdSelectionOverlay').click(function() {

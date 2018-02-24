@@ -170,6 +170,11 @@ div.player-bottom-menu-entry > span {
   font-weight: bold;
 }
 
+div.player-top-menu-entry > span.inactive,
+div.player-bottom-menu-entry > span.inactive {
+  color: var(--font-color-lowlight);
+}
+
 div.player-top-menu-entry-center > span,
 div.player-bottom-menu-entry-center > span {
   color: #FFF;
