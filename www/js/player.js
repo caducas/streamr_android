@@ -210,6 +210,13 @@ function initializePlayer() {
 	// $('#player').css({'height':cw+'px'});
 }
 
+function removeSongFromCurrentPlaylist(index) {
+    playlist.remove(index);
+    doMpdAction(function() {
+        sendMpdRemoveSong(index+1);
+    });
+}
+
 function removePlayedFromSongs() {
 	for(var i in playlist.playlist) {
 		playlist.playlist[i].played = false;
@@ -346,11 +353,35 @@ function play(index) {
 
 
 function modifyPlaylistDesign() {
-	// console.log
+    // return;
+    //remove delete button
+    $("a.jp-playlist-item-remove").remove();
+
+    $('li > div > a.jp-playlist-item').each(function(index) {
+        $(this).find('span').text(function(index,oldText){
+           //idx is the index of the current element in the JQUERY_OBJECT - not used, but must be given
+           return oldText.replace(/^by\s/,'');
+        });
+        // $(this).unwrap();
+        $(this).wrap("<div class='content'></div>");
+        $(this).parent().parent().addClass("playlist-row");
+
+        var poster = playlist.playlist[index].poster;
+        poster =  poster.replace("/albumBig.jpg","/albumSmall.jpg");
+        $("<div class='sort-handler'><img src='"+poster+"' /></div>").insertBefore($(this).parent());
+
+        $("<div class='options'><span class=\"glyphicon glyphicon-option-vertical\"></span></div>").insertAfter($(this).parent());
+    });
+
+
+
+    return;
 	$('span.jp-artist').each(function() {
 		$(this).html($(this).html().split("by ").join("<br />"));
 		// $(this).html("Test");
 	});
+
+
 	$('li > div > a.jp-playlist-item-remove').each(function() {
 		if(!$(this).parent().hasClass("remover")) {
 			$(this).parent().addClass("remover");			
@@ -363,10 +394,22 @@ function modifyPlaylistDesign() {
 	// 	$(this).wrap("<div class='remover'></div>");
 	// 	$(this).click(func); 
 	// });
-	$('li > div:not(.content) > a.jp-playlist-item').each(function() {
+	$('li > div:not(.content) > a.jp-playlist-item').each(function(index) {
 		// console.log($(this).text());
 		// console.log($(this).parent().parent().parent().html());
 		$(this).wrap("<div class='content'></div>");
+        // $("<img src='"+poster+"'>").wrap($('<a>',{
+        //    // href: '/Content/pdf/' + data.pdf1
+        // }));
+        var poster = playlist.playlist[index].poster;
+        // var poster = 'http://192.168.8.70:3000/media/Adele/21/albumSmall.jpg';
+        // poster = poster.toString();
+        // console.log(poster);
+        poster =  poster.replace("/albumBig.jpg","/albumSmall.jpg");
+        // poster = poster.replace("albumBig.jpg","albumSmall.jpg");
+
+        console.log(poster);
+        // $("<div class='test-album-image'><img src='"+poster+"'></div>").insertBefore($(this).parent());
 		$(this).parent().insertAfter($(this).parent().parent());
 		$(this).parent().parent().append('<div class="sort-handler"><span class=\"glyphicon glyphicon-option-vertical\"></span></div>');
 	});

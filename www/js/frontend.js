@@ -5,6 +5,9 @@ var songOptionsSongData = {
 	artist:undefined,
 	album:undefined
 };
+var playlistSongOptionsSongData = {
+	index:undefined
+}
 var playlistSelectionFunction;
 
 function showStreamr() {
@@ -392,6 +395,14 @@ function showSongOptions() {
 
 function hideSongOptions() {
 	$('#songOptionsArea').hide();
+}
+
+function showPlaylistSongOptions() {
+	$('#playlistSongOptionsArea').show();
+}
+
+function hidePlaylistSongOptions() {
+	$('#playlistSongOptionsArea').hide();
 }
 
 function hideAll() {
@@ -799,6 +810,10 @@ $(document).ready(function(){
 		hideSongOptions();
 	});
 
+	$('#playlistSongOptionsOverlay').click(function() {
+		hidePlaylistSongOptions();
+	});
+
 	$('#restartServer').click(function() {
 		restartServer();
 		location.reload();
@@ -838,6 +853,30 @@ $(document).ready(function(){
     	modifyPlaylistDesign();
     	hideSongOptions();
 	});
+
+	$('#removeSongFromCurrentPlaylist').click(function() {
+		console.log('should remove');
+		removeSongFromCurrentPlaylist(playlistSongOptionsSongData.index);
+		hidePlaylistSongOptions();
+	});
+
+	$('div.jp-playlist').click( function(e) {
+		if($(e.target).attr('class') == 'options') {
+			console.log('options direct');
+			console.log($('div.options').index($(e.target)));
+			playlistSongOptionsSongData.index = $('div.options').index($(e.target));
+			showPlaylistSongOptions();
+			return;
+		}
+		if($(e.target).parents('div').attr('class') == 'options') {
+			console.log('options span');
+			console.log($('div.options').index($(e.target).parents('div')));
+			playlistSongOptionsSongData.index = $('div.options').index($(e.target).parents('div'));
+			showPlaylistSongOptions();
+			return;
+		}
+
+    });
 
 	$('#addSongToPlaylist').click(function() {
 		playlistSelectionFunction = function(id) {
