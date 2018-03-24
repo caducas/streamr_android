@@ -648,6 +648,12 @@ function showInfo(infotext) {
 	$('#infoOverlay').show();
 }
 
+function changePositionInPlaylistFrontend(originalIndex, finalIndex) {
+	var source = $('li:eq('+originalIndex+')');
+	var target = $('li:eq('+finalIndex+')');
+	source.insertAfter(target);
+}
+
 $(document).ready(function(){
 	// $('#loadingPage').show();
 

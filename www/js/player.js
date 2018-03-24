@@ -144,7 +144,6 @@ function initializePlayer() {
 	}, [
 	], {
 	  playlistOptions: {
-	    enableRemoveControls: true,
 	    removeTime: 0
 	  },
 	  swfPath: "/js",
@@ -253,19 +252,20 @@ function addToPlaylist(id, title, album, artist, path, flac, position, init) {
     var url = "http://"+getUrl();
 
     var song = {
-    id:id,
-    title:title,
-    artist:artist,
-    album:album,
-    mp3:url+"/media/"+artist+"/"+album+"/"+title+".mp3",
-    path:path,
-    isFlac:flac,
-    poster:url+"/media/"+artist+"/"+album+"/albumBig.jpg"
+        id:id,
+        title:title,
+        artist:artist,
+        album:album,
+        mp3:url+"/media/"+artist+"/"+album+"/"+title+".mp3",
+        path:path,
+        isFlac:flac,
+        poster:url+"/media/"+artist+"/"+album+"/albumBig.jpg"
     }
 
     playlist.add(song);
 
     if(init) {
+        modifyPlaylistDesign();
     	return;
     }
 	console.log('will add song to mpd playlist');
@@ -278,8 +278,11 @@ function addToPlaylist(id, title, album, artist, path, flac, position, init) {
     }
 
     if(typeof position !== 'undefined') {
-        changePositionInPlaylist(playlist.playlist.length,playlist.current+1);
+
+        changePositionInPlaylist(playlist.playlist.length-1,position+1);
+        changePositionInPlaylistFrontend(playlist.playlist.length-1,position);
     }
+    modifyPlaylistDesign();
 }
 
 
@@ -357,20 +360,24 @@ function modifyPlaylistDesign() {
     //remove delete button
     $("a.jp-playlist-item-remove").remove();
 
-    $('li > div > a.jp-playlist-item').each(function(index) {
-        $(this).find('span').text(function(index,oldText){
+    $('li > div').each(function(index) {
+        if(!$(this).children('a').length) {
+            return;
+        }
+        var obj = $(this).find('a');
+        obj.find('span').text(function(index,oldText){
            //idx is the index of the current element in the JQUERY_OBJECT - not used, but must be given
            return oldText.replace(/^by\s/,'');
         });
         // $(this).unwrap();
-        $(this).wrap("<div class='content'></div>");
-        $(this).parent().parent().addClass("playlist-row");
+        obj.wrap("<div class='content'></div>");
+        obj.parent().parent().addClass("playlist-row");
 
         var poster = playlist.playlist[index].poster;
         poster =  poster.replace("/albumBig.jpg","/albumSmall.jpg");
-        $("<div class='sort-handler'><img src='"+poster+"' /></div>").insertBefore($(this).parent());
+        $("<div class='sort-handler'><img src='"+poster+"' /></div>").insertBefore(obj.parent());
 
-        $("<div class='options'><span class=\"glyphicon glyphicon-option-vertical\"></span></div>").insertAfter($(this).parent());
+        $("<div class='options'><span class=\"glyphicon glyphicon-option-vertical\"></span></div>").insertAfter(obj.parent());
     });
 
 
@@ -501,8 +508,6 @@ function setPlaylistMpd() {
 function parseMp3PathInPlaylist() {
   var current = playlist.current;
   console.log('Parse Playlist');
-  // console.log('playlist');
-  // console.log(playlist.playlist);
   for(var i in playlist.playlist) {
     playlist.select(i);
   }
@@ -655,7 +660,6 @@ console.log(songs);
      addToPlaylist(songs[songcount].id, songs[songcount].title,songs[songcount].album,songs[songcount].artist,songs[songcount].storagePath,songs[songcount].flac);          
   }
   console.log(playlist);
-  modifyPlaylistDesign();
 }
 
 function calcPercentage(number, base) {
@@ -676,7 +680,6 @@ function initMpd(mpdPlaylist) {
 		for(var songcount in mpdPlaylist) {
 			addToPlaylist(mpdPlaylist[songcount].id, mpdPlaylist[songcount].title,mpdPlaylist[songcount].album,mpdPlaylist[songcount].artist,mpdPlaylist[songcount].storagePath,mpdPlaylist[songcount].flac, null, true);
 		}
-		modifyPlaylistDesign();
 	}
 }
 

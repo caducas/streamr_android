@@ -76,7 +76,7 @@ function changePositionInPlaylist(originalIndex, finalIndex) {
   console.log('finalIndex:'+finalIndex);
 
   doMpdAction(function() {
-    sendMpdChangeSongOrder(originalIndex+1, finalIndex+1);
+    sendMpdChangeSongOrder(originalIndex, finalIndex);
   });
 
   if(originalIndex == playlist.current) {
