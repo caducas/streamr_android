@@ -591,7 +591,7 @@ div.page-album-headline {
 
 div.artist-page-headline > div,
 div.page-album-headline > div {
-  display: inline-block;
+  display: table-cell;
   vertical-align: top;
 }
 
@@ -625,6 +625,34 @@ div.artist-page-headline > div.artist-page-artist-name {
   text-overflow: ellipsis;
   white-space: nowrap;
   overflow: hidden;
+}
+
+div.artist-page-headline-info {
+  display: table-cell;
+}
+
+div.artist-page-artist-name {
+  width: 75vw;
+  height: 10vh;
+  font-weight: bold;
+  font-size: 1.6em;
+  vertical-align: top;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+div.artist-page-artist-options {
+  display: table;
+  float: right;
+  height: 10vw;
+  width: 10vw;
+  text-align: center;
+}
+
+div.artist-page-artist-options > span {
+  vertical-align: middle;
+  display: table-cell;
 }
 
 /******************************************Loading Page***************************************/

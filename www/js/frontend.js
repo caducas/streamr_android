@@ -5,6 +5,9 @@ var songOptionsSongData = {
 	artist:undefined,
 	album:undefined
 };
+var artistOptionsData = {
+	artistId:undefined
+}
 var playlistSongOptionsSongData = {
 	index:undefined
 }
@@ -104,6 +107,7 @@ function isVolumeMuted() {
 }
 
 function showArtist(data) {
+	artistOptionsData = data;
 	console.log('show artist page');
 	$('#albumList').empty();
 
@@ -395,6 +399,14 @@ function showSongOptions() {
 
 function hideSongOptions() {
 	$('#songOptionsArea').hide();
+}
+
+function showArtistOptions() {
+	$('#artistOptionsArea').show();
+}
+
+function hideArtistOptions() {
+	$('#artistOptionsArea').hide();
 }
 
 function showPlaylistSongOptions() {
@@ -816,6 +828,14 @@ $(document).ready(function(){
 		hideSongOptions();
 	});
 
+	$('#artistOptionsOverlay').click(function() {
+		hideArtistOptions();
+	});
+
+	$('#showArtistOption').click(function() {
+		showArtistOptions();
+	});
+
 	$('#playlistSongOptionsOverlay').click(function() {
 		hidePlaylistSongOptions();
 	});
@@ -892,6 +912,26 @@ $(document).ready(function(){
 		hideSongOptions();
 		showPlaylistsPage();
 	});
+
+	$('#playArtist').click(function() {
+	    createNewPlaylist();
+
+        for(var albumcount in artistOptionsData.albums) {
+
+        	var album = artistOptionsData.albums[albumcount];
+        	for(var songcount in album.songs) {
+        		console.log(albumcount, songcount);
+        		var song = album.songs[songcount];
+            	addToPlaylist(song.id, song.title,album.name,artistOptionsData.artist,song.storagePath,song.flac);
+
+        	}
+        }
+
+        modifyPlaylistDesign();
+		play();
+		hideArtistOptions();
+	});
+
 
 	// divimg.addEventListener("DOMAttrModified", function(event) {
 	//     if (event.attrName == "src") {
