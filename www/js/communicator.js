@@ -285,6 +285,14 @@ function sendMpdRemoveSong(index) {
 // 	socket.emit("mpdVolume", volume*100);
 // }
 
+function sendMpdMute() {
+	socket.emit("mpdMute", getSelectedMpd());
+}
+
+function sendMpdUnmute() {
+	socket.emit("mpdUnmute", getSelectedMpd());
+}
+
 function sendMpdVolumeIncrease() {
 	// alert("should send mpd message volume+");
 	socket.emit("mpdVolumeIncrease", getSelectedMpd());
