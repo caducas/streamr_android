@@ -3,17 +3,17 @@
   --bar-font-color: #FFF;
   --bar-fontsize: 3vh;
   --bar-height: 7vh;
-  --background: #333;
+  --background: #1B1B1B;
   --line-background: #222;
   --button-color: #222;
   --font-color: #888;
   --headline-color: #AAA;
-  --font-color-lowlight: #222;
+  --font-color-lowlight: #444;
   --line-height: 7vh;
 }
 
 body {
-  background: #333;
+  background: var(--background);
   color: var(--font-color);
   /*font-size: 2em;*/
   height: 100vh;
@@ -316,9 +316,10 @@ div.player_bar > div.player-bar-info > div.player-bar-artist {
 /************************************************Playlist*******************************************/
 
 ul.playlist > li {
-  background-color: #1B1B1B;
+  background-color: var(--background);
   margin-top: 1px;
   height: var(--line-height);
+  border-bottom: 1px solid #222;
 }
 
 ul.playlist > li > div > div.remover, 
@@ -666,6 +667,7 @@ div.loadingPage {
   position: absolute;
   left: 0;
   top: 0;
+  z-index: 999;
 }
 
 
