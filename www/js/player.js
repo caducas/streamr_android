@@ -375,6 +375,7 @@ function modifyPlaylistDesign() {
 
         var poster = playlist.playlist[index].poster;
         poster =  poster.replace("/albumBig.jpg","/albumSmall.jpg");
+        poster = poster.replace(/(['])/g,'&apos;');
         $("<div class='sort-handler'><img src='"+poster+"' /></div>").insertBefore(obj.parent());
 
         $("<div class='options'><span class=\"glyphicon glyphicon-option-vertical\"></span></div>").insertAfter(obj.parent());
