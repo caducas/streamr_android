@@ -23,15 +23,30 @@ function reconnectWebsocket() {
 	}
 }
 
-function connectWebsocket() {
+function connectWebsocket(options) {
+
 	var url = getUrl();
+
+	if(typeof options != 'undefined' && options.useWebAddress == true) {
+		url = getWebUrl();
+	}
 	// if(connectionLocal) {
 	// 	url = getLocalUrl();
 	// } else {
 	// 	url = getWebUrl();
 	// }
 	// console.log(url);
-	socket = io('ws://'+url);
+	socket = io('ws://'+url, {
+		reconnectionAttempts:2,
+		reconnectionDelay: 200
+	});
+
+	socket.on('reconnect_failed', function() {
+		connectWebsocket({
+			useWebAddress: true
+		});
+	});
+
 	socket.on('getAutocompleteSearchResult', function(resultList) {
 		setAutocompleteResult(resultList);
 	});
