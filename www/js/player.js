@@ -240,14 +240,14 @@ function audioControlUnmute() {
 	$('#jquery_jplayer_1').jPlayer("unmute");
 }
 
-function addToPlaylistAsNext(id, title, album, artist, path, flac) {
-    addToPlaylist(id, title, album, artist, path, flac, playlist.current);
+function addToPlaylistAsNext(id, title, album, artist, path, isFlac) {
+    addToPlaylist(id, title, album, artist, path, isFlac, playlist.current);
 }
 
-function addToPlaylist(id, title, album, artist, path, flac, position, init) {
+function addToPlaylist(id, title, album, artist, path, isFlac, position, init) {
 
     // var hash = generateHash();
-    console.log('adding song to playlist with id:'+id+' title:'+title+' album:'+album+' artist:'+artist+' path:'+path+' flac:'+flac);
+    console.log('adding song to playlist with id:'+id+' title:'+title+' album:'+album+' artist:'+artist+' path:'+path+' isFlac:'+isFlac);
 
     var url = "http://"+getUrl();
 
@@ -258,7 +258,7 @@ function addToPlaylist(id, title, album, artist, path, flac, position, init) {
         album:album,
         mp3:url+"/media/"+artist+"/"+album+"/"+title+".mp3",
         path:path,
-        isFlac:flac,
+        isFlac:isFlac,
         poster:url+"/media/"+artist+"/"+album+"/albumBig.jpg"
     }
 
@@ -658,7 +658,7 @@ function pause() {
 function addSongsToPlaylist(songs) {
 console.log(songs);
   for(var songcount in songs) {
-     addToPlaylist(songs[songcount].id, songs[songcount].title,songs[songcount].album,songs[songcount].artist,songs[songcount].storagePath,songs[songcount].flac);          
+     addToPlaylist(songs[songcount].id, songs[songcount].title,songs[songcount].album,songs[songcount].artist,songs[songcount].storagePath,songs[songcount].isFlac);          
   }
   console.log(playlist);
 }
@@ -679,7 +679,7 @@ function initMpd(mpdPlaylist) {
 		console.log('should add playlist now');
 		console.log(mpdPlaylist);
 		for(var songcount in mpdPlaylist) {
-			addToPlaylist(mpdPlaylist[songcount].id, mpdPlaylist[songcount].title,mpdPlaylist[songcount].album,mpdPlaylist[songcount].artist,mpdPlaylist[songcount].storagePath,mpdPlaylist[songcount].flac, null, true);
+			addToPlaylist(mpdPlaylist[songcount].id, mpdPlaylist[songcount].title,mpdPlaylist[songcount].album,mpdPlaylist[songcount].artist,mpdPlaylist[songcount].storagePath,mpdPlaylist[songcount].isFlac, null, true);
 		}
 	}
 }

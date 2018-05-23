@@ -50,6 +50,10 @@ function useLocalSocket() {
 	return useLocalAddress;
 }
 
+function useWebSocket() {
+	useLocalAddress = false;
+}
+
 function parseUrl(url) {
 	url = url.replace("?", "%3F");
 	return url;
