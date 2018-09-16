@@ -42,9 +42,8 @@ function connectWebsocket(options) {
 	});
 
 	socket.on('reconnect_failed', function() {
-		connectWebsocket({
-			useWebAddress: true
-		});
+		useWebSocket();
+		connectWebsocket();
 	});
 
 	socket.on('getAutocompleteSearchResult', function(resultList) {
@@ -297,7 +296,7 @@ function sendMpdRemoveSong(index) {
 }
 
 // function sendMpdVolume(volume) {
-// 	socket.emit("mpdVolume", getSelectedMpd(), volume*100);
+// 	socket.emit("mpdVolume", volume*100);
 // }
 
 function sendMpdMute() {
@@ -383,6 +382,7 @@ function login(username, password, cb) {
 		xhrFields: {
 			withCredentials: true
 		},
+		timeout: 1000,
 		success: function(data) {
 			connectWebsockets();
 			loginSuccess();
@@ -398,12 +398,21 @@ function login(username, password, cb) {
 
 		},
 		error: function(a,b,c){
-			console.log('login failed');
-			loginFailed();
-			alert("Login failed!\nServer:"+getUrl());
-			// console.log(b);
-			// console.log(a);
-			// console.log(c);
+			if(useLocalSocket()) {
+				console.log('')
+				useWebSocket();
+				login(username, password);
+			} else {
+				console.log('login failed');
+				console.log(a);
+				console.log(b);
+				console.log(c);
+				loginFailed();
+				alert("Login failed!\nServer:"+getUrl());
+				// console.log(b);
+				// console.log(a);
+				// console.log(c);
+			}
 		}
 	});
 }

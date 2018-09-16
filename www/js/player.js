@@ -4,18 +4,6 @@ var intervalForSongPlayingOnMpd;
 var volumeBeforeMute;
 var currentVolume = 50;
 
-// clone function - used to clone complex objects like functions
-Function.prototype.clone = function() {
-    var that = this;
-    var temp = function temporary() { return that.apply(this, arguments); };
-    for(var key in this) {
-        if (this.hasOwnProperty(key)) {
-            temp[key] = this[key];
-        }
-    }
-    return temp;
-};
-
 function initializePlayer() {
 
 
@@ -252,14 +240,14 @@ function audioControlUnmute() {
 	$('#jquery_jplayer_1').jPlayer("unmute");
 }
 
-function addToPlaylistAsNext(id, title, album, artist, path, flac) {
-    addToPlaylist(id, title, album, artist, path, flac, playlist.current);
+function addToPlaylistAsNext(id, title, album, artist, path, isFlac) {
+    addToPlaylist(id, title, album, artist, path, isFlac, playlist.current);
 }
 
-function addToPlaylist(id, title, album, artist, path, flac, position, init) {
+function addToPlaylist(id, title, album, artist, path, isFlac, position, init) {
 
     // var hash = generateHash();
-    console.log('adding song to playlist with id:'+id+' title:'+title+' album:'+album+' artist:'+artist+' path:'+path+' flac:'+flac);
+    console.log('adding song to playlist with id:'+id+' title:'+title+' album:'+album+' artist:'+artist+' path:'+path+' isFlac:'+isFlac);
 
     var url = "http://"+getUrl();
 
@@ -270,8 +258,8 @@ function addToPlaylist(id, title, album, artist, path, flac, position, init) {
         album:album,
         mp3:url+"/media/"+artist+"/"+album+"/"+title+".mp3",
         path:path,
-        isFlac:flac,
-        poster:parseUrl(url+"/media/"+artist+"/"+album+"/albumBig.jpg")
+        isFlac:isFlac,
+        poster:url+"/media/"+artist+"/"+album+"/albumBig.jpg"
     }
 
     playlist.add(song);
@@ -670,7 +658,7 @@ function pause() {
 function addSongsToPlaylist(songs) {
 console.log(songs);
   for(var songcount in songs) {
-     addToPlaylist(songs[songcount].id, songs[songcount].title,songs[songcount].album,songs[songcount].artist,songs[songcount].storagePath,songs[songcount].flac);          
+     addToPlaylist(songs[songcount].id, songs[songcount].title,songs[songcount].album,songs[songcount].artist,songs[songcount].storagePath,songs[songcount].isFlac);          
   }
   console.log(playlist);
 }
@@ -691,7 +679,7 @@ function initMpd(mpdPlaylist) {
 		console.log('should add playlist now');
 		console.log(mpdPlaylist);
 		for(var songcount in mpdPlaylist) {
-			addToPlaylist(mpdPlaylist[songcount].id, mpdPlaylist[songcount].title,mpdPlaylist[songcount].album,mpdPlaylist[songcount].artist,mpdPlaylist[songcount].storagePath,mpdPlaylist[songcount].flac, null, true);
+			addToPlaylist(mpdPlaylist[songcount].id, mpdPlaylist[songcount].title,mpdPlaylist[songcount].album,mpdPlaylist[songcount].artist,mpdPlaylist[songcount].storagePath,mpdPlaylist[songcount].isFlac, null, true);
 		}
 	}
 }
