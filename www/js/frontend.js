@@ -3,8 +3,7 @@ var songOptionsSongData = {
 	id:undefined,
 	title:undefined,
 	artist:undefined,
-	album:undefined,
-	isFlac:undefined
+	album:undefined
 };
 var artistOptionsData = {
 	artistId:undefined
@@ -207,7 +206,7 @@ function showAlbum(data) {
 	        console.log(songs);
 
 	        for(var songcount in songs) {
-	            addToPlaylist(songs[songcount].id, songs[songcount].title,albumName,artistName,songs[songcount].storagePath,songs[songcount].isFlac);
+	            addToPlaylist(songs[songcount].id, songs[songcount].title,albumName,artistName,songs[songcount].storagePath,songs[songcount].flac);
 	        }
 	        modifyPlaylistDesign();
 	        play(playPosition);
@@ -223,17 +222,16 @@ function showAlbum(data) {
 		// divAddSongToPlaylist.appendChild(document.createElement('span'))
 		divAddSongToPlaylist.innerHTML = '<span class="glyphicon glyphicon-option-vertical"></span>';
 
-		(function(id, title, album, artist, isFlac){
+		(function(id, title, album, artist){
 			divAddSongToPlaylist.addEventListener("click", function() {
 	        	songOptionsSongData.id = id;
 	        	songOptionsSongData.title = title;
 	        	songOptionsSongData.album = album;
 	        	songOptionsSongData.artist = artist;
-	        	songOptionsSongData.isFlac = isFlac;
 	        	showSongOptions();
 
 			});
-		})(data.songs[i].id,data.songs[i].title,data.albumName,data.artistName,data.songs[i].isFlac);
+		})(data.songs[i].id,data.songs[i].title,data.albumName,data.artistName);
 
 		//TODO Listener
 		divSongRow.appendChild(divAddSongToPlaylist);
@@ -871,13 +869,13 @@ $(document).ready(function(){
 	});
 
 	$('#addSongToCurrentPlaylist').click(function() {
-		addToPlaylist(songOptionsSongData.id,songOptionsSongData.title,songOptionsSongData.album,songOptionsSongData.artist,null,songOptionsSongData.isFlac);
+		addToPlaylist(songOptionsSongData.id,songOptionsSongData.title,songOptionsSongData.album,songOptionsSongData.artist,null);
     	modifyPlaylistDesign();
     	hideSongOptions();
 	});
 
 	$('#playSongNext').click(function() {
-		addToPlaylistAsNext(songOptionsSongData.id,songOptionsSongData.title,songOptionsSongData.album,songOptionsSongData.artist,null,songOptionsSongData.isFlac);
+		addToPlaylistAsNext(songOptionsSongData.id,songOptionsSongData.title,songOptionsSongData.album,songOptionsSongData.artist,null);
     	modifyPlaylistDesign();
     	hideSongOptions();
 	});
@@ -924,7 +922,7 @@ $(document).ready(function(){
         	for(var songcount in album.songs) {
         		console.log(albumcount, songcount);
         		var song = album.songs[songcount];
-            	addToPlaylist(song.id, song.title,album.name,artistOptionsData.artist,song.storagePath,song.isFlac);
+            	addToPlaylist(song.id, song.title,album.name,artistOptionsData.artist,song.storagePath,song.flac);
 
         	}
         }
