@@ -632,6 +632,13 @@ function frontendMute() {
 	$('#btnMute').removeClass('glyphicon-volume-up').addClass('glyphicon-volume-off');
 }
 
+function showPreferences() {
+	$('#serverAddressLocal').val(configHelper.getServerAddressLocal(serverAddressLocal));
+	$('#serverPortLocal').val(configHelper.getServerPortLocal(serverPortLocal));
+	$('#serverAddressWeb').val(configHelper.getServerAddressWeb(serverAddressWeb));
+	$('#serverPortWeb').val(configHelper.getServerPortWeb(serverPortWeb));
+	$('#appSettingsArea').show();
+}
 function frontendActivateShuffle() {
 	$('#btnShuffle').removeClass('inactive');
 }
@@ -717,11 +724,7 @@ $(document).ready(function(){
 	});
 
 	$('#openAppSettings').click(function() {
-    	$('#serverAddressLocal').val(configHelper.getServerAddressLocal(serverAddressLocal));
-    	$('#serverPortLocal').val(configHelper.getServerPortLocal(serverPortLocal));
-    	$('#serverAddressWeb').val(configHelper.getServerAddressWeb(serverAddressWeb));
-    	$('#serverPortWeb').val(configHelper.getServerPortWeb(serverPortWeb));
-    	$('#appSettingsArea').show();
+		showPreferences();
 	});
 
 	$('#appSettingsSubmit').click(function() {
@@ -735,6 +738,10 @@ $(document).ready(function(){
 		configHelper.setServerPortWeb(serverPortWeb);
 		hideConnectionSettings();
 		showLoginArea();
+	});
+
+	$('#appSettingsCancel').click(function() {
+		$('#appSettingsArea').hide();
 	});
 
 	$('#search').bind('input', function() {
@@ -849,6 +856,10 @@ $(document).ready(function(){
 
 	$('#restartApp').click(function() {
 		window.location.reload(true);
+	});
+
+	$('#showPreferences').click(function() {
+		showPreferences();
 	});
 
 	$('#newPlaylistPlaceholder').click(function() {
