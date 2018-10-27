@@ -32,7 +32,10 @@
     </script>
 </head>
 <body id="streamrBody">
-    <div id="loginArea">
+    <div id="infoOverlay" class="infoOverlay" style="display: none">
+        <span id="infoOverlayText"></span>
+    </div>
+    <div id="loginArea" style="display: none">
         <div class="modal show" tabindex="-1" role="dialog" aria-hidden="true" id="loginModal">
             <div class="modal-dialog">
                 <div class="modal-content">
@@ -136,7 +139,7 @@
                             </div>
                         </div>
                         <div style="display:none">
-                            <div class="jp-current-time" role="timer" aria-label="time">&nbsp;</div>
+                            <div class="jp-current-time" id="current-time" role="timer" aria-label="time">&nbsp;</div>
                             <div class="jp-duration" role="timer" aria-label="duration">&nbsp;</div>
                             <div class="jp-toggles">
                                 <button class="jp-repeat" role="button" tabindex="0">repeat</button>
@@ -170,15 +173,15 @@
                     <span class="glyphicon glyphicon-forward btnAudioControl btnAudioControlNext"></span>
                 </div>
             </div>
-            <div id="player-bottom-menu" class="player-bottom-menu">
+            <div id="player-bottom-menu" class="player-bottom-menu" style="overflow: hidden" scroll="no">
                 <div id="player-bottom-menu-volume" class="player-bottom-menu-entry">
                     <span class="glyphicon glyphicon-volume-up btnVolume" id="btnMute"></span>
                 </div>
                 <div id="player-bottom-menu-shuffle" class="player-bottom-menu-entry">
-                    <span class="glyphicon glyphicon-random btnRandom" id="btnShuffle"></span>
+                    <span class="glyphicon glyphicon-random btnRandom inactive" id="btnShuffle"></span>
                 </div>
                 <div id="player-bottom-menu-repeat" class="player-bottom-menu-entry">
-                    <span class="glyphicon glyphicon-retweet btnRepeat" id="btnRepeat"></span>
+                    <span class="glyphicon glyphicon-retweet btnRepeat inactive" id="btnRepeat"></span>
                 </div>
                 <div id="player-bottom-menu-playlist" class="player-bottom-menu-entry">
                     <span class="glyphicon glyphicon-menu-hamburger btnPlaylist" id="btnPlaylist"></span>
@@ -189,6 +192,11 @@
             <div id="playlist-top-bar" class="player-top-menu">
                 <div id="playlist-top-menu-save" class="player-top-menu-entry">
                     <span class="glyphicon glyphicon-floppy-disk" id="btnSaveCurrentPlaylist"></span>
+                </div>
+            </div>
+            <div class="jp-audio">
+                <div class="jp-playlist">
+                    
                 </div>
             </div>
             <div class="jp-audio">
@@ -223,19 +231,27 @@
         <div id="page-artist" class="page">
             <div id="artist-page-headline" class="artist-page-headline">
                 <div id="artist-page-headline-image" class="artist-page-headline-image"></div>
-                <div id="artist-page-artist-name" class="artist-page-artist-name">
-                    Artist
+                <div class="artist-page-headline-info">
+                    <div id="artist-page-artist-name" class="artist-page-artist-name">
+                        Artist
+                    </div>
+                    <div id="showArtistOption" class="artist-page-artist-options">
+                        <span class="glyphicon glyphicon-option-vertical"></span>
+                    </div>
                 </div>
             </div>
             <div id="albumList" class="album-list"></div>
         </div>
         <div id="page-album" class="page page-album">
-            <div id="page-album-cover" class="page-album-cover">
-                <div id="page-album-title" class="page-album-title"></div>
-                <div id="page-album-artist" class="page-album-artist"></div>
-                <div id="page-album-songcount" class="page-album-songcount"></div>
+            <div id="page-album-headline" class="page-album-headline">
+                <div id="page-album-headline-image" class="page-album-headline-image"></div>
+                <div class="page-album-headline-info">
+                    <div id="page-album-title" class="page-album-title"></div>
+                    <div id="page-album-artist" class="page-album-artist"></div>
+                    <div id="page-album-songcount" class="page-album-songcount"></div>
+                </div>
             </div>
-            <div id="page-album-playlist" class="page-album-playlist"></div>
+            <div id="page-album-playlist" class="list page-album-playlist"></div>
         </div>
         <div id="player-bar" class="player_bar" style="display: none">
             <div class="player-bar-image-area">
@@ -265,7 +281,7 @@
             </div>
         </div>
     </div>
-    <div id="mpdSelectionArea" class="settingsMenuArea">
+    <div id="mpdSelectionArea" class="settingsMenuArea" style="display: none">
         <div id="mpdSelectionOverlay" class="settingsMenuOverlay">
         </div>
         <div id="mpdSelection" class="settingsMenu mpdSelectionList">
@@ -278,12 +294,36 @@
             <div id="playSongNext">
                 Play next
             </div>
-            <div id="addSongToPlaylist">
+            <div id="addSongToCurrentPlaylist">
                 Play last
+            </div>
+            <div id="addSongToPlaylist">
+                Add to playlist
             </div>
         </div>
     </div>
-    <div id="volumeControl" class="volumeControl">
+    <div id="artistOptionsArea" class="settingsMenuArea" style="display: none">
+        <div id="artistOptionsOverlay" class="settingsMenuOverlay">
+        </div>
+        <div id="artistOptions" class="settingsMenu">
+            <div id="playArtist">
+                Play all
+            </div>
+        </div>
+    </div>
+    <div id="playlistSongOptionsArea" class="settingsMenuArea" style="display: none">
+        <div id="playlistSongOptionsOverlay" class="settingsMenuOverlay">
+        </div>
+        <div id="playlistSongOptions" class="settingsMenu">
+            <div id="playlistPlaySong">
+                Play
+            </div>
+            <div id="removeSongFromCurrentPlaylist">
+                Remove
+            </div>
+        </div>
+    </div>
+    <div id="volumeControl" class="volumeControl" style="display: none">
         <div><div id="volumeControlCurrent"></div></div>
     </div>
 </div>

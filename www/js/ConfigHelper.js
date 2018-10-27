@@ -36,5 +36,26 @@ var configHelper = {
 	},
 	setServerPortWeb: function(port) {
 		localStorage.setItem("server.web.port", port);
+	},
+	checkSettings: function() {
+		if(this.getUsername() == null) {
+			return false;
+		}
+		if(this.getPassword() == null) {
+			return false;
+		}
+		if(this.getServerAddressLocal() == null) {
+			return false;
+		}
+		if(this.getServerAddressWeb() == null) {
+			return false;
+		}
+		if(this.getServerPortLocal() == null) {
+			return false;
+		}
+		if(this.getServerPortWeb() == null) {
+			return false;
+		}
+		return true;
 	}
 }

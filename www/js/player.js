@@ -1,5 +1,5 @@
 var playlist = [];
-var selectedMpd = 0;
+var outputDevice = 0;
 var intervalForSongPlayingOnMpd;
 var volumeBeforeMute;
 var currentVolume = 50;
@@ -79,16 +79,17 @@ function initializePlayer() {
 	    console.log('TEST');
 	  });
 
-	  if(jPlayerPlaylist.prototype._next == undefined) {
+	  if(typeof jPlayerPlaylist.prototype._next == 'undefined') {
 	  	console.log('playlist_next undefined');
 	  	jPlayerPlaylist.prototype._next = jPlayerPlaylist.prototype.next;
 	  }
 
 	  jPlayerPlaylist.prototype.next = function() {
 	  	console.log('next song');
+        var playlist = this;
 	  	console.log(playlist.playlist);
 	  	if(isRandomActive()) {
-	  		if(!isRepeatActive) {
+	  		if(!isRepeatActive()) {
 		  		var seqArrayNotPlayed = [];
 		  		for(var i in playlist.playlist) {
 		  			if(playlist.playlist[i].played == undefined || !playlist.playlist[i].played) {
@@ -96,7 +97,6 @@ function initializePlayer() {
 		  			}
 		  		}
 		  		console.log(seqArrayNotPlayed);
-		  		if(isRepeatActive)
 		  		var rndIndex = parseInt(Math.random()*seqArrayNotPlayed.length);	
 	  			var playIndex = parseInt(seqArrayNotPlayed[rndIndex]);
 	  			playlist.playlist[playIndex].played = true;
@@ -106,12 +106,17 @@ function initializePlayer() {
 	  		playlist.select(playIndex);
 	  		playlist.play(playIndex);
 	  	} else {
-	  		if(isRepeatActive && playlist.current == playlist.playlist.length-1) {
-	  			playlist.select(0);
-	  			playlist.play(0);
-	  		} else {
-				playlist._next();
-	  		}
+            console.log('random inactive');
+            if(playlist.current < playlist.playlist.length-1) {
+                playlist._next();                
+            } else {
+                if(isRepeatActive()) {
+                    playlist.select(0);
+                    playlist.play(0);                    
+                } else {
+                    frontendPause();
+                }
+            }
 	  	}
 	  }
 	  // Create live handlers that disable free media links to force access via right click
@@ -139,7 +144,6 @@ function initializePlayer() {
 	}, [
 	], {
 	  playlistOptions: {
-	    enableRemoveControls: true,
 	    removeTime: 0
 	  },
 	  swfPath: "/js",
@@ -205,6 +209,13 @@ function initializePlayer() {
 	// $('#player').css({'height':cw+'px'});
 }
 
+function removeSongFromCurrentPlaylist(index) {
+    playlist.remove(index);
+    doMpdAction(function() {
+        sendMpdRemoveSong(index+1);
+    });
+}
+
 function removePlayedFromSongs() {
 	for(var i in playlist.playlist) {
 		playlist.playlist[i].played = false;
@@ -229,31 +240,32 @@ function audioControlUnmute() {
 	$('#jquery_jplayer_1').jPlayer("unmute");
 }
 
-function addToPlaylistAsNext(id, title, album, artist, path, flac) {
-    addToPlaylist(id, title, album, artist, path, flac, playlist.current);
+function addToPlaylistAsNext(id, title, album, artist, path, isFlac) {
+    addToPlaylist(id, title, album, artist, path, isFlac, playlist.current);
 }
 
-function addToPlaylist(id, title, album, artist, path, flac, position, init) {
+function addToPlaylist(id, title, album, artist, path, isFlac, position, init) {
 
     // var hash = generateHash();
-    console.log('adding song to playlist with id:'+id+' title:'+title+' album:'+album+' artist:'+artist+' path:'+path+' flac:'+flac);
+    console.log('adding song to playlist with id:'+id+' title:'+title+' album:'+album+' artist:'+artist+' path:'+path+' isFlac:'+isFlac);
 
     var url = "http://"+getUrl();
 
     var song = {
-    id:id,
-    title:title,
-    artist:artist,
-    album:album,
-    mp3:url+"/media/"+artist+"/"+album+"/"+title+".mp3",
-    path:path,
-    isFlac:flac,
-    poster:url+"/media/"+artist+"/"+album+"/albumMedium.jpg"
+        id:id,
+        title:title,
+        artist:artist,
+        album:album,
+        mp3:url+"/media/"+artist+"/"+album+"/"+title+".mp3",
+        path:path,
+        isFlac:isFlac,
+        poster:url+"/media/"+artist+"/"+album+"/albumBig.jpg"
     }
 
     playlist.add(song);
 
     if(init) {
+        modifyPlaylistDesign();
     	return;
     }
 	console.log('will add song to mpd playlist');
@@ -266,8 +278,11 @@ function addToPlaylist(id, title, album, artist, path, flac, position, init) {
     }
 
     if(typeof position !== 'undefined') {
-        changePositionInPlaylist(playlist.playlist.length,playlist.current+1);
+
+        changePositionInPlaylist(playlist.playlist.length-1,position+1);
+        changePositionInPlaylistFrontend(playlist.playlist.length-1,position);
     }
+    modifyPlaylistDesign();
 }
 
 
@@ -319,7 +334,7 @@ function play(index) {
   	console.log('SHOULD play mpd now');
     if(typeof index != 'undefined') {
       playlist.select(index);
-      playMpd(index+1);
+      playMpd(parseInt(index)+1); 
     } else {
     	playMpd();    	
     }
@@ -341,11 +356,40 @@ function play(index) {
 
 
 function modifyPlaylistDesign() {
-	// console.log
+    // return;
+    //remove delete button
+    $("a.jp-playlist-item-remove").remove();
+
+    $('li > div').each(function(index) {
+        if(!$(this).children('a').length) {
+            return;
+        }
+        var obj = $(this).find('a');
+        obj.find('span').text(function(index,oldText){
+           //idx is the index of the current element in the JQUERY_OBJECT - not used, but must be given
+           return oldText.replace(/^by\s/,'');
+        });
+        // $(this).unwrap();
+        obj.wrap("<div class='content'></div>");
+        obj.parent().parent().addClass("playlist-row");
+
+        var poster = playlist.playlist[index].poster;
+        poster =  poster.replace("/albumBig.jpg","/albumSmall.jpg");
+        poster = poster.replace(/(['])/g,'&apos;');
+        $("<div class='sort-handler'><img src='"+poster+"' /></div>").insertBefore(obj.parent());
+
+        $("<div class='options'><span class=\"glyphicon glyphicon-option-vertical\"></span></div>").insertAfter(obj.parent());
+    });
+
+
+
+    return;
 	$('span.jp-artist').each(function() {
 		$(this).html($(this).html().split("by ").join("<br />"));
 		// $(this).html("Test");
 	});
+
+
 	$('li > div > a.jp-playlist-item-remove').each(function() {
 		if(!$(this).parent().hasClass("remover")) {
 			$(this).parent().addClass("remover");			
@@ -358,10 +402,22 @@ function modifyPlaylistDesign() {
 	// 	$(this).wrap("<div class='remover'></div>");
 	// 	$(this).click(func); 
 	// });
-	$('li > div:not(.content) > a.jp-playlist-item').each(function() {
+	$('li > div:not(.content) > a.jp-playlist-item').each(function(index) {
 		// console.log($(this).text());
 		// console.log($(this).parent().parent().parent().html());
 		$(this).wrap("<div class='content'></div>");
+        // $("<img src='"+poster+"'>").wrap($('<a>',{
+        //    // href: '/Content/pdf/' + data.pdf1
+        // }));
+        var poster = playlist.playlist[index].poster;
+        // var poster = 'http://192.168.8.70:3000/media/Adele/21/albumSmall.jpg';
+        // poster = poster.toString();
+        // console.log(poster);
+        poster =  poster.replace("/albumBig.jpg","/albumSmall.jpg");
+        // poster = poster.replace("albumBig.jpg","albumSmall.jpg");
+
+        console.log(poster);
+        // $("<div class='test-album-image'><img src='"+poster+"'></div>").insertBefore($(this).parent());
 		$(this).parent().insertAfter($(this).parent().parent());
 		$(this).parent().parent().append('<div class="sort-handler"><span class=\"glyphicon glyphicon-option-vertical\"></span></div>');
 	});
@@ -384,9 +440,9 @@ function modifyPlaylistDesign() {
 	// });	
 }
 
-function activateMpd(init) {
-	selectOutputDevice(1, init);
-	listenToMpd(1);
+function activateMpd(id, init) {
+	selectOutputDevice(id, init);
+	listenToMpd(id);
 }
 
 function deactivateMpd() {
@@ -395,8 +451,14 @@ function deactivateMpd() {
 }
 
 function selectOutputDevice(id, init) {
-	selectedMpd = id;
-	sendServerSelectedOutputDevice(id);
+    // current time is retrieved, will be reset to 0 due to any functionality in this function...
+    var currentTime = $("#jquery_jplayer_1").data("jPlayer").status.currentTime;
+    var oldOutputDevice = outputDevice;
+    if($('#btnPlay').is(":hidden") && id == 0) {
+        sendMpdPause();
+        playStream(undefined, $("#jquery_jplayer_1").data("jPlayer").status.currentTime);
+    }
+	outputDevice = id;
 	console.log('OUTPUT DEVICE CHANGED TO '+id);
     if(id>0)
     {
@@ -404,22 +466,31 @@ function selectOutputDevice(id, init) {
     } else {
         deactivateMpdVolumeControl();        
     }
+    refreshMpdSwitchStatus();
+    highlightActiveMpdSelection();
+
+    sendServerSelectedOutputDevice(id, init);
+
 	if(init) {
 		return;
 	}
+
 	// console.log('INIT:'+init);
 	if(id > 0) {
 		//get status and transfer information to mpd
-		var currentTime = $('#current-time').text();
 		setPlaylistMpd();
 		sendMpdCurrentSong(playlist.current);
-		console.log('is play button hidden?');
-		console.log($('#play').is(":hidden"));
-    	if($('#play').is(":hidden")) {
+        if(isRandomActive()) {
+            console.log('should send mpd shuffle active');
+            sendMpdActivateShuffle();
+        } else {
+            console.log('should send mpd shuffle deactive');
+            sendMpdDeactivateShuffle();
+        }
+    	if($('#btnPlay').is(":hidden")) {
 	      playMpd();
 	      console.log('set mpd to currenttime');
-	      console.log(currentTime);
-	      seekMpd(currentTime);
+          sendMpdSeek(currentTime);
 	      return;
     	}
     	// socket.emit('mpdSetCurrentSong', playlist.current);
@@ -427,10 +498,6 @@ function selectOutputDevice(id, init) {
 		return;
 	} 
 	console.log('webplayer selected');
-	if($('#play').is(":hidden")) {
-		stopMpd();
-		playStream();
-	}
 }
 
 function setPlaylistMpd() {
@@ -442,8 +509,6 @@ function setPlaylistMpd() {
 function parseMp3PathInPlaylist() {
   var current = playlist.current;
   console.log('Parse Playlist');
-  // console.log('playlist');
-  // console.log(playlist.playlist);
   for(var i in playlist.playlist) {
     playlist.select(i);
   }
@@ -451,8 +516,8 @@ function parseMp3PathInPlaylist() {
 }
 
 function doActionForSelectedOutputDevice(streamAction, mpdAction) {
-	// console.log(selectedMpd);
-  if(selectedMpd>0) {
+	// console.log(outputDevice);
+  if(outputDevice>0) {
     mpdAction();
     return;
   }
@@ -460,12 +525,17 @@ function doActionForSelectedOutputDevice(streamAction, mpdAction) {
 }
 
 
-function playStream(position) {
+function playStream(position, time) {
   if(position !== undefined) {
   	console.log('should select '+position);
     playlist.select(parseInt(position));    
   }
   // console.log('playstream');
+  if(typeof time !== 'undefined') {
+    var t = parseInt(time);
+    $("#jquery_jplayer_1").jPlayer('play', t);
+    return;
+  }
   $("#jquery_jplayer_1").jPlayer('play');
 }
 
@@ -479,15 +549,18 @@ function pauseStream() {
 
 function pauseMpd() {
   console.log('should pause now on MPD');
-  sendMpdCommand('mpdPause');
+  // sendMpdCommand('mpdPause');
+  sendMpdPause();
 }
 
 function nextMpd() {
-  sendMpdCommand('mpdNext');
+  // sendMpdCommand('mpdNext');
+  sendMpdNext();
 }
 
 function previousMpd() {
-  sendMpdCommand('mpdPrevious');
+  // sendMpdCommand('mpdPrevious');
+  sendMpdPrevious();
 }
 
 function addSongToPlaylistMpd(song) {
@@ -527,7 +600,16 @@ function playerStatusUpdate(data) {
 }
 
 function getSelectedMpd() {
-	return selectedMpd;
+	return outputDevice;
+}
+
+function setSelectedMpd(mpdId) {
+    outputDevice = mpdId;
+    if(id>0) {
+        activateMpdSwitch();
+    } else {
+        deactivateMpdSwitch();
+    }
 }
 
 function emptyPlaylist() {
@@ -576,10 +658,9 @@ function pause() {
 function addSongsToPlaylist(songs) {
 console.log(songs);
   for(var songcount in songs) {
-     addToPlaylist(songs[songcount].id, songs[songcount].title,songs[songcount].album,songs[songcount].artist,songs[songcount].storagePath,songs[songcount].flac);          
+     addToPlaylist(songs[songcount].id, songs[songcount].title,songs[songcount].album,songs[songcount].artist,songs[songcount].storagePath,songs[songcount].isFlac);          
   }
   console.log(playlist);
-  modifyPlaylistDesign();
 }
 
 function calcPercentage(number, base) {
@@ -598,9 +679,8 @@ function initMpd(mpdPlaylist) {
 		console.log('should add playlist now');
 		console.log(mpdPlaylist);
 		for(var songcount in mpdPlaylist) {
-			addToPlaylist(mpdPlaylist[songcount].id, mpdPlaylist[songcount].title,mpdPlaylist[songcount].album,mpdPlaylist[songcount].artist,mpdPlaylist[songcount].storagePath,mpdPlaylist[songcount].flac, null, true);
+			addToPlaylist(mpdPlaylist[songcount].id, mpdPlaylist[songcount].title,mpdPlaylist[songcount].album,mpdPlaylist[songcount].artist,mpdPlaylist[songcount].storagePath,mpdPlaylist[songcount].isFlac, null, true);
 		}
-		modifyPlaylistDesign();
 	}
 }
 
@@ -621,19 +701,37 @@ function getVolume() {
 	return currentVolume;
 }
 
+// this function should be removed, is not needed
+// either turn down the volume or press pause
+// mute/unmute functionality is very complex in combination with mpd
 function mute() {
     doActionForSelectedOutputDevice(function() {
       $("#jquery_jplayer_1").jPlayer('mute');
     }, function() {
-      muteMpd();
     });
 }
 
+// this function should be removed, is not needed
+// either turn down the volume or press pause
+// mute/unmute functionality is very complex in combination with mpd
 function unmute() {
     doActionForSelectedOutputDevice(function() {
       $("#jquery_jplayer_1").jPlayer('unmute');
     }, function() {
-      unmuteMpd();
+    });    
+}
+
+function activateShuffle() {
+    doActionForSelectedOutputDevice(function() {
+    }, function() {
+      sendMpdActivateShuffle();
+    });    
+}
+
+function deactivateShuffle() {
+    doActionForSelectedOutputDevice(function() {
+    }, function() {
+      sendMpdDeactivateShuffle();
     });    
 }
 
