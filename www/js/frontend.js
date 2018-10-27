@@ -858,6 +858,10 @@ $(document).ready(function(){
 		window.location.reload(true);
 	});
 
+	$('#loginScreenrestartApp').click(function() {
+		window.location.reload(true);
+	});
+
 	$('#showPreferences').click(function() {
 		showPreferences();
 	});
