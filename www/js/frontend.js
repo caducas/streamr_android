@@ -535,6 +535,14 @@ function frontendMute() {
 	$('#btnMute').removeClass('glyphicon-volume-up').addClass('glyphicon-volume-off');
 }
 
+function showPreferences() {
+	$('#serverAddressLocal').val(configHelper.getServerAddressLocal(serverAddressLocal));
+	$('#serverPortLocal').val(configHelper.getServerPortLocal(serverPortLocal));
+	$('#serverAddressWeb').val(configHelper.getServerAddressWeb(serverAddressWeb));
+	$('#serverPortWeb').val(configHelper.getServerPortWeb(serverPortWeb));
+	$('#appSettingsArea').show();
+}
+
 
 $(document).ready(function(){
 	// $('#loadingPage').show();
@@ -585,11 +593,7 @@ $(document).ready(function(){
 	});
 
 	$('#openAppSettings').click(function() {
-    	$('#serverAddressLocal').val(configHelper.getServerAddressLocal(serverAddressLocal));
-    	$('#serverPortLocal').val(configHelper.getServerPortLocal(serverPortLocal));
-    	$('#serverAddressWeb').val(configHelper.getServerAddressWeb(serverAddressWeb));
-    	$('#serverPortWeb').val(configHelper.getServerPortWeb(serverPortWeb));
-    	$('#appSettingsArea').show();
+		showPreferences();
 	});
 
 	$('#appSettingsSubmit').click(function() {
@@ -601,6 +605,10 @@ $(document).ready(function(){
 		configHelper.setServerPortLocal(serverPortLocal);
 		configHelper.setServerAddressWeb(serverAddressWeb);
 		configHelper.setServerPortWeb(serverPortWeb);
+		$('#appSettingsArea').hide();
+	});
+
+	$('#appSettingsCancel').click(function() {
 		$('#appSettingsArea').hide();
 	});
 
@@ -707,6 +715,10 @@ $(document).ready(function(){
 
 	$('#restartApp').click(function() {
 		location.reload();
+	});
+
+	$('#showPreferences').click(function() {
+		showPreferences();
 	});
 
 	$('#newPlaylistPlaceholder').click(function() {
