@@ -286,7 +286,7 @@ function addToPlaylist(id, title, album, artist, path, isFlac, position, init) {
 }
 
 
-function createNewPlaylist() {
+function createNewPlaylist(playlistId) {
 
   //have to copy old instance for .remove() after initiating new instance
   //otherwise the old playlist will remain and elements not overwritten by new songs can be played without listing in playlist
@@ -304,7 +304,8 @@ function createNewPlaylist() {
       swfPath: "/js",
       supplied: "mp3"
     });
-  currentPlaylistId = undefined;
+
+    playlist.playlistId = playlistId;
   oldPlaylist.remove();
   doMpdAction(function() {
     setPlaylistMpd();
@@ -504,6 +505,11 @@ function setPlaylistMpd() {
   parseMp3PathInPlaylist();
   console.log(playlist.playlist);
   setMpdPlaylist(playlist.playlist);
+  if(playlist.playlistId == -1) {
+    activateMpdRandomNextSongGeneration();
+  } else {
+    deactivateMpdRandomNextSongGeneration();    
+  }
 }
 
 function parseMp3PathInPlaylist() {
