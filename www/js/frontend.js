@@ -121,6 +121,24 @@ function showArtist(data) {
 	var artistName = document.createTextNode(data.artist);
 	$('#artist-page-artist-name').append(artistName);
 	// document.getElementById("artist-page-artist-name").html = data.artist;
+	if(artistOptionsData.likeCode > 0) {
+		$('#likeArtist').show();
+		$('#dislikeArtist').hide();
+		$('#unlikeArtist').hide();
+		$('#undislikeArtist').show();
+	} else {
+		if(artistOptionsData.likeCode < 0) {
+			$('#likeArtist').hide();
+			$('#dislikeArtist').show();
+			$('#unlikeArtist').show();
+			$('#undislikeArtist').hide();
+		} else {
+			$('#likeArtist').hide();
+			$('#dislikeArtist').hide();
+			$('#unlikeArtist').show();
+			$('#undislikeArtist').show();			
+		}
+	}
 
 	for(var i in data.albums) {
 		console.log(data.albums[i]);
@@ -325,6 +343,7 @@ function showArtists(data) {
 
 		var artistEntry = document.createElement('div');
 		artistEntry.className = 'list-element artist';
+		artistEntry.id = 'artistList_'+data[i].name;
 
 		var imageElement = document.createElement('img');
 		imageElement.src = encodeURI('http://'+getUrl()+'/media/' + data[i].name + '/artistSmall.jpg');
@@ -335,9 +354,21 @@ function showArtists(data) {
 		artistEntry.appendChild(imageElement);
 
 		var artistName = document.createElement('div');
+		artistName.className = 'artistName';
 		artistName.appendChild(document.createTextNode(data[i].name));
 		artistEntry.appendChild(artistName);
 
+		var artistLikeIcon = document.createElement('div');
+		if(data[i].like_code > 0) {
+			artistLikeIcon.className = 'glyphicon glyphicon-heart artistLike';			
+		} else {
+			if(data[i].like_code < 0) {
+				artistLikeIcon.className = 'glyphicon glyphicon-ban-circle artistLike';	
+			} else {
+				artistLikeIcon.className = 'artistLike';					
+			}
+		}
+		artistEntry.appendChild(artistLikeIcon);
 
 		(function(id){
 		artistEntry.addEventListener("click", function() {
@@ -865,6 +896,44 @@ $(document).ready(function(){
 
 	$('#showArtistOption').click(function() {
 		showArtistOptions();
+	});
+
+	$('#likeArtist').click(function() {
+		sendUnlikeArtist(artistOptionsData.artistId);
+		// it's not liked now anymore, so hide like and active dislike button
+		$('#likeArtist').hide();
+		$('#dislikeArtist').hide();
+		$('#unlikeArtist').show();
+		$('#undislikeArtist').show();
+		$('div[id=\'artistList_'+artistOptionsData.artist+'\'] > div.artistLike').attr('class', 'artistLike');
+	});
+
+	$('#unlikeArtist').click(function() {
+		sendLikeArtist(artistOptionsData.artistId);
+		// it's liked now, so hide inactive like and active dislike button
+		$('#unlikeArtist').hide();
+		$('#dislikeArtist').hide();
+		$('#likeArtist').show();
+		$('#undislikeArtist').show();
+		$('div[id=\'artistList_'+artistOptionsData.artist+'\'] > div.artistLike').attr('class', 'glyphicon glyphicon-heart artistLike');
+	});
+
+	$('#dislikeArtist').click(function() {
+		sendUndislikeArtist(artistOptionsData.artistId);
+		$('#likeArtist').hide();
+		$('#dislikeArtist').hide();
+		$('#unlikeArtist').show();
+		$('#undislikeArtist').show();
+		$('div[id=\'artistList_'+artistOptionsData.artist+'\'] > div.artistLike').attr('class', 'artistLike');
+	});
+
+	$('#undislikeArtist').click(function() {
+		sendDislikeArtist(artistOptionsData.artistId);
+		$('#likeArtist').hide();
+		$('#undislikeArtist').hide();
+		$('#dislikeArtist').show();
+		$('#unlikeArtist').show();
+		$('div[id=\'artistList_'+artistOptionsData.artist+'\'] > div.artistLike').attr('class', 'glyphicon glyphicon-ban-circle artistLike');
 	});
 
 	$('#playlistSongOptionsOverlay').click(function() {

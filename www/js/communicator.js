@@ -246,6 +246,22 @@ function getPlaylist(id) {
 	socket.emit('getPlaylist', id);
 }
 
+function sendLikeArtist(id) {
+	socket.emit('likeArtist', id);
+}
+
+function sendUnlikeArtist(id) {
+	socket.emit('unlikeArtist', id);
+}
+
+function sendDislikeArtist(id) {
+	socket.emit('dislikeArtist', id);
+}
+
+function sendUndislikeArtist(id) {
+	socket.emit('undislikeArtist', id);
+}
+
 function getMpdList() {
 	socket.emit('getMpdList');
 }

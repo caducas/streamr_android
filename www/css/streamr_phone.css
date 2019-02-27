@@ -537,12 +537,25 @@ div.artistsOverview > div.artist > img {
 }
 
 div.artistsOverview > div.artist > div {
-  width: 80%;
-  display: inline-block;
+  display: inline-block;  
+  vertical-align:top;
+  height: 100%;
+}
+
+div.artistsOverview > div.artist > div.artistName {
+  width: 75%;
   padding-left: 2%;
-  margin-top: 0.5vh;
   text-overflow: ellipsis;
   overflow: hidden;
+  margin-top: 0.5vh;
+}
+
+div.artistsOverview > div.artist > div.artistLike {
+  width: 10%;
+  text-align: right;
+  color: var(--font-color-lowlight);
+  line-height: var(--line-height);
+  font-size: var(--bar-fontsize);
 }
 
 
@@ -676,6 +689,10 @@ div.artist-page-artist-options {
 div.artist-page-artist-options > span {
   vertical-align: middle;
   display: table-cell;
+}
+
+div.artist-page-artist-options > span.inactive {
+  color: var(--font-color-lowlight);
 }
 
 /******************************************Loading Page***************************************/
