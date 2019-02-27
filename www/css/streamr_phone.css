@@ -511,6 +511,7 @@ div.page-album-song-add > span {
 /******************************************Artist Overview***************************************/
 
 div.artistsOverview {
+  width: 90%;
   position: absolute;
   top: 0px;
   left: 10%;
@@ -521,7 +522,7 @@ div.artistsOverview > div.listHeadline {
   font-size: 12vw;
   padding-left: 2vw;
   /*line-height: 13vw;*/
-  line-height: 0vw;
+  display: none;
 }
 
 div.artistsOverview > div.artist {
@@ -535,7 +536,7 @@ div.artistsOverview > div.artist > img {
 }
 
 div.artistsOverview > div.artist > div {
-  width: 63%;
+  width: 80%;
   display: inline-block;
   padding-left: 2%;
   margin-top: 0.5vh;
