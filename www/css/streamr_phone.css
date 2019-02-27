@@ -510,12 +510,20 @@ div.page-album-song-add > span {
 
 /******************************************Artist Overview***************************************/
 
+div.artistsOverview {
+  width: 90%;
+  position: absolute;
+  top: 0px;
+  left: 10%;
+}
 
 div.artistsOverview > div.listHeadline {
   color: #aaa;
   font-size: 12vw;
   padding-left: 2vw;
-  line-height: 13vw;
+  /*line-height/opacity is used as display none won't work with offset().top method with scrollnav function*/
+  line-height: 0;
+  opacity: 0;
 }
 
 div.artistsOverview > div.artist {
@@ -529,10 +537,24 @@ div.artistsOverview > div.artist > img {
 }
 
 div.artistsOverview > div.artist > div {
-  width: 83%;
+  width: 80%;
   display: inline-block;
-  padding-left: 3%;
+  padding-left: 2%;
   margin-top: 0.5vh;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+
+
+/******************************************Artist Overview Scrollnavigation************************/
+
+div.artistsScrollnav {
+  display: block;
+  width: 10%;
+  text-align: center;
+  vertical-align: middle;
+  line-height: 5vh;
+  font-size: 4vh;
 }
 
 

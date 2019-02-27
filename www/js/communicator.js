@@ -109,7 +109,7 @@ function connectWebsocket(options) {
 	});
 
 	socket.on('getPlaylistResult', function(data) {
-		createNewPlaylist();
+		createNewPlaylist(data.id);
 		addSongsToPlaylist(data.songs);
 	});
 
@@ -200,6 +200,11 @@ function connectWebsocket(options) {
 		console.log('should init');
 		initMpd(playlist);
 	});
+
+	socket.on('addSongToPlayerPlaylistOnly', function(song) {
+		addToPlaylist(song.id, song.title, song.album, song.artist, song.path, song.isFlac, undefined, true);
+	});
+
 	// if(connectionLocal) {
 	// 	localSocket=socket;
 	// 	console.log('its local socket, save');
@@ -247,6 +252,14 @@ function getMpdList() {
 
 function setMpdPlaylist(playlist) {
 	socket.emit('mpdSetPlaylist', getSelectedMpd(), playlist);
+}
+
+function activateMpdRandomNextSongGeneration() {
+	socket.emit('mpdActivateRandomNextSongGeneration', getSelectedMpd());
+}
+
+function deactivateMpdRandomNextSongGeneration() {
+	socket.emit('mpdDeactivateRandomNextSongGeneration', getSelectedMpd());
 }
 
 function sendMpdCommand(cmd) {

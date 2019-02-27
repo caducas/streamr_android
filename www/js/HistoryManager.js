@@ -13,6 +13,7 @@ function navigateBack() {
 		hideAll();
 		showPlayerBar();
 		$('#page-artists-overview').show();
+		$('#page-artists-overview-scrollnav').show();
 		return;
 	}
 	if($('#page-album').is(':visible')) {

@@ -293,6 +293,10 @@ function showArtists(data) {
 
 	$('#page-artists-overview').empty();
 
+	$('#page-artists-overview-scrollnav').show();
+
+	$('#page-artists-overview-scrollnav').empty();
+
 	var prevArtistLetter = "";
 
 	console.log('data:');
@@ -303,8 +307,20 @@ function showArtists(data) {
 			prevArtistLetter = artistLetter;
 			var letterHeadline = document.createElement('div');
 			letterHeadline.className = 'listHeadline';
+			letterHeadline.id = 'listHeadline-'+prevArtistLetter;
 			letterHeadline.appendChild(document.createTextNode(prevArtistLetter));
 			$('#page-artists-overview').append(letterHeadline);
+
+			var scrollnavLetter = document.createElement('div');
+			scrollnavLetter.appendChild(document.createTextNode(prevArtistLetter));
+
+			(function(id){
+				scrollnavLetter.addEventListener("click", function() {
+					scrollToAnchor(id);
+				}, false);
+			})(prevArtistLetter);
+
+			$('#page-artists-overview-scrollnav').append(scrollnavLetter);
 		}
 
 		var artistEntry = document.createElement('div');
@@ -428,6 +444,7 @@ function hideAll() {
 	$('#page-search').hide();
 	$('#page-album').hide();
 	$('#page-artists-overview').hide();
+	$('#page-artists-overview-scrollnav').hide();
 	$('#page-playlists-overview').hide();
 	hideMpdSelection();
 	hideSettingsMenu();
@@ -673,6 +690,11 @@ function changePositionInPlaylistFrontend(originalIndex, finalIndex) {
 	var source = $('li:eq('+originalIndex+')');
 	var target = $('li:eq('+finalIndex+')');
 	source.insertAfter(target);
+}
+
+function scrollToAnchor(aid){
+    var aTag = $("div[id='listHeadline-"+aid+"']");
+    $('#page-artists-overview').animate({scrollTop: $('#page-artists-overview').scrollTop() + aTag.offset().top},'slow');
 }
 
 $(document).ready(function(){
