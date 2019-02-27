@@ -521,8 +521,9 @@ div.artistsOverview > div.listHeadline {
   color: #aaa;
   font-size: 12vw;
   padding-left: 2vw;
-  /*line-height: 13vw;*/
-  display: none;
+  /*line-height/opacity is used as display none won't work with offset().top method with scrollnav function*/
+  line-height: 0;
+  opacity: 0;
 }
 
 div.artistsOverview > div.artist {
