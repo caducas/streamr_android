@@ -1006,7 +1006,7 @@ $(document).ready(function(){
 		$('#dislikeAlbum').show();
 		$('#unlikeAlbum').show();
 		$('#undislikeAlbum').hide();
-		$('div[id=\'albumList_'+albumOptionsData.albumId+'\'] > div.albumInfo > div.albumLike').attr('class', 'glyphicon glyphicon-ban-circle artistLike');
+		$('div[id=\'albumList_'+albumOptionsData.albumId+'\'] > div.albumInfo > div.albumLike').attr('class', 'glyphicon glyphicon-ban-circle albumLike');
 	});
 
 	$('#playlistSongOptionsOverlay').click(function() {
