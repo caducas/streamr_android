@@ -973,6 +973,42 @@ $(document).ready(function(){
 		$('div[id=\'artistList_'+artistOptionsData.artist+'\'] > div.artistLike').attr('class', 'glyphicon glyphicon-ban-circle artistLike');
 	});
 
+	$('#likeAlbum').click(function() {
+		sendUnlikeAlbum(albumOptionsData.albumId);
+		$('#likeAlbum').hide();
+		$('#dislikeAlbum').hide();
+		$('#unlikeAlbum').show();
+		$('#undislikeAlbum').show();
+		$('div[id=\'albumList_'+albumOptionsData.albumId+'\'] > div.albumInfo > div.albumLike').attr('class', 'albumLike');
+	});
+
+	$('#unlikeAlbum').click(function() {
+		sendLikeAlbum(albumOptionsData.albumId);
+		$('#likeAlbum').show();
+		$('#dislikeAlbum').hide();
+		$('#unlikeAlbum').hide();
+		$('#undislikeAlbum').show();
+		$('div[id=\'albumList_'+albumOptionsData.albumId+'\'] > div.albumInfo > div.albumLike').attr('class', 'glyphicon glyphicon-heart albumLike');
+	});
+
+	$('#dislikeAlbum').click(function() {
+		sendUndislikeAlbum(albumOptionsData.albumId);
+		$('#likeAlbum').hide();
+		$('#dislikeAlbum').hide();
+		$('#unlikeAlbum').show();
+		$('#undislikeAlbum').show();
+		$('div[id=\'albumList_'+albumOptionsData.albumId+'\'] > div.albumInfo > div.albumLike').attr('class', 'albumLike');
+	});
+
+	$('#undislikeAlbum').click(function() {
+		sendDislikeAlbum(albumOptionsData.albumId);
+		$('#likeAlbum').hide();
+		$('#dislikeAlbum').show();
+		$('#unlikeAlbum').show();
+		$('#undislikeAlbum').hide();
+		$('div[id=\'albumList_'+albumOptionsData.albumId+'\'] > div.albumInfo > div.albumLike').attr('class', 'glyphicon glyphicon-ban-circle artistLike');
+	});
+
 	$('#playlistSongOptionsOverlay').click(function() {
 		hidePlaylistSongOptions();
 	});
