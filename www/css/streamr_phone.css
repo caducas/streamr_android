@@ -433,6 +433,23 @@ div.album-list > div.row > div.albumInfo > div.albumTitle {
   white-space: nowrap;
   text-overflow: ellipsis;
   overflow: hidden;
+  /*width: 90%;
+  display: inline-block;
+  vertical-align: top;
+  line-height: 100%;*/
+  width: 74vw;
+  display: inline-block;
+}
+
+div.album-list > div.row > div.albumInfo > div.albumLike {
+/*  width: 10%;
+  display: inline-block;*/
+  width: 9vw;
+  display: table;
+  float: right;
+  text-align: center;
+  font-size: 2.5vh;
+  line-height: 4.5vh;
 }
 
 div.album-list > div.row > div.albumInfo > div.songCount,
@@ -636,17 +653,28 @@ div.page-album-headline > div > img {
   height: 25vw;
 }
 
-div.page-album-headline > div.page-album-headline-info {
-  width: 73vw;
+div.page-album-headline-info {
+  /*width: 73vw;*/
   height: 25vw;
+  padding-left: 2vw;
 }
 
-div.page-album-headline > div.page-album-headline-info > div.page-album-title {
+div.page-album-title {
   font-weight: bold;
   font-size: 4vh;
   text-overflow: ellipsis;
   white-space: nowrap;
   overflow: hidden;
+  width: 75vw;
+}
+
+div.page-album-options {
+  font-size: var(--bar-fontsize);
+  width: 8vw;
+}
+
+div.page-album-options.inactive {
+  color: var(--font-color-lowlight);
 }
 
 /******************************************Artist Page***************************************/

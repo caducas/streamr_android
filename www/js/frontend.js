@@ -9,6 +9,9 @@ var songOptionsSongData = {
 var artistOptionsData = {
 	artistId:undefined
 }
+var albumOptionsData = {
+	albumId:undefined
+}
 var playlistSongOptionsSongData = {
 	index:undefined
 }
@@ -147,6 +150,7 @@ function showArtist(data) {
 
 		var divAlbumRow = document.createElement('div');
 		divAlbumRow.className='row';
+		divAlbumRow.id = 'albumList_'+data.albums[i].id;
 
 		(function(id){
 			divAlbumRow.addEventListener("click", function() {
@@ -174,6 +178,18 @@ function showArtist(data) {
 	    divAlbumTitle.innerHTML = data.albums[i].name;
 	    divAlbumInfo.appendChild(divAlbumTitle);
 
+		var divAlbumLike = document.createElement('div');
+		if(data.albums[i].likeCode > 0) {
+			divAlbumLike.className = 'glyphicon glyphicon-heart albumLike';
+		} else {
+			if(data.albums[i].likeCode < 0) {
+				divAlbumLike.className = 'glyphicon glyphicon-ban-circle albumLike';
+			} else {
+				divAlbumLike.className = 'albumLike';
+			}
+		}
+		divAlbumInfo.appendChild(divAlbumLike);
+
 	    var divAlbumSongCount = document.createElement('div');
 	    divAlbumSongCount.className = 'songCount';
 	    divAlbumSongCount.innerHTML = data.albums[i].songs.length + " Songs";
@@ -193,6 +209,8 @@ function showArtist(data) {
 
 function showAlbum(data) {
 
+	albumOptionsData = data;
+
 	//TODO Background album image
 
 	document.getElementById("page-album-title").innerHTML = data.albumName;
@@ -203,6 +221,25 @@ function showAlbum(data) {
 	var artistImage = document.createElement('img');
 	artistImage.src = parseUrl("http://"+getUrl()+"/media/"+data.artistName+"/"+data.albumName+"/albumMedium.jpg");
 	$('#page-album-headline-image').append(artistImage);
+
+	if(data.likeCode > 0) {
+		$('#likeAlbum').show();
+		$('#dislikeAlbum').hide();
+		$('#unlikeAlbum').hide();
+		$('#undislikeAlbum').show();
+	} else {
+		if(data.likeCode < 0) {
+			$('#likeAlbum').hide();
+			$('#dislikeAlbum').show();
+			$('#unlikeAlbum').show();
+			$('#undislikeAlbum').hide();
+		} else {
+			$('#likeAlbum').hide();
+			$('#dislikeAlbum').hide();
+			$('#unlikeAlbum').show();
+			$('#undislikeAlbum').show();			
+		}
+	}
 
 	$('#page-album-playlist').empty();
 
