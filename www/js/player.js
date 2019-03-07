@@ -240,14 +240,14 @@ function audioControlUnmute() {
 	$('#jquery_jplayer_1').jPlayer("unmute");
 }
 
-function addToPlaylistAsNext(id, title, album, artist, path, isFlac) {
-    addToPlaylist(id, title, album, artist, path, isFlac, playlist.current);
+function addToPlaylistAsNext(id, title, album, artist, path, isFlac, likeCode) {
+    addToPlaylist(id, title, album, artist, path, isFlac, likeCode, playlist.current);
 }
 
-function addToPlaylist(id, title, album, artist, path, isFlac, position, init) {
+function addToPlaylist(id, title, album, artist, path, isFlac, likeCode, position, init) {
 
     // var hash = generateHash();
-    console.log('adding song to playlist with id:'+id+' title:'+title+' album:'+album+' artist:'+artist+' path:'+path+' isFlac:'+isFlac);
+    console.log('adding song to playlist with id:'+id+' title:'+title+' album:'+album+' artist:'+artist+' path:'+path+' isFlac:'+isFlac+' likeCode:'+likeCode);
 
     var url = "http://"+getUrl();
 
@@ -259,7 +259,8 @@ function addToPlaylist(id, title, album, artist, path, isFlac, position, init) {
         mp3:url+"/media/"+artist+"/"+album+"/"+title+".mp3",
         path:path,
         isFlac:isFlac,
-        poster:url+"/media/"+artist+"/"+album+"/albumBig.jpg"
+        poster:url+"/media/"+artist+"/"+album+"/albumBig.jpg",
+        likeCode:likeCode
     }
 
     playlist.add(song);
@@ -603,6 +604,25 @@ function playerStatusUpdate(data) {
 		$(".jp-play-bar").width(data.duration+"%");
 		// $(".jp-play-bar").width(calcPercentage($("#jquery_jplayer_1").data("jPlayer").status.currentTime,$("#jquery_jplayer_1").data("jPlayer").status.duration)+"%");
 	});
+
+    if(playlist.playlist[playlist.current].likeCode == 1) {
+        $("#player-current-song-like").show();
+        $("#player-current-song-unlike").hide();
+        $("#player-current-song-dislike").hide();
+        $("#player-current-song-undislike").show();
+    } else {
+        if(playlist.playlist[playlist.current].likeCode == -1) {
+            $("#player-current-song-like").hide();
+            $("#player-current-song-unlike").show();
+            $("#player-current-song-dislike").show();
+            $("#player-current-song-undislike").hide();
+        } else {
+            $("#player-current-song-like").hide();
+            $("#player-current-song-unlike").show();
+            $("#player-current-song-dislike").hide();
+            $("#player-current-song-undislike").show();
+        }
+    }
 }
 
 function getSelectedMpd() {
@@ -664,7 +684,7 @@ function pause() {
 function addSongsToPlaylist(songs) {
 console.log(songs);
   for(var songcount in songs) {
-     addToPlaylist(songs[songcount].id, songs[songcount].title,songs[songcount].album,songs[songcount].artist,songs[songcount].storagePath,songs[songcount].isFlac);          
+     addToPlaylist(songs[songcount].id, songs[songcount].title,songs[songcount].album,songs[songcount].artist,songs[songcount].storagePath,songs[songcount].isFlac, songs[songcount].likeCode);
   }
   console.log(playlist);
 }
@@ -685,7 +705,7 @@ function initMpd(mpdPlaylist) {
 		console.log('should add playlist now');
 		console.log(mpdPlaylist);
 		for(var songcount in mpdPlaylist) {
-			addToPlaylist(mpdPlaylist[songcount].id, mpdPlaylist[songcount].title,mpdPlaylist[songcount].album,mpdPlaylist[songcount].artist,mpdPlaylist[songcount].storagePath,mpdPlaylist[songcount].isFlac, null, true);
+			addToPlaylist(mpdPlaylist[songcount].id, mpdPlaylist[songcount].title,mpdPlaylist[songcount].album,mpdPlaylist[songcount].artist,mpdPlaylist[songcount].storagePath,mpdPlaylist[songcount].isFlac, mpdPlaylist[songcount].likeCode, null, true);
 		}
 	}
 }
@@ -739,6 +759,20 @@ function deactivateShuffle() {
     }, function() {
       sendMpdDeactivateShuffle();
     });    
+}
+
+function likeCurrentSong() {
+    console.log(playlist.current);
+    console.log(playlist.playlist[playlist.current]);
+    playlist.playlist[playlist.current].likeCode = 1;
+    sendLikeSong(playlist.playlist[playlist.current].id);
+}
+
+function unlikeCurrentSong() {
+    console.log(playlist.current);
+    console.log(playlist.playlist[playlist.current]);
+    playlist.playlist[playlist.current].likeCode = 0;
+    sendUnlikeSong(playlist.playlist[playlist.current].id);
 }
 
 // function shuffle(array) {
