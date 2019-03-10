@@ -604,10 +604,11 @@ function playerStatusUpdate(data) {
 		$(".jp-play-bar").width(data.duration+"%");
 		// $(".jp-play-bar").width(calcPercentage($("#jquery_jplayer_1").data("jPlayer").status.currentTime,$("#jquery_jplayer_1").data("jPlayer").status.duration)+"%");
 	});
-
-    if(playlist.playlist[playlist.current].likeCode == 1) {
-        $("#player-current-song-like").show();
-        $("#player-current-song-unlike").hide();
+    
+    try {
+        if(playlist.playlist[playlist.current].likeCode == 1) {
+            $("#player-current-song-like").show();
+            $("#player-current-song-unlike").hide();
         $("#player-current-song-dislike").hide();
         $("#player-current-song-undislike").show();
     } else {
@@ -619,9 +620,12 @@ function playerStatusUpdate(data) {
         } else {
             $("#player-current-song-like").hide();
             $("#player-current-song-unlike").show();
-            $("#player-current-song-dislike").hide();
-            $("#player-current-song-undislike").show();
+                $("#player-current-song-dislike").hide();
+                $("#player-current-song-undislike").show();
+            }
         }
+    } catch(e) {
+
     }
 }
 
