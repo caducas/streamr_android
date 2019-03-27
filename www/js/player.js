@@ -598,6 +598,7 @@ function playerStatusUpdate(data) {
 
 	$("#jquery_jplayer_1").data("jPlayer").status.currentTime = data.elapsed;
 
+    // console.log(data);
 	doMpdAction(function() {
 		// console.log(data.duration+"%");
 		$(".jp-seek-bar").width("100%");

@@ -244,7 +244,6 @@ function showAlbum(data) {
 	$('#page-album-playlist').empty();
 
 	for(var i in data.songs) {
-		console.log(data.songs[i]);
 
 		var divSongRow = document.createElement('div');
 		divSongRow.className = "list-element song";
