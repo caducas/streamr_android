@@ -35,6 +35,11 @@ function loginSuccess() {
   // getNews();
 }
 
+function loginFailed() {
+  showLoginArea();
+  hideLoading();
+}
+
 function storeLoginCredentials(username, password) {
 	configHelper.setUsername(username);
 	configHelper.setPassword(password);
@@ -71,7 +76,7 @@ function changePositionInPlaylist(originalIndex, finalIndex) {
   console.log('finalIndex:'+finalIndex);
 
   doMpdAction(function() {
-    sendMpdChangeSongOrder(originalIndex+1, finalIndex+1);
+    sendMpdChangeSongOrder(originalIndex, finalIndex);
   });
 
   if(originalIndex == playlist.current) {
