@@ -244,7 +244,6 @@ function showAlbum(data) {
 	$('#page-album-playlist').empty();
 
 	for(var i in data.songs) {
-		console.log(data.songs[i]);
 
 		var divSongRow = document.createElement('div');
 		divSongRow.className = "list-element song";
@@ -258,11 +257,9 @@ function showAlbum(data) {
 	    (function(songs, albumName, artistName, playPosition){
 	      divSongTitle.addEventListener("click", function() {
 	        createNewPlaylist();
-	        console.log('should add album');
-	        console.log(songs);
 
 	        for(var songcount in songs) {
-	            addToPlaylist(songs[songcount].id, songs[songcount].title,albumName,artistName,songs[songcount].storagePath,songs[songcount].isFlac);
+	            addToPlaylist(songs[songcount].id, songs[songcount].title,albumName,artistName,songs[songcount].storagePath,songs[songcount].isFlac, songs[songcount].likeCode);
 	        }
 	        modifyPlaylistDesign();
 	        play(playPosition);
@@ -272,6 +269,29 @@ function showAlbum(data) {
 	    console.log(data.songs[i]);
 
 		divSongRow.appendChild(divSongTitle);
+
+		var divLikeSong = document.createElement('div');
+		divLikeSong.className = "page-album-song-like";
+		if(data.songs[i].likeCode==1) {
+			divLikeSong.innerHTML = '<span class="glyphicon glyphicon-heart"></span>';
+		} else {
+			divLikeSong.innerHTML = '<span class="glyphicon glyphicon-heart-empty inactive"></span>';
+		}
+
+		(function(id){
+			divLikeSong.addEventListener("click", function() {
+				var self = this;
+				if($(self).find("span.glyphicon").hasClass( "inactive" )) {
+					sendLikeSong(id);
+					$(self).find("span.glyphicon").removeClass("glyphicon-heart-empty inactive").addClass("glyphicon-heart");
+				} else {
+					sendUnlikeSong(id);
+					$(self).find("span.glyphicon").removeClass("glyphicon-heart").addClass("glyphicon-heart-empty inactive");
+				}
+			});
+		})(data.songs[i].id);
+
+		divSongRow.appendChild(divLikeSong);
 
 		var divAddSongToPlaylist = document.createElement('div');
 		divAddSongToPlaylist.className = "page-album-song-add";
@@ -973,6 +993,72 @@ $(document).ready(function(){
 		$('div[id=\'artistList_'+artistOptionsData.artist+'\'] > div.artistLike').attr('class', 'glyphicon glyphicon-ban-circle artistLike');
 	});
 
+	$('#likeAlbum').click(function() {
+		sendUnlikeAlbum(albumOptionsData.albumId);
+		$('#likeAlbum').hide();
+		$('#dislikeAlbum').hide();
+		$('#unlikeAlbum').show();
+		$('#undislikeAlbum').show();
+		$('div[id=\'albumList_'+albumOptionsData.albumId+'\'] > div.albumInfo > div.albumLike').attr('class', 'albumLike');
+	});
+
+	$('#unlikeAlbum').click(function() {
+		sendLikeAlbum(albumOptionsData.albumId);
+		$('#likeAlbum').show();
+		$('#dislikeAlbum').hide();
+		$('#unlikeAlbum').hide();
+		$('#undislikeAlbum').show();
+		$('div[id=\'albumList_'+albumOptionsData.albumId+'\'] > div.albumInfo > div.albumLike').attr('class', 'glyphicon glyphicon-heart albumLike');
+	});
+
+	$('#dislikeAlbum').click(function() {
+		sendUndislikeAlbum(albumOptionsData.albumId);
+		$('#likeAlbum').hide();
+		$('#dislikeAlbum').hide();
+		$('#unlikeAlbum').show();
+		$('#undislikeAlbum').show();
+		$('div[id=\'albumList_'+albumOptionsData.albumId+'\'] > div.albumInfo > div.albumLike').attr('class', 'albumLike');
+	});
+
+	$('#undislikeAlbum').click(function() {
+		sendDislikeAlbum(albumOptionsData.albumId);
+		$('#likeAlbum').hide();
+		$('#dislikeAlbum').show();
+		$('#unlikeAlbum').show();
+		$('#undislikeAlbum').hide();
+		$('div[id=\'albumList_'+albumOptionsData.albumId+'\'] > div.albumInfo > div.albumLike').attr('class', 'glyphicon glyphicon-ban-circle albumLike');
+	});
+
+	$('#player-current-song-like').click(function() {
+		unlikeCurrentSong();
+		$('#player-current-song-like').hide();
+		$('#player-current-song-dislike').hide();
+		$('#player-current-song-unlike').show();
+		$('#player-current-song-undislike').show();
+	});
+
+	$('#player-current-song-unlike').click(function() {
+		likeCurrentSong();
+		$('#player-current-song-like').show();
+		$('#player-current-song-unlike').hide();
+		$('#player-current-song-dislike').hide();
+		$('#player-current-song-undislike').show();
+	});
+	
+	$('#player-current-song-dislike').click(function() {
+		$('#player-current-song-like').hide();
+		$('#player-current-song-unlike').show();
+		$('#player-current-song-dislike').hide();
+		$('#player-current-song-undislike').show();
+	});
+	
+	$('#player-current-song-undislike').click(function() {
+		$('#player-current-song-like').hide();
+		$('#player-current-song-unlike').show();
+		$('#player-current-song-dislike').show();
+		$('#player-current-song-undislike').hide();
+	});
+
 	$('#playlistSongOptionsOverlay').click(function() {
 		hidePlaylistSongOptions();
 	});
@@ -1014,13 +1100,13 @@ $(document).ready(function(){
 	});
 
 	$('#addSongToCurrentPlaylist').click(function() {
-		addToPlaylist(songOptionsSongData.id,songOptionsSongData.title,songOptionsSongData.album,songOptionsSongData.artist,null,songOptionsSongData.isFlac);
+		addToPlaylist(songOptionsSongData.id,songOptionsSongData.title,songOptionsSongData.album,songOptionsSongData.artist,null,songOptionsSongData.isFlac, songOptionsSongData.likeCode);
     	modifyPlaylistDesign();
     	hideSongOptions();
 	});
 
 	$('#playSongNext').click(function() {
-		addToPlaylistAsNext(songOptionsSongData.id,songOptionsSongData.title,songOptionsSongData.album,songOptionsSongData.artist,null,songOptionsSongData.isFlac);
+		addToPlaylistAsNext(songOptionsSongData.id,songOptionsSongData.title,songOptionsSongData.album,songOptionsSongData.artist,null,songOptionsSongData.isFlac, songOptionsSongData.likeCode);
     	modifyPlaylistDesign();
     	hideSongOptions();
 	});
@@ -1067,7 +1153,7 @@ $(document).ready(function(){
         	for(var songcount in album.songs) {
         		console.log(albumcount, songcount);
         		var song = album.songs[songcount];
-            	addToPlaylist(song.id, song.title,album.name,artistOptionsData.artist,song.storagePath,song.isFlac);
+            	addToPlaylist(song.id, song.title,album.name,artistOptionsData.artist,song.storagePath,song.isFlac, song.likeCode);
 
         	}
         }

@@ -10,6 +10,7 @@
   --headline-color: #AAA;
   --font-color-lowlight: #444;
   --line-height: 7vh;
+  --seek-bar-height: 3vw;
 }
 
 body {
@@ -43,7 +44,9 @@ div.page-search-input-area {
 }
 
 div.page {
-  overflow-y: auto; height: 90%;
+  overflow-y: auto;
+  height: 90%;
+  overflow-x: hidden;
 }
 
 div.page-full {
@@ -106,18 +109,18 @@ div.jp-progress {
   width: 100%;
   background: rgba(0, 0, 0, 0.7) none repeat scroll 0% 0%;
   display: inline-block;
-  height: 3vw;
+  height: var(--seek-bar-height);
 }
 
 div.jp-progress > div.jp-seek-bar {
   width: 100%;
-  height: 3vw;
+  height: var(--seek-bar-height);
 }
 
 div.jp-progress > div.jp-seek-bar > div.jp-play-bar {
   background: rgba(255, 255, 255, 0.4) none repeat scroll 0% 0%;
   width: 0%;
-  height: 3vw;
+  height: var(--seek-bar-height);
 }
 
 div.player-current-information {
@@ -137,6 +140,18 @@ div.player-current-information > div {
 
 div.player-current-information > div.player-current-title {
   font-weight: bold;
+}
+
+div.player-current-option {
+  position: absolute;
+  top: calc(100vw + var(--bar-height) + var(--seek-bar-height));
+  height: 10vw;
+  width: 100%;
+  font-size: 8vw;
+}
+
+div.player-current-option > div.inactive {
+  color: var(--font-color-lowlight);
 }
 
 
@@ -499,24 +514,35 @@ div.page-album-headline > div.page-album-songcount {
 }
 
 div.page-album-song-title {
-  margin-top: 0.5vh;
   padding-left: 3%;
 }
 
 div.page-album-playlist > div > div.page-album-song-title {
-  float: left;
-  width: 85%;
+  width: 80%;
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
+  display: inline-block;
+}
+
+div.page-album-playlist > div > div.page-album-song-like {
+  display: inline-block;
+  width: 10%;
+  vertical-align: middle;
+  height: 100%;
+}
+
+
+div.page-album-playlist > div > div.page-album-song-like .inactive {
+  color: var(--font-color-lowlight);
 }
 
 div.page-album-playlist > div > div.page-album-song-add {
   height: 100%;
-  float: left;
-  display: table;
+  display: inline-block;
   text-align: center;
-  width: 15%;
+  width: 10%;
+  vertical-align: middle;
 }
 
 div.page-album-song-add > span {
