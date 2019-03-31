@@ -48,7 +48,7 @@
   <gap:splash src="www/res/screen/windows-phone/screen-portrait.jpg" gap:platform="winphone"/>
   <gap:plugin name="org.apache.cordova.file" source="npm" />
   <gap:plugin name="org.apache.cordova.device" source="npm" />
-  <gap:plugin name="org.apache.cordova.file-transfer" />
+  <gap:plugin name="org.apache.cordova.file-transfer" source="npm" />
   <access origin="*"/>
   <plugin name="cordova-plugin-whitelist" version="1"/>
   <allow-intent href="http://*/*"/>
