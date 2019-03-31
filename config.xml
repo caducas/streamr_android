@@ -19,7 +19,7 @@
   <preference name="android-minSdkVersion" value="14"/>
   <preference name="android-installLocation" value="auto"/>
   <preference name="StatusBarOverlaysWebView" value="true" />
-  <preference name='phonegap-version' value='cli-6.5.0' />
+  <preference name='phonegap-version' value='cli-7.1.0' />
   <preference name="android-windowSoftInputMode" value="adjustPan" />
   <icon src="icon.png"/>
   <icon src="www/res/icon/android/icon-36-ldpi.png" gap:platform="android" gap:qualifier="ldpi"/>
