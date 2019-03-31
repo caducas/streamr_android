@@ -374,8 +374,8 @@ function showArtists(data) {
 
 	var prevArtistLetter = "";
 
-	console.log('data:');
-	console.log(data);
+	// console.log('data:');
+	// console.log(data);
 	for(var i in data) {
 		var artistLetter = data[i].name.charAt(0).toUpperCase();
 		if(artistLetter != prevArtistLetter) {
@@ -400,15 +400,18 @@ function showArtists(data) {
 
 		var artistEntry = document.createElement('div');
 		artistEntry.className = 'list-element artist';
-		artistEntry.id = 'artistList_'+data[i].name;
+		// artistEntry.id = 'artistList_'+data[i].name;
+		artistEntry.id = 'artistList_'+data[i].id;
 
 		var imageElement = document.createElement('img');
 		imageElement.src = encodeURI('http://'+getUrl()+'/media/' + data[i].name + '/artistSmall.jpg');
-		imageElement.onerror = function() {
-		  this.onerror=null;
-		  this.src='';
-		}
+		// ImgCache.cacheFile('http://'+getUrl()+'/media/' + data[i].name + '/artistSmall.jpg');
+		// imageElement.onerror = function() {
+		//   this.onerror=null;
+		//   this.src='';
+		// }
 		artistEntry.appendChild(imageElement);
+
 
 		var artistName = document.createElement('div');
 		artistName.className = 'artistName';
@@ -434,6 +437,21 @@ function showArtists(data) {
 		})(data[i].id);
 
 		$('#page-artists-overview').append(artistEntry);
+
+		var target = $('div#artistList_'+data[i].id).find('img');
+		// console.log('cacheFile');
+		console.log(target.attr('src'));
+		ImgCache.cacheFile(target.attr('src'), function () {
+			console.log('cache file');
+		// ImgCache.cacheFile(target.attr('src'), function () {
+			ImgCache.useCachedFile(target, function () {
+				console.log('now using local copy');
+				// target.attr('src','http://'+getUrl()+'/media/' + data[i].name + '/artistSmall.jpg');
+			}, function(){
+				console.log('could not load from cache');
+			});
+		});
+
 	}
 }
 
@@ -553,8 +571,26 @@ function hideLoading() {
 }
 
 function onDeviceReady(){
+	console.log('ON DEVICE READY!!');
+
+	ImgCache.options.debug = true;
+	ImgCache.options.chromeQuota = 50*1024*1024;
+	ImgCache.options.cordovaFilesystemRoot = cordova.file.dataDirectory;
+
+	ImgCache.init(function () {
+	    alert('ImgCache init: success!');
+
+	    // from within this function you're now able to call other ImgCache methods
+	    // or you can wait for the ImgCacheReady event
+
+	}, function () {
+	    alert('ImgCache init: error! Check the log for errors');
+	});
+	console.log('IMGCACHE SHOULD BE LOADED!!');
+	
     document.addEventListener("backbutton", onBackKeyDown, false);
 	document.addEventListener("resume", onResume, false);
+
 }
 
 function activateMpdVolumeControl() {
@@ -788,7 +824,6 @@ function scrollToAnchor(aid){
 $(document).ready(function(){
 	// $('#loadingPage').show();
 
-	document.addEventListener("deviceready", onDeviceReady, false);
 
 	hideVolumeBar();
 
@@ -1163,6 +1198,7 @@ $(document).ready(function(){
 		hideArtistOptions();
 	});
 
+	onDeviceReady();
 
 	// divimg.addEventListener("DOMAttrModified", function(event) {
 	//     if (event.attrName == "src") {
@@ -1171,3 +1207,4 @@ $(document).ready(function(){
 	// });
 });
 
+document.addEventListener("deviceready", onDeviceReady, false);

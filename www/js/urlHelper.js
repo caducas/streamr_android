@@ -37,7 +37,7 @@ function getUrl() {
 }
 
 function getLocalUrl() {
-	console.log('retrieving local address');
+	// console.log('retrieving local address');
 	return configHelper.getServerAddressLocal() + ':' + configHelper.getServerPortLocal();
 }
 
